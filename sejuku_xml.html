@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="ja" data-loaded="false" data-scrolled="false" data-spmenu="closed">
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, viewport-fit=cover">
+<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+	<!-- This site is optimized with the Yoast SEO plugin v21.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>【Java入門】XMLの扱い方(DOM、SAX、プロパティファイルも解説) | 侍エンジニアブログ</title>
+	<meta name="description" content="この記事では「 【Java入門】XMLの扱い方(DOM、SAX、プロパティファイルも解説) 」といった内容について、誰でも理解できるように解説します。この記事を読めば、あなたの悩みが解決するだけじゃなく、新たな気付きも発見できることでしょう。お悩みの方はぜひご一読ください。" />
+	<link rel="canonical" href="https://www.sejuku.net/blog/64635" />
+	<meta property="og:locale" content="ja_JP" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="【Java入門】XMLの扱い方(DOM、SAX、プロパティファイルも解説) | 侍エンジニアブログ" />
+	<meta property="og:description" content="この記事では「 【Java入門】XMLの扱い方(DOM、SAX、プロパティファイルも解説) 」といった内容について、誰でも理解できるように解説します。この記事を読めば、あなたの悩みが解決するだけじゃなく、新たな気付きも発見できることでしょう。お悩みの方はぜひご一読ください。" />
+	<meta property="og:url" content="https://www.sejuku.net/blog/64635" />
+	<meta property="og:site_name" content="侍エンジニアブログ" />
+	<meta property="article:publisher" content="https://www.facebook.com/sejuku2013" />
+	<meta property="article:published_time" content="2018-07-20T04:58:54+00:00" />
+	<meta property="article:modified_time" content="2023-03-21T07:57:44+00:00" />
+	<meta property="og:image" content="https://www.sejuku.net/blog/wp-content/uploads/2018/07/xml.png" />
+	<meta property="og:image:width" content="700" />
+	<meta property="og:image:height" content="400" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="author" content="長野 透" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:creator" content="@samuraijuku" />
+	<meta name="twitter:site" content="@samuraijuku" />
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//cdn.jsdelivr.net' />
+<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+<link rel="alternate" type="application/rss+xml" title="侍エンジニアブログ &raquo; フィード" href="https://www.sejuku.net/blog/feed" />
+<link rel="alternate" type="application/rss+xml" title="侍エンジニアブログ &raquo; コメントフィード" href="https://www.sejuku.net/blog/comments/feed" />
+<link rel='stylesheet' id='wp-block-library-css' href='https://www.sejuku.net/blog/wp-includes/css/dist/block-library/style.min.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='swell-icons-css' href='https://www.sejuku.net/blog/wp-content/themes/swell/build/css/swell-icons.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='main_style-css' href='https://www.sejuku.net/blog/wp-content/themes/swell/build/css/main.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='swell_blocks-css' href='https://www.sejuku.net/blog/wp-content/themes/swell/build/css/blocks.css?ver=2023091822' type='text/css' media='all' />
+<style id='swell_custom-inline-css' type='text/css'>
+:root{--swl-fz--content:4vw;--swl-font_family:"游ゴシック体", "Yu Gothic", YuGothic, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;--swl-font_weight:500;--color_main:#eb0000;--color_text:#333;--color_link:#0000ff;--color_htag:#eb0000;--color_bg:#fdfdfd;--color_gradient1:#ffffff;--color_gradient2:#ffffff;--color_main_thin:rgba(255, 0, 0, 0.05 );--color_main_dark:rgba(176, 0, 0, 1 );--color_list_check:#eb0000;--color_list_num:#eb0000;--color_list_good:#86dd7b;--color_list_triangle:#f4e03a;--color_list_bad:#f36060;--color_faq_q:#d55656;--color_faq_a:#6599b7;--color_icon_good:#3cd250;--color_icon_good_bg:#ecffe9;--color_icon_bad:#4b73eb;--color_icon_bad_bg:#eafaff;--color_icon_info:#f578b4;--color_icon_info_bg:#fff0fa;--color_icon_announce:#ffa537;--color_icon_announce_bg:#fff5f0;--color_icon_pen:#7a7a7a;--color_icon_pen_bg:#f7f7f7;--color_icon_book:#787364;--color_icon_book_bg:#f8f6ef;--color_icon_point:#ffa639;--color_icon_check:#86d67c;--color_icon_batsu:#f36060;--color_icon_hatena:#5295cc;--color_icon_caution:#f7da38;--color_icon_memo:#84878a;--color_deep01:#e44141;--color_deep02:#3d79d5;--color_deep03:#63a84d;--color_deep04:#f09f4d;--color_pale01:#fff2f0;--color_pale02:#f3f8fd;--color_pale03:#f1f9ee;--color_pale04:#fdf9ee;--color_mark_blue:#b7e3ff;--color_mark_green:#bdf9c3;--color_mark_yellow:#fcf69f;--color_mark_orange:#ffddbc;--border01:solid 1px var(--color_border);--border02:double 4px var(--color_border);--border03:dashed 2px var(--color_border);--border04:solid 4px #eaeaea;--card_posts_thumb_ratio:50%;--list_posts_thumb_ratio:50%;--big_posts_thumb_ratio:61.805%;--thumb_posts_thumb_ratio:50%;--blogcard_thumb_ratio:61.805%;--color_header_bg:#e2001b;--color_header_text:#ffffff;--color_footer_bg:#f9f9f9;--color_footer_text:#333333;--container_size:1200px;--article_size:764px;--logo_size_sp:48px;--logo_size_pc:40px;--logo_size_pcfix:32px;}.swl-cell-bg[data-icon="doubleCircle"]{--cell-icon-color:#dd3333}.swl-cell-bg[data-icon="circle"]{--cell-icon-color:#94e29c}.swl-cell-bg[data-icon="triangle"]{--cell-icon-color:#eeda2f}.swl-cell-bg[data-icon="close"]{--cell-icon-color:#000000}.swl-cell-bg[data-icon="hatena"]{--cell-icon-color:#93c9da}.swl-cell-bg[data-icon="check"]{--cell-icon-color:#94e29c}.swl-cell-bg[data-icon="line"]{--cell-icon-color:#9b9b9b}.cap_box[data-colset="col1"]{--capbox-color:#f59b5f;--capbox-color--bg:#fff8eb}.cap_box[data-colset="col2"]{--capbox-color:#5fb9f5;--capbox-color--bg:#edf5ff}.cap_box[data-colset="col3"]{--capbox-color:#6b6b6b;--capbox-color--bg:#ffffff}.red_{--the-btn-color:#f74a4a;--the-btn-color2:#ffbc49;--the-solid-shadow: rgba(185, 56, 56, 1 )}.blue_{--the-btn-color:#338df4;--the-btn-color2:#35eaff;--the-solid-shadow: rgba(38, 106, 183, 1 )}.green_{--the-btn-color:#62d847;--the-btn-color2:#7bf7bd;--the-solid-shadow: rgba(74, 162, 53, 1 )}.is-style-btn_normal{--the-btn-radius:80px}.is-style-btn_solid{--the-btn-radius:80px}.is-style-btn_shiny{--the-btn-radius:80px}.is-style-btn_line{--the-btn-radius:80px}.post_content blockquote{padding:1.5em 2em 1.5em 3em}.post_content blockquote::before{content:"";display:block;width:5px;height:calc(100% - 3em);top:1.5em;left:1.5em;border-left:solid 1px rgba(180,180,180,.75);border-right:solid 1px rgba(180,180,180,.75);}.mark_blue{background:-webkit-linear-gradient(transparent 64%,var(--color_mark_blue) 0%);background:linear-gradient(transparent 64%,var(--color_mark_blue) 0%)}.mark_green{background:-webkit-linear-gradient(transparent 64%,var(--color_mark_green) 0%);background:linear-gradient(transparent 64%,var(--color_mark_green) 0%)}.mark_yellow{background:-webkit-linear-gradient(transparent 64%,var(--color_mark_yellow) 0%);background:linear-gradient(transparent 64%,var(--color_mark_yellow) 0%)}.mark_orange{background:-webkit-linear-gradient(transparent 64%,var(--color_mark_orange) 0%);background:linear-gradient(transparent 64%,var(--color_mark_orange) 0%)}[class*="is-style-icon_"]{color:#333;border-width:0}[class*="is-style-big_icon_"]{border-width:2px;border-style:solid}[data-col="gray"] .c-balloon__text{background:#f7f7f7;border-color:#ccc}[data-col="gray"] .c-balloon__before{border-right-color:#f7f7f7}[data-col="green"] .c-balloon__text{background:#d1f8c2;border-color:#9ddd93}[data-col="green"] .c-balloon__before{border-right-color:#d1f8c2}[data-col="blue"] .c-balloon__text{background:#e2f6ff;border-color:#93d2f0}[data-col="blue"] .c-balloon__before{border-right-color:#e2f6ff}[data-col="red"] .c-balloon__text{background:#ffebeb;border-color:#f48789}[data-col="red"] .c-balloon__before{border-right-color:#ffebeb}[data-col="yellow"] .c-balloon__text{background:#f9f7d2;border-color:#fbe593}[data-col="yellow"] .c-balloon__before{border-right-color:#f9f7d2}.-type-list2 .p-postList__body::after,.-type-big .p-postList__body::after{content: "READ MORE »";}.c-postThumb__cat{background-color:#eb0000;color:#fff;background: repeating-linear-gradient(100deg, #eb0000 0, rgba(255, 0, 0, 1 ) 100%)}.post_content h2:where(:not([class^="swell-block-"]):not(.faq_q):not(.p-postList__title)){border-top:solid 2px var(--color_htag);border-bottom:solid 2px var(--color_htag);padding:1em .75em}.post_content h2:where(:not([class^="swell-block-"]):not(.faq_q):not(.p-postList__title))::before{position:absolute;display:block;pointer-events:none}.post_content h3:where(:not([class^="swell-block-"]):not(.faq_q):not(.p-postList__title)){padding:0 .5em .5em}.post_content h3:where(:not([class^="swell-block-"]):not(.faq_q):not(.p-postList__title))::before{content:"";width:100%;height:2px;background: repeating-linear-gradient(90deg, var(--color_htag) 0%, var(--color_htag) 20%, rgba(255, 0, 0, 0.2 ) 90%, rgba(255, 0, 0, 0.2 ) 100%)}.post_content h4:where(:not([class^="swell-block-"]):not(.faq_q):not(.p-postList__title)){padding:0 0 0 16px;border-left:solid 2px var(--color_htag)}.l-header{box-shadow: 0 1px 4px rgba(0,0,0,.12)}.l-header__menuBtn{order:1}.l-header__customBtn{order:3}.c-gnav a::after{background:var(--color_main)}.p-spHeadMenu .menu-item.-current{border-bottom-color:var(--color_main)}.c-gnav > li:hover > a,.c-gnav > .-current > a{background:rgba(250,250,250,0.16)}.c-gnav .sub-menu{color:#333;background:#fff}.c-widget__title.-spmenu{padding:.5em .75em;border-radius:var(--swl-radius--2, 0px);background:var(--color_main);color:#fff;}.c-widget__title.-footer{padding:.5em}.c-widget__title.-footer::before{content:"";bottom:0;left:0;width:40%;z-index:1;background:var(--color_main)}.c-widget__title.-footer::after{content:"";bottom:0;left:0;width:100%;background:var(--color_border)}.c-secTitle{border-left:solid 2px var(--color_main);padding:0em .75em}.p-spMenu{color:#333}.p-spMenu__inner::before{background:#fdfdfd;opacity:1}.p-spMenu__overlay{background:#000;opacity:0.6}[class*="page-numbers"]{color:#fff;background-color:#dedede}a{text-decoration: none}.l-topTitleArea.c-filterLayer::before{background-color:#000;opacity:0.2;content:""}@media screen and (min-width: 960px){:root{}}@media screen and (max-width: 959px){:root{}.l-header__logo{order:2;text-align:center}}@media screen and (min-width: 600px){:root{--swl-fz--content:15px;}}@media screen and (max-width: 599px){:root{}}@media (min-width: 972px) {.alignwide{left:-100px;width:calc(100% + 200px);}}@media (max-width: 972px) {.-sidebar-off .swell-block-fullWide__inner.l-container .alignwide{left:0px;width:100%;}}@media (min-width:960px){.-series .l-header__inner{align-items:stretch;display:flex}.-series .l-header__logo{align-items:center;display:flex;flex-wrap:wrap;margin-right:24px;padding:16px 0}.-series .l-header__logo .c-catchphrase{font-size:13px;padding:4px 0}.-series .c-headLogo{margin-right:16px}.-series-right .l-header__inner{justify-content:space-between}.-series-right .c-gnavWrap{margin-left:auto}.-series-right .w-header{margin-left:12px}.-series-left .w-header{margin-left:auto}}@media (min-width:960px) and (min-width:600px){.-series .c-headLogo{max-width:400px}}.c-submenuToggleBtn:after{content:"";height:100%;left:0;position:absolute;top:0;width:100%;z-index:0}.c-submenuToggleBtn{cursor:pointer;display:block;height:2em;line-height:2;position:absolute;right:8px;text-align:center;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);width:2em;z-index:1}.c-submenuToggleBtn:before{content:"\e910";display:inline-block;font-family:icomoon;font-size:14px;transition:-webkit-transform .25s;transition:transform .25s;transition:transform .25s,-webkit-transform .25s}.c-submenuToggleBtn:after{border:1px solid;opacity:.15;transition:background-color .25s}.c-submenuToggleBtn.is-opened:before{-webkit-transform:rotate(-180deg);transform:rotate(-180deg)}.widget_categories>ul>.cat-item>a,.wp-block-categories-list>li>a{padding-left:1.75em}.c-listMenu a{padding:.75em .5em;position:relative}.c-gnav .sub-menu a:not(:last-child),.c-listMenu a:not(:last-child){padding-right:40px}.c-gnav .sub-menu .sub-menu{box-shadow:none}.c-gnav .sub-menu .sub-menu,.c-listMenu .children,.c-listMenu .sub-menu{height:0;margin:0;opacity:0;overflow:hidden;position:relative;transition:.25s}.c-gnav .sub-menu .sub-menu.is-opened,.c-listMenu .children.is-opened,.c-listMenu .sub-menu.is-opened{height:auto;opacity:1;visibility:visible}.c-gnav .sub-menu .sub-menu a,.c-listMenu .children a,.c-listMenu .sub-menu a{font-size:.9em;padding-left:1.5em}.c-gnav .sub-menu .sub-menu ul a,.c-listMenu .children ul a,.c-listMenu .sub-menu ul a{padding-left:2.25em}@media (min-width:600px){.c-submenuToggleBtn{height:28px;line-height:28px;transition:background-color .25s;width:28px}}@media (min-width:960px){.c-submenuToggleBtn:hover:after{background-color:currentcolor}}:root{--color_content_bg:#fff;}.c-widget__title.-side{padding:0 .5em .5em}.c-widget__title.-side::before{content:"";bottom:0;left:0;width:40%;z-index:1;background:var(--color_main)}.c-widget__title.-side::after{content:"";bottom:0;left:0;width:100%;background:var(--color_border)}.c-shareBtns__item:not(:last-child){margin-right:4px}.c-shareBtns__btn{padding:8px 0}@media screen and (min-width: 960px){:root{}.single .c-postTitle__date{display:none}}@media screen and (max-width: 959px){:root{}.single .c-postTitle__date{display:none}}@media screen and (min-width: 600px){:root{}}@media screen and (max-width: 599px){:root{}}.l-content{padding-top:4vw}.p-breadcrumb+.l-content{padding-top:0}.-frame-on .l-mainContent{background:#fff;border-radius:var(--swl-radius--4,0);padding:3vw}.-frame-on-sidebar #sidebar .c-widget{background:#fff;border-radius:var(--swl-radius--4,0);padding:16px}.-frame-on-sidebar #sidebar .widget_swell_prof_widget{padding:0!important}.-frame-on-sidebar #sidebar .p-profileBox{background:#fff;border:none;color:#333}.-frame-on-sidebar #sidebar .calendar_wrap{border:none;padding:0}.-frame-border .l-mainContent,.-frame-border.-frame-on-sidebar #sidebar .c-widget{box-shadow:0 0 1px var(--swl-color_shadow)}.swell-block-fullWide__inner .alignwide{left:0;width:100%}.swell-block-fullWide__inner .alignfull{left:calc(0px - var(--swl-fw_inner_pad, 0))!important;margin-left:0!important;margin-right:0!important;width:calc(100% + var(--swl-fw_inner_pad, 0)*2)!important}@media not all and (min-width:960px){.alignwide,.l-content .alignfull{left:-3vw;width:calc(100% + 6vw)}.l-content{padding-left:2vw;padding-right:2vw}.-frame-on{--swl-pad_container:2vw;--swl-h2-margin--x:-3vw}.-frame-off-sidebar .l-sidebar{padding-left:1vw;padding-right:1vw}.swell-block-fullWide__inner.l-article{--swl-fw_inner_pad:calc(var(--swl-pad_container, 2vw) + 3vw)}.swell-block-fullWide__inner.l-container{--swl-fw_inner_pad:var(--swl-pad_container,2vw)}.swell-block-fullWide__inner.l-article .alignwide{left:-1.5vw;width:calc(100% + 3vw)}}@media (min-width:960px){.alignwide,.l-content .alignfull{left:-48px;width:calc(100% + 96px)}.l-content .c-widget .alignfull{left:-32px;width:calc(100% + 64px)}.-frame-on .l-mainContent{padding:32px}.swell-block-fullWide__inner.l-article{--swl-fw_inner_pad:calc(var(--swl-pad_post_content) + 32px)}.swell-block-fullWide__inner.l-container{--swl-fw_inner_pad:16px}.swell-block-fullWide__inner.l-article .alignwide{left:-16px;width:calc(100% + 32px)}}@media (min-width:600px){.l-content{padding-top:2em}}.p-relatedPosts .p-postList__item{margin-bottom:1.5em}.p-relatedPosts .p-postList__times,.p-relatedPosts .p-postList__times>:last-child{margin-right:0}@media (min-width:600px){.p-relatedPosts .p-postList__item{width:33.33333%}}@media screen and (min-width:600px) and (max-width:1239px){.p-relatedPosts .p-postList__item:nth-child(7),.p-relatedPosts .p-postList__item:nth-child(8){display:none}}@media screen and (min-width:1240px){.p-relatedPosts .p-postList__item{width:25%}}.-index-off .p-toc,.swell-toc-placeholder:empty{display:none}.p-toc.-modal{height:100%;margin:0;overflow-y:auto;padding:0}#main_content .p-toc{border-radius:var(--swl-radius--2,0);margin:4em auto;max-width:800px}#sidebar .p-toc{margin-top:-.5em}.p-toc .__pn:before{content:none!important;counter-increment:none}.p-toc .__prev{margin:0 0 1em}.p-toc .__next{margin:1em 0 0}.p-toc.is-omitted:not([data-omit=ct]) [data-level="2"] .p-toc__childList{display:none}.p-toc.is-omitted:not([data-omit=nest]){position:relative}.p-toc.is-omitted:not([data-omit=nest]):before{background:linear-gradient(hsla(0,0%,100%,0),var(--color_bg));bottom:5em;content:"";height:4em;left:0;opacity:.75;pointer-events:none;position:absolute;width:100%;z-index:1}.p-toc.is-omitted:not([data-omit=nest]):after{background:var(--color_bg);bottom:0;content:"";height:5em;left:0;opacity:.75;position:absolute;width:100%;z-index:1}.p-toc.is-omitted:not([data-omit=nest]) .__next,.p-toc.is-omitted:not([data-omit=nest]) [data-omit="1"]{display:none}.p-toc .p-toc__expandBtn{background-color:#f7f7f7;border:rgba(0,0,0,.2);border-radius:5em;box-shadow:0 0 0 1px #bbb;color:#333;display:block;font-size:14px;line-height:1.5;margin:.75em auto 0;min-width:6em;padding:.5em 1em;position:relative;transition:box-shadow .25s;z-index:2}.p-toc[data-omit=nest] .p-toc__expandBtn{display:inline-block;font-size:13px;margin:0 0 0 1.25em;padding:.5em .75em}.p-toc:not([data-omit=nest]) .p-toc__expandBtn:after,.p-toc:not([data-omit=nest]) .p-toc__expandBtn:before{border-top-color:inherit;border-top-style:dotted;border-top-width:3px;content:"";display:block;height:1px;position:absolute;top:calc(50% - 1px);transition:border-color .25s;width:100%;width:22px}.p-toc:not([data-omit=nest]) .p-toc__expandBtn:before{right:calc(100% + 1em)}.p-toc:not([data-omit=nest]) .p-toc__expandBtn:after{left:calc(100% + 1em)}.p-toc.is-expanded .p-toc__expandBtn{border-color:transparent}.p-toc__ttl{display:block;font-size:1.2em;line-height:1;position:relative;text-align:center}.p-toc__ttl:before{content:"\e918";display:inline-block;font-family:icomoon;margin-right:.5em;padding-bottom:2px;vertical-align:middle}#index_modal .p-toc__ttl{margin-bottom:.5em}.p-toc__list li{line-height:1.6}.p-toc__list>li+li{margin-top:.5em}.p-toc__list .p-toc__childList{padding-left:.5em}.p-toc__list [data-level="3"]{font-size:.9em}.p-toc__list .mininote{display:none}.post_content .p-toc__list{padding-left:0}#sidebar .p-toc__list{margin-bottom:0}#sidebar .p-toc__list .p-toc__childList{padding-left:0}.p-toc__link{color:inherit;font-size:inherit;text-decoration:none}.p-toc__link:hover{opacity:.8}.p-toc.-simple{border:1px solid var(--color_border);padding:1.25em}.p-toc.-simple .p-toc__ttl{border-bottom:1px dashed var(--color_border);margin-bottom:1em;padding:0 .5em .75em;text-align:left}@media (min-width:960px){#main_content .p-toc{width:92%}}@media (hover:hover){.p-toc .p-toc__expandBtn:hover{border-color:transparent;box-shadow:0 0 0 2px currentcolor}}
+</style>
+<link rel='stylesheet' id='swell-parts/footer-css' href='https://www.sejuku.net/blog/wp-content/themes/swell/build/css/modules/parts/footer.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='swell-page/single-css' href='https://www.sejuku.net/blog/wp-content/themes/swell/build/css/modules/page/single.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='wdl-custom-blocks-style-css' href='https://www.sejuku.net/blog/wp-content/plugins/samurai-blocks/build/style-index.css?ver=2023091822' type='text/css' media='all' />
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+body{--wp--preset--color--black: #000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #fff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--swl-main: var(--color_main);--wp--preset--color--swl-main-thin: var(--color_main_thin);--wp--preset--color--swl-gray: var(--color_gray);--wp--preset--color--swl-deep-01: var(--color_deep01);--wp--preset--color--swl-deep-02: var(--color_deep02);--wp--preset--color--swl-deep-03: var(--color_deep03);--wp--preset--color--swl-deep-04: var(--color_deep04);--wp--preset--color--swl-pale-01: var(--color_pale01);--wp--preset--color--swl-pale-02: var(--color_pale02);--wp--preset--color--swl-pale-03: var(--color_pale03);--wp--preset--color--swl-pale-04: var(--color_pale04);--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 0.9em;--wp--preset--font-size--medium: 1.1em;--wp--preset--font-size--large: 1.25em;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--xs: 0.75em;--wp--preset--font-size--huge: 1.6em;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='swell_swiper-css' href='https://www.sejuku.net/blog/wp-content/themes/swell/build/css/plugins/swiper.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='swiper-style-css' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.0.0-alpha.19/swiper-bundle.min.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='samurai-shortcode-style-css' href='https://www.sejuku.net/blog/wp-content/plugins/samurai-shortcode/css/samurai-shortcode.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='tablepress-default-css' href='https://www.sejuku.net/blog/wp-content/plugins/tablepress/css/build/default.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='child_style-css' href='https://www.sejuku.net/blog/wp-content/themes/swell_child/style.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='archive_style-css' href='https://www.sejuku.net/blog/wp-content/themes/swell_child/css/single-archive.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='ponhiro-blocks-front-css' href='https://www.sejuku.net/blog/wp-content/plugins/useful-blocks/dist/css/front.css?ver=2023091822' type='text/css' media='all' />
+<style id='ponhiro-blocks-front-inline-css' type='text/css'>
+:root{--pb_colset_yellow:#fdc44f;--pb_colset_yellow_thin:#fef9ed;--pb_colset_yellow_dark:#b4923a;--pb_colset_pink:#fd9392;--pb_colset_pink_thin:#ffefef;--pb_colset_pink_dark:#d07373;--pb_colset_green:#91c13e;--pb_colset_green_thin:#f2f8e8;--pb_colset_green_dark:#61841f;--pb_colset_blue:#6fc7e1;--pb_colset_blue_thin:#f0f9fc;--pb_colset_blue_dark:#419eb9;--pb_colset_cvbox_01_bg:#f5f5f5;--pb_colset_cvbox_01_list:#3190b7;--pb_colset_cvbox_01_btn:#91c13e;--pb_colset_cvbox_01_shadow:#628328;--pb_colset_cvbox_01_note:#fdc44f;--pb_colset_compare_01_l:#6fc7e1;--pb_colset_compare_01_l_bg:#f0f9fc;--pb_colset_compare_01_r:#ffa883;--pb_colset_compare_01_r_bg:#fff6f2;--pb_colset_iconbox_01:#6e828a;--pb_colset_iconbox_01_bg:#fff;--pb_colset_iconbox_01_icon:#ee8f81;--pb_colset_bargraph_01:#9dd9dd;--pb_colset_bargraph_01_bg:#fafafa;--pb_colset_bar_01:#f8db92;--pb_colset_bar_02:#fda9a8;--pb_colset_bar_03:#bdda8b;--pb_colset_bar_04:#a1c6f1;--pb_colset_rating_01_bg:#fafafa;--pb_colset_rating_01_text:#71828a;--pb_colset_rating_01_label:#71828a;--pb_colset_rating_01_point:#ee8f81;}.pb-iconbox__figure[data-iconset="01"]{background-image: url(https://www.sejuku.net/blog/wp-content/plugins/useful-blocks/assets/img/a_person.png)}.pb-iconbox__figure[data-iconset="02"]{background-image: url(https://www.sejuku.net/blog/wp-content/plugins/useful-blocks/assets/img/a_person.png)}.pb-iconbox__figure[data-iconset="03"]{background-image: url(https://www.sejuku.net/blog/wp-content/plugins/useful-blocks/assets/img/a_person.png)}.pb-iconbox__figure[data-iconset="04"]{background-image: url(https://www.sejuku.net/blog/wp-content/plugins/useful-blocks/assets/img/a_person.png)}
+</style>
+<!--n2css-->
+<noscript><link href="https://www.sejuku.net/blog/wp-content/themes/swell/build/css/noscript.css" rel="stylesheet"></noscript>
+<link rel="https://api.w.org/" href="https://www.sejuku.net/blog/wp-json/" /><link rel="alternate" type="application/json" href="https://www.sejuku.net/blog/wp-json/wp/v2/posts/64635" /><link rel='shortlink' href='https://www.sejuku.net/blog/?p=64635' />
+
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org/",
+        "@type": "Article",
+        "mainEntryOfPage": {
+            "@type": "WebPage",
+            "@id": "https://www.sejuku.net/blog/64635"
+        },
+        "headline": "【Java入門】XMLの扱い方(DOM、SAX、プロパティファイルも解説)",
+        "description": "こんにちは！フリーランスの長野です。 JavaでXMLファイルって使っていますか？　XMLファイルは項目と値のセットを人やソフトウェアが読み込めるように構成することができるので、データの保存や設定値を",
+        "datePublished": "2023-03-21",
+        "dateModified": "2023-03-21",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://www.sejuku.net/blog/wp-content/uploads/2018/07/xml.png",
+            "height": 400,
+            "width": 700        },
+        "author": {
+            "@type": "Organization",
+            "name": "長野 透",
+            "url": "https://www.sejuku.net/blog/author/chouno"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "株式会社SAMURAI",
+            "alternateName": "SAMURAI Inc.",
+            "founder": {
+            "name": "高比良直人",
+            "type": "Person"
+            },
+            "foundingDate": "March,2015",
+            "sameAs": "https://www.sejuku.net/corp/company",
+            "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Tokyo",
+            "addressRagion": "JP",
+            "postalCode": "101-0022",
+            "streetAddress": "東京都千代田区神田練塀町300番地 住友不動産秋葉原駅前ビル 5F"
+            },
+            "ethicsPolicy": "https://www.sejuku.net/corp/privacy-policy",
+            "ownershipFundingInfo": "https://www.sejuku.net/corp/news/3360",
+            "parentOrganization": {
+            "@type": "Corporation",
+            "name": "株式会社夢真",
+            "sameAs": "https://www.yumeshin.co.jp/",
+            "url": "https://www.yumeshin.co.jp/company/group.html"
+            }
+        },
+        "reviewedBy": {
+            "@type": "Person",
+            "name": "",
+            "follows": {
+            "@type": "Person",
+            "name": ""
+            },
+            "knowsAbout": "",
+            "url": ""
+        }
+        }
+    </script>
+
+    <!-- for tracking -->
+<script>
+	var smr = {
+		auth: '長野 透',
+		insdate: '2018/07/20',
+		update: '2023/03/21',
+		type: 'Tech',
+		impact: ''
+	}
+</script><link rel="icon" href="https://www.sejuku.net/blog/wp-content/uploads/2023/07/cropped-logo-1-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://www.sejuku.net/blog/wp-content/uploads/2023/07/cropped-logo-1-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.sejuku.net/blog/wp-content/uploads/2023/07/cropped-logo-1-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.sejuku.net/blog/wp-content/uploads/2023/07/cropped-logo-1-270x270.png" />
+
+<link rel="stylesheet" href="https://www.sejuku.net/blog/wp-content/themes/swell/build/css/print.css" media="print" >
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MKSNM2M');</script>
+<!-- End Google Tag Manager -->
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MKSNM2M"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="menu-first-row-menu-container"><ul id="menu-first-row-menu" class="menu"><li id="menu-item-213789" class="first-row-menu__header-logo menu-item menu-item-type- menu-item-object-custom menu-item-home menu-item-213789"><a href="https://www.sejuku.net/blog/" data-wpel-link="internal">ロゴ</a></li>
+<li id="menu-item-213790" class="first-row-menu__link menu-item menu-item-type- menu-item-object-custom menu-item-213790"><a href="https://www.sejuku.net/biz/?cid=blog_header_sbid2-blog" data-wpel-link="internal"><span>Business</span>法人の方はこちら</a></li>
+<li id="menu-item-213791" class="first-row-menu__link menu-item menu-item-type- menu-item-object-custom menu-item-213791"><a href="https://lp.sejuku.net/seminar/?cid=blog_header&#038;_gl=1*64vyh4*_gcl_au*Nzk2Njg0NTc0LjE2ODk1Nzk5ODE." data-wpel-link="internal"><span>Seminar</span>無料セミナー</a></li>
+<li id="menu-item-213792" class="first-row-menu__link menu-item menu-item-type- menu-item-object-custom menu-item-213792"><a href="https://terakoya.sejuku.net/?cid=blog_header_sbid2-blog" data-wpel-link="internal"><span>e-Learning</span>侍テラコヤ</a></li>
+<li id="menu-item-213793" class="first-row-menu__button-link menu-item menu-item-type- menu-item-object-custom menu-item-213793"><a href="https://lp.sejuku.net/calendar_ss/?cid=blog_menu_sbid2-blog&#038;_gl=1*1763lii*_gcl_au*Nzk2Njg0NTc0LjE2ODk1Nzk5ODE." data-wpel-link="internal">無料カウンセリング</a></li>
+</ul></div><div id="body_wrap" class="post-template-default single single-post postid-64635 single-format-standard -sidebar-on -frame-on -frame-on-sidebar -frame-border id_64635" >
+<div id="sp_menu" class="p-spMenu -left">
+	<div class="p-spMenu__inner">
+		<div class="p-spMenu__closeBtn">
+			<button class="c-iconBtn -menuBtn c-plainBtn" data-onclick="toggleMenu" aria-label="メニューを閉じる">
+				<i class="c-iconBtn__icon icon-close-thin"></i>
+			</button>
+		</div>
+		<div class="p-spMenu__body">
+			<div class="c-widget__title -spmenu">
+				MENU			</div>
+			<div class="p-spMenu__nav">
+				<ul class="c-spnav c-listMenu"><li class="menu-item menu-item-type- menu-item-object-custom menu-item-home menu-item-213795"><a href="https://www.sejuku.net/blog/" data-wpel-link="internal">ホーム</a></li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213796"><a href="https://www.sejuku.net/blog/category/programing" data-wpel-link="internal">プログラミング<button class="c-submenuToggleBtn c-plainBtn" data-onclick="toggleSubmenu" aria-label="サブメニューを開閉する"></button></a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213797"><a href="https://www.sejuku.net/blog/category/programing/programming-study" data-wpel-link="internal">プログラミング基礎</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213798"><a href="https://www.sejuku.net/blog/category/programing/programming-education" data-wpel-link="internal">プログラミング教育</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213799"><a href="https://www.sejuku.net/blog/category/programing/book" data-wpel-link="internal">プログラミング書籍</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213800"><a href="https://www.sejuku.net/blog/category/programming-language" data-wpel-link="internal">プログラミング言語<button class="c-submenuToggleBtn c-plainBtn" data-onclick="toggleSubmenu" aria-label="サブメニューを開閉する"></button></a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213801"><a href="https://www.sejuku.net/blog/category/programming-language/html" data-wpel-link="internal">HTML</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213802"><a href="https://www.sejuku.net/blog/category/programming-language/css" data-wpel-link="internal">CSS</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213803"><a href="https://www.sejuku.net/blog/category/programming-language/c-language" data-wpel-link="internal">C言語</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213804"><a href="https://www.sejuku.net/blog/category/programming-language/c-sharp" data-wpel-link="internal">C#</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213805"><a href="https://www.sejuku.net/blog/category/programming-language/excel-vba" data-wpel-link="internal">VBA</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213806"><a href="https://www.sejuku.net/blog/category/programming-language/go" data-wpel-link="internal">Go言語</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213807"><a href="https://www.sejuku.net/blog/category/programming-language/kotlin" data-wpel-link="internal">Kotlin</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213808"><a href="https://www.sejuku.net/blog/category/programming-language/java" data-wpel-link="internal">JAVA</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213809"><a href="https://www.sejuku.net/blog/category/programming-language/javascript" data-wpel-link="internal">JavaScript</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213810"><a href="https://www.sejuku.net/blog/category/programming-language/php" data-wpel-link="internal">PHP</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213811"><a href="https://www.sejuku.net/blog/category/programming-language/python" data-wpel-link="internal">Python</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213812"><a href="https://www.sejuku.net/blog/category/programming-language/sql" data-wpel-link="internal">SQL</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213813"><a href="https://www.sejuku.net/blog/category/programming-language/swift" data-wpel-link="internal">Swift</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213814"><a href="https://www.sejuku.net/blog/category/programming-language/ruby" data-wpel-link="internal">Ruby</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213815"><a href="https://www.sejuku.net/blog/category/programming-language/other-lang" data-wpel-link="internal">その他言語</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213816"><a href="https://www.sejuku.net/blog/programming-school" data-wpel-link="internal">ITスクール<button class="c-submenuToggleBtn c-plainBtn" data-onclick="toggleSubmenu" aria-label="サブメニューを開閉する"></button></a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213817"><a href="https://www.sejuku.net/blog/programming-school" data-wpel-link="internal">プログラミングスクール</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213818"><a href="https://www.sejuku.net/blog/webdesign-school" data-wpel-link="internal">Webデザインスクール</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213819"><a href="https://www.sejuku.net/blog/category/career" data-wpel-link="internal">キャリア<button class="c-submenuToggleBtn c-plainBtn" data-onclick="toggleSubmenu" aria-label="サブメニューを開閉する"></button></a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213820"><a href="https://www.sejuku.net/blog/category/career/engineer" data-wpel-link="internal">エンジニア</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213821"><a href="https://www.sejuku.net/blog/category/career/programmer" data-wpel-link="internal">プログラマー</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213822"><a href="https://www.sejuku.net/blog/category/career/web-designer" data-wpel-link="internal">WEBデザイナー</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213823"><a href="https://www.sejuku.net/blog/category/career/system-engineer" data-wpel-link="internal">システムエンジニア</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213824"><a href="https://www.sejuku.net/blog/category/career/infra-engineer" data-wpel-link="internal">インフラエンジニア</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213825"><a href="https://www.sejuku.net/blog/category/career/freelance" data-wpel-link="internal">フリーランス</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213826"><a href="https://www.sejuku.net/blog/category/career/side-business" data-wpel-link="internal">副業</a></li>
+</ul>
+</li>
+<li class="deactive-menu-link menu-item menu-item-type- menu-item-object-custom menu-item-home menu-item-has-children menu-item-213827"><a href="https://www.sejuku.net/blog/" data-wpel-link="internal">おすすめコンテンツ<button class="c-submenuToggleBtn c-plainBtn" data-onclick="toggleSubmenu" aria-label="サブメニューを開閉する"></button></a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213828"><a href="https://www.sejuku.net/blog/diagnose/?cid=blog_manu_sbid2-side-business" data-wpel-link="internal">プログラミング学習プラン診断</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213829"><a href="https://www.sejuku.net/blog/job-diagnose?cid=blog_manu_sbid2-side-business" data-wpel-link="internal">ITキャリア診断</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213830"><a href="https://terakoya.sejuku.net/programs?cid=blog_menu" data-wpel-link="internal">学習教材</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213831"><a href="https://www.sejuku.net/blog/category/interviews" data-wpel-link="internal">インタビュー</a></li>
+</ul>			</div>
+					</div>
+	</div>
+	<div class="p-spMenu__overlay c-overlay" data-onclick="toggleMenu"></div>
+</div>
+<header id="header" class="l-header -series -series-right" data-spfix="1">
+		<div class="l-header__inner l-container">
+		<div class="l-header__logo">
+			<div class="c-headLogo -img"><a href="https://www.sejuku.net/blog/" title="侍エンジニアブログ" class="c-headLogo__link" rel="home" data-wpel-link="internal"><img width="1" height="1"  src="https://www.sejuku.net/blog/wp-content/uploads/2023/07/logo_hrz-1.svg" alt="侍エンジニアブログ" class="c-headLogo__img" sizes="(max-width: 959px) 50vw, 800px" decoding="async" loading="eager" ></a></div>					</div>
+		<nav id="gnav" class="l-header__gnav c-gnavWrap">
+					<ul class="c-gnav">
+			<li class="menu-item menu-item-type- menu-item-object-custom menu-item-home menu-item-213795"><a href="https://www.sejuku.net/blog/" data-wpel-link="internal"><span class="ttl">ホーム</span></a></li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213796"><a href="https://www.sejuku.net/blog/category/programing" data-wpel-link="internal"><span class="ttl">プログラミング</span><button class="c-submenuToggleBtn c-plainBtn" data-onclick="toggleSubmenu" aria-label="サブメニューを開閉する"></button></a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213797"><a href="https://www.sejuku.net/blog/category/programing/programming-study" data-wpel-link="internal"><span class="ttl">プログラミング基礎</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213798"><a href="https://www.sejuku.net/blog/category/programing/programming-education" data-wpel-link="internal"><span class="ttl">プログラミング教育</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213799"><a href="https://www.sejuku.net/blog/category/programing/book" data-wpel-link="internal"><span class="ttl">プログラミング書籍</span></a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213800"><a href="https://www.sejuku.net/blog/category/programming-language" data-wpel-link="internal"><span class="ttl">プログラミング言語</span><button class="c-submenuToggleBtn c-plainBtn" data-onclick="toggleSubmenu" aria-label="サブメニューを開閉する"></button></a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213801"><a href="https://www.sejuku.net/blog/category/programming-language/html" data-wpel-link="internal"><span class="ttl">HTML</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213802"><a href="https://www.sejuku.net/blog/category/programming-language/css" data-wpel-link="internal"><span class="ttl">CSS</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213803"><a href="https://www.sejuku.net/blog/category/programming-language/c-language" data-wpel-link="internal"><span class="ttl">C言語</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213804"><a href="https://www.sejuku.net/blog/category/programming-language/c-sharp" data-wpel-link="internal"><span class="ttl">C#</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213805"><a href="https://www.sejuku.net/blog/category/programming-language/excel-vba" data-wpel-link="internal"><span class="ttl">VBA</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213806"><a href="https://www.sejuku.net/blog/category/programming-language/go" data-wpel-link="internal"><span class="ttl">Go言語</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213807"><a href="https://www.sejuku.net/blog/category/programming-language/kotlin" data-wpel-link="internal"><span class="ttl">Kotlin</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213808"><a href="https://www.sejuku.net/blog/category/programming-language/java" data-wpel-link="internal"><span class="ttl">JAVA</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213809"><a href="https://www.sejuku.net/blog/category/programming-language/javascript" data-wpel-link="internal"><span class="ttl">JavaScript</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213810"><a href="https://www.sejuku.net/blog/category/programming-language/php" data-wpel-link="internal"><span class="ttl">PHP</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213811"><a href="https://www.sejuku.net/blog/category/programming-language/python" data-wpel-link="internal"><span class="ttl">Python</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213812"><a href="https://www.sejuku.net/blog/category/programming-language/sql" data-wpel-link="internal"><span class="ttl">SQL</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213813"><a href="https://www.sejuku.net/blog/category/programming-language/swift" data-wpel-link="internal"><span class="ttl">Swift</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213814"><a href="https://www.sejuku.net/blog/category/programming-language/ruby" data-wpel-link="internal"><span class="ttl">Ruby</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213815"><a href="https://www.sejuku.net/blog/category/programming-language/other-lang" data-wpel-link="internal"><span class="ttl">その他言語</span></a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213816"><a href="https://www.sejuku.net/blog/programming-school" data-wpel-link="internal"><span class="ttl">ITスクール</span><button class="c-submenuToggleBtn c-plainBtn" data-onclick="toggleSubmenu" aria-label="サブメニューを開閉する"></button></a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213817"><a href="https://www.sejuku.net/blog/programming-school" data-wpel-link="internal"><span class="ttl">プログラミングスクール</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213818"><a href="https://www.sejuku.net/blog/webdesign-school" data-wpel-link="internal"><span class="ttl">Webデザインスクール</span></a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213819"><a href="https://www.sejuku.net/blog/category/career" data-wpel-link="internal"><span class="ttl">キャリア</span><button class="c-submenuToggleBtn c-plainBtn" data-onclick="toggleSubmenu" aria-label="サブメニューを開閉する"></button></a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213820"><a href="https://www.sejuku.net/blog/category/career/engineer" data-wpel-link="internal"><span class="ttl">エンジニア</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213821"><a href="https://www.sejuku.net/blog/category/career/programmer" data-wpel-link="internal"><span class="ttl">プログラマー</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213822"><a href="https://www.sejuku.net/blog/category/career/web-designer" data-wpel-link="internal"><span class="ttl">WEBデザイナー</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213823"><a href="https://www.sejuku.net/blog/category/career/system-engineer" data-wpel-link="internal"><span class="ttl">システムエンジニア</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213824"><a href="https://www.sejuku.net/blog/category/career/infra-engineer" data-wpel-link="internal"><span class="ttl">インフラエンジニア</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213825"><a href="https://www.sejuku.net/blog/category/career/freelance" data-wpel-link="internal"><span class="ttl">フリーランス</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213826"><a href="https://www.sejuku.net/blog/category/career/side-business" data-wpel-link="internal"><span class="ttl">副業</span></a></li>
+</ul>
+</li>
+<li class="deactive-menu-link menu-item menu-item-type- menu-item-object-custom menu-item-home menu-item-has-children menu-item-213827"><a href="https://www.sejuku.net/blog/" data-wpel-link="internal"><span class="ttl">おすすめコンテンツ</span><button class="c-submenuToggleBtn c-plainBtn" data-onclick="toggleSubmenu" aria-label="サブメニューを開閉する"></button></a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213828"><a href="https://www.sejuku.net/blog/diagnose/?cid=blog_manu_sbid2-side-business" data-wpel-link="internal"><span class="ttl">プログラミング学習プラン診断</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213829"><a href="https://www.sejuku.net/blog/job-diagnose?cid=blog_manu_sbid2-side-business" data-wpel-link="internal"><span class="ttl">ITキャリア診断</span></a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213830"><a href="https://terakoya.sejuku.net/programs?cid=blog_menu" data-wpel-link="internal"><span class="ttl">学習教材</span></a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-213831"><a href="https://www.sejuku.net/blog/category/interviews" data-wpel-link="internal"><span class="ttl">インタビュー</span></a></li>
+							<li class="menu-item c-gnav__s">
+					<button class="c-gnav__sBtn c-plainBtn" data-onclick="toggleSearch" aria-label="検索ボタン">
+						<i class="icon-search"></i>
+					</button>
+				</li>
+					</ul>
+			</nav>
+		<div class="l-header__customBtn sp_">
+			<button class="c-iconBtn c-plainBtn" data-onclick="toggleSearch" aria-label="検索ボタン">
+			<i class="c-iconBtn__icon icon-search"></i>
+					</button>
+	</div>
+<div class="l-header__menuBtn sp_">
+	<button class="c-iconBtn -menuBtn c-plainBtn" data-onclick="toggleMenu" aria-label="メニューボタン">
+		<i class="c-iconBtn__icon icon-menu-thin"></i>
+			</button>
+</div>
+	</div>
+	</header>
+<div id="breadcrumb" class="p-breadcrumb -bg-on"><ol class="p-breadcrumb__list l-container"><li class="p-breadcrumb__item"><a href="https://www.sejuku.net/blog/" class="p-breadcrumb__text" data-wpel-link="internal"><span class="__home icon-home"> ホーム</span></a></li><li class="p-breadcrumb__item"><a href="https://www.sejuku.net/blog/category/programming-language" class="p-breadcrumb__text" data-wpel-link="internal"><span>プログラミング言語</span></a></li><li class="p-breadcrumb__item"><a href="https://www.sejuku.net/blog/category/programming-language/java" class="p-breadcrumb__text" data-wpel-link="internal"><span>Java</span></a></li><li class="p-breadcrumb__item"><a href="https://www.sejuku.net/blog/category/programming-language/java/java-study" class="p-breadcrumb__text" data-wpel-link="internal"><span>Java学習</span></a></li><li class="p-breadcrumb__item"><span class="p-breadcrumb__text">【Java入門】XMLの扱い方(DOM、SAX、プロパティファイルも解説)</span></li></ol></div><div id="content" class="l-content l-container" data-postid="64635" data-pvct="true">
+<main id="main_content" class="l-mainContent l-article">
+	<article class="l-mainContent__inner" data-clarity-region="article">
+		<div class="p-articleHead c-postTitle">
+	<h1 class="c-postTitle__ttl">【Java入門】XMLの扱い方(DOM、SAX、プロパティファイルも解説)</h1>
+			<time class="c-postTitle__date u-thin" datetime="2023-03-21" aria-hidden="true">
+			<span class="__y">2023</span>
+			<span class="__md">3/21</span>
+		</time>
+	</div>
+<div class="p-articleMetas -top">
+		<div class="p-articleMetas__termList c-categoryList">
+					<a class="c-categoryList__link hov-flash-up" href="https://www.sejuku.net/blog/category/programming-language/java/java-study" data-cat-id="2344" data-wpel-link="internal">
+				Java学習			</a>
+			</div>
+<div class="p-articleMetas__times c-postTimes u-thin">
+	<time class="c-postTimes__modified icon-modified" datetime="2023-03-21" aria-label="更新日">2023年3月21日</time></div>
+			<a href="https://www.sejuku.net/blog/author/chouno" class="c-postAuthor is-link p-articleMetas__author" data-wpel-link="internal">
+				<figure class="c-postAuthor__figure"><img alt='' src='https://secure.gravatar.com/avatar/776caf3e54c34896cc31f534852d38df?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/776caf3e54c34896cc31f534852d38df?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' loading='lazy' decoding='async'/></figure>
+				<span class="c-postAuthor__name u-thin">長野 透</span>
+			</a>
+		</div>
+<figure class="p-articleThumb"><img width="700" height="400"  src="https://www.sejuku.net/blog/wp-content/uploads/2018/07/xml.png" alt="" class="p-articleThumb__img" srcset="https://www.sejuku.net/blog/wp-content/uploads/2018/07/xml.png 700w, https://www.sejuku.net/blog/wp-content/uploads/2018/07/xml-150x86.png 150w, https://www.sejuku.net/blog/wp-content/uploads/2018/07/xml-300x171.png 300w, https://www.sejuku.net/blog/wp-content/uploads/2018/07/xml-640x366.png 640w" sizes="(min-width: 960px) 960px, 100vw" ></figure>		<div class="post_content">
+			<p>こんにちは！フリーランスの長野です。</p>
+<p>JavaでXMLファイルって使っていますか？　XMLファイルは項目と値のセットを人やソフトウェアが読み込めるように構成することができるので、データの保存や設定値を保存する場合によく使われます。</p>
+<p>この記事では、JavaでのXMLファイルの扱い方について<br />
+<div class="box01"></p>
+<ul>
+<li><b>XMLとは？</b></li>
+<li><b>XMLファイルを読み込む方法</b></li>
+<li><b>XMLファイルへ出力する方法</b></li>
+</ul>
+<p></div></p>
+<p>といった基本的な内容から、<br />
+<div class="box01"></p>
+<ul>
+<li><b>プロパティファイルに読み書きする方法</b></li>
+<li><b>オブジェクトのSerialization</b></li>
+</ul>
+<p></div></p>
+<p>など応用的な内容についても解説していきます。今回はJavaでのXMLファイルの扱い方について、わかりやすく解説します。</p>
+<p>なお、Javaの記事については、<a href="https://www.sejuku.net/blog/148098" target="_blank" rel="noopener" data-wpel-link="internal">こちら</a>にまとめています。</p>
+<div class="p-toc -simple"><span class="p-toc__ttl">目次</span></div><h2>XMLとは？</h2>
+<p>XMLとは、Extensible Markup Languageの略です。マークアップ言語ですので、WEBサイトのデザインで使われるHTMLと似ています。マークアップ言語とは、タグと値のセットで作られ、文章を構造化する言語のことです。</p>
+<p>HTMLはブラウザが読み込むためのタグで構成されていますが、<strong>XMLは人やソフトウェアが読み込めるように構成</strong>することができます。以下はXMLファイルの簡単な例です。</p>
+<p>Sample.xml：</p>
+<pre class="lang:java decode:true ">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;info code="A0001"&gt;
+    &lt;name&gt;Taro Yamada&lt;/name&gt;
+&lt;/info&gt;</pre>
+<h2>XMLファイルを読み込む方法</h2>
+<p>XMLファイルを扱う際に、Javaでは操作するAPIが主に2つ用意されています。DOMとSAXです。</p>
+<p>DOMはDocument Object Modelの略で、要素がノードで表され、ノードの関係がノードツリーで表されます。ツリー構成はパソコン内のフォルダやファイルにも用いられています。</p>
+<p>SAXはSimple API for XMLの略で、要素を先頭から順にひとつずつイベントの連続として読み込みます。それぞれの使い方についてみていきましょう。</p>
+<h3>DOM</h3>
+<p>まずは<strong>DOMのAPIを使う方法について説明</strong>します。XMLファイルを読み込む準備をします。javax.xml.parsersパッケージのDocumentBuilderクラスやDocumentBuilderFactoryクラスを使います。</p>
+<p>次にorg.w3c.dom.Documentクラスを使ってXMLファイルを読み込みます。そしてorg.w3c.dom.Elementクラスを使って要素を取得します。</p>
+<p>ノードの名前を取得するにはgetNodeNameメソッドを、属性値を取得するにはgetAttributeメソッドを使います。ノードのリストを取得するにはorg.w3c.dom.NodeListクラスを使います。サンプルコードで確認しましょう。</p>
+<p>読み取るXMLファイルは先ほどのSample.xmlを使います。</p>
+<pre class="lang:java decode:true ">import java.io.File;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+public class XMLsample {
+
+    public static void main(String[] args) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(new File("Sample.xml"));
+
+            Element element = doc.getDocumentElement();
+            System.out.println("Node: " + element.getNodeName());
+            System.out.println("code: " + element.getAttribute("code"));
+
+            NodeList nodeList = element.getChildNodes();
+            for(int i = 0; i &lt; nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if(node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element name = (Element)node;
+                    if(name.getNodeName().equals("name")) {
+                        System.out.println(name.getNodeName() + ": " + name.getTextContent());
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+}</pre>
+<p>実行結果：</p>
+<pre class="striped:false marking:false ranges:false nums:false nums-toggle:false lang:default decode:true ">Node: info
+code: A0001
+name: Taro Yamada</pre>
+<h3>SAX</h3>
+<p>次は<strong>SAXのAPIを使う方法について説明</strong>します。同じようにXMLファイルを読み込む準備をします。javax.xml.parsersパッケージのSAXParserクラスやSAXParserFactoryクラスを使います。</p>
+<p>SAXのAPIの場合はorg.xml.sax.helpers.DefaultHandlerクラスを継承して、それぞれの<strong>イベントが発生した際の処理を記述</strong>します。例えば、ドキュメントの読み込みが開始された場合は、startDocumentメソッドに記述した内容が処理実行されます。</p>
+<p>また開始ノードに達した場合は、startElementメソッドに記述した内容が処理実行されます。サンプルコードで確認しましょう。読み取るXMLファイルは先ほどのSample.xmlを使います。</p>
+<pre class="lang:java decode:true ">import java.io.File;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.DefaultHandler;
+
+class XMLsample{
+
+    public static void main(String[] args) {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        try {
+            SAXParser parser = factory.newSAXParser();
+            parser.parse(new File("Sample.xml"), new SAXsample());
+        } catch (Exception e) {
+            // TODO 自動生成された catch ブロック
+            e.printStackTrace();
+        }
+    }
+
+}
+
+class SAXsample extends DefaultHandler{
+    public void startDocument() {
+        System.out.println("読み込み開始");
+    }
+
+    public void endDocument() {
+        System.out.println("読み込み終了");
+    }
+
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        System.out.println("Node: " + qName + " 開始");
+        if(qName.equals("info")) {
+            System.out.println(attributes.getQName(0) + ": " + attributes.getValue(0));
+        }
+    }
+
+    public void endElement(String uri, String localName, String qName) {
+        System.out.println("Node: " + qName + " 終了");
+    }
+
+    public void characters(char[] ch, int start, int length) {
+        System.out.println(new String(ch, start, length));
+    }
+}</pre>
+<p>実行結果：</p>
+<pre class="striped:false marking:false ranges:false nums:false nums-toggle:false lang:default decode:true ">読み込み開始
+Node: info 開始
+code: A0001
+
+    
+Node: name 開始
+Taro Yamada
+Node: name 終了
+
+
+Node: info 終了
+読み込み終了</pre>
+<p>DefaultHandlerクラスのメソッドについては、こちらで詳しく解説していますので参考にしてください。</p>
+<p><a href="https://docs.oracle.com/javase/jp/8/docs/api/org/xml/sax/helpers/DefaultHandler.html" target="_blank" rel="noopener noreferrer external" data-wpel-link="external">https://docs.oracle.com/javase/jp/8/docs/api/org/xml/sax/helpers/DefaultHandler.html</a></p>
+<h2>XMLファイルへ出力する方法</h2>
+<p>DOMのAPIを使って<strong>XMLファイルへ出力する方法について説明</strong>します。XMLファイルへ出力する準備は読み込みとほぼ同じです。</p>
+<p>ノードツリーを作成するために、createElement、setAttribute、appendChild、createTextNodeなどのメソッドが用意されています。作成したノードツリーをTransformerFactoryクラス、Transformerクラスを使って変換します。</p>
+<p>サンプルコードで確認しましょう。</p>
+<pre class="lang:java decode:true ">import java.io.File;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+public class XMLsample {
+
+    public static void main(String[] args) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.newDocument();
+                        
+            Element info = doc.createElement("info");
+            info.setAttribute("code", "A0001");
+            doc.appendChild(info);
+            Element name = doc.createElement("name");
+            name.appendChild(doc.createTextNode("Taro Yamada"));
+            info.appendChild(name);
+            
+            TransformerFactory tfFactory = TransformerFactory.newInstance();
+            Transformer tf = tfFactory.newTransformer();
+            
+            tf.setOutputProperty("indent", "yes");
+            tf.setOutputProperty("encoding", "UTF-8");
+            
+            tf.transform(new DOMSource(doc), new StreamResult(new File("Sample.xml")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+}</pre>
+<p>実行結果(Sample.xml)：</p>
+<pre class="lang:java decode:true ">&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+&lt;info code="A0001"&gt;
+    &lt;name&gt;Taro Yamada&lt;/name&gt;
+&lt;/info&gt;</pre>
+<h2>プロパティファイルに読み書きする方法</h2>
+<p>Javaにはプロパティファイルと呼ばれるファイルがあります。定数や規定値などの設定を記載するファイルとしてよく使われます。このプロパティファイルをXML形式のファイルにする方法を説明します。</p>
+<p>Java5からXML形式でもプロパティファイルを記述できるようにメソッドが追加されました。プロパティファイルを扱うにはjava.util.Propertiesクラスを使います。</p>
+<p>XML形式のプロパティファイルを読み込むには、loadFromXMLメソッドを使います。XML形式のプロパティファイルに書き込むには、storeToXMLメソッドを使います。サンプルコードで確認しましょう。</p>
+<pre class="lang:java decode:true ">import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+public class XMLsample {
+ 
+    public static void main(String[] args) {
+        Properties properties = new Properties();
+        
+        // プロパティファイルのパスを指定する
+        String strpass = "Sample.xml";
+        
+        try {
+            // 書き込み
+            properties.setProperty("code", "A0001");
+            properties.setProperty("name", "Taro Yamada");
+            OutputStream ostream = new FileOutputStream(strpass);
+            properties.storeToXML(ostream, "comment");
+            
+            // 読み込み
+            InputStream istream = new FileInputStream(strpass);
+            properties.loadFromXML(istream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // Mapに格納
+        Map&lt;String, String&gt; propMap = new HashMap&lt;&gt;();
+        for(Map.Entry&lt;Object, Object&gt; e : properties.entrySet()) {
+            propMap.put(e.getKey().toString(), e.getValue().toString());
+        }
+        
+        System.out.println(propMap);
+    }
+ 
+}</pre>
+<p>実行結果：</p>
+<pre class="striped:false marking:false ranges:false nums:false nums-toggle:false lang:default decode:true ">{code=A0001, name=Taro Yamada}</pre>
+<p>Sample.xml：</p>
+<pre class="lang:java decode:true ">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;properties&gt;
+&lt;comment&gt;comment&lt;/comment&gt;
+&lt;entry key="code"&gt;A0001&lt;/entry&gt;
+&lt;entry key="name"&gt;Taro Yamada&lt;/entry&gt;
+&lt;/properties&gt;</pre>
+<p>プロパティファイルについては、こちらで詳しく解説していますので、ぜひ参考にしてください。</p>
+<p>        <a href="https://www.sejuku.net/blog/20794" class="blog-card-anchor" data-wpel-link="internal">
+            <div class="blog-card">
+            <div class="blog-card-content">
+                <div class="blog-card-thumbnail">
+                <img class="blog-card-thumbnail-img lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/uploads/2017/10/java-properties-150x86.jpg" width="150" data-aspectratio="150/86"><noscript><img class="blog-card-thumbnail-img" src="https://www.sejuku.net/blog/wp-content/uploads/2017/10/java-properties-150x86.jpg"></noscript>
+                </div>
+                <div class="blog-card-title-wrap">
+                <div class="blog-card-title">【Java入門】プロパティファイルの読み込み方法(Properties)</div>
+                <div class="blog-card-update-date">更新日：2023年3月21日</div>
+                </div>
+            </div>
+            </div>
+        </a>
+        </p>
+<h2>オブジェクトのSerialization</h2>
+<p>JavaBeansの仕様に沿ったオブジェクトのデータをシリアライズ、デシリアライズする方法について説明します。シリアライズとはデータの永続化、つまりファイルに保存することです。</p>
+<p>逆にファイルからデータを復元することをデシリアライズといいます。ちなみにシリアライズを直列化と説明されている場合もあります。この場合はファイルにデータを保存する際に、1列のデータ列に変換して保存することを指して直列化と説明されています。</p>
+<p>JavaBeansのパッケージにはオブジェクトのデータをシリアライズ、デシリアライズするために<strong>XMLEncoderクラスとXMLDecoderクラス</strong>が用意されています。クラス名にXMLが付いていますので、XML形式で書き出します。</p>
+<p>XMLEncoderクラスはJavaBeansクラスのオブジェクトのデータをXML形式に変換するためのクラスです。同じようにXMLDecoderはXML形式で保存されたファイルからデータを復元するためのクラスです。使い方をサンプルコードで確認しましょう。</p>
+<p>InfoBean.java：</p>
+<pre class="lang:java decode:true ">import java.io.Serializable;
+ 
+public class InfoBean implements Serializable {
+    // static final long serialVersionUIDが必要
+    private static final long serialVersionUID = 1L;
+ 
+    // プロパティ(メンバ変数)の宣言
+    private String code;
+    private String name;
+    
+    // 引数なしコンストラクタの定義
+    public InfoBean() {}
+    
+    // プロパティcodeのsetter、getter
+    public void setCode(String code) {this.code = code;}
+    public String getCode() {return this.code;}
+    
+    // プロパティnameのsetter、getter
+    public void setName(String name) {this.name = name;}
+    public String getName() {return this.name;}
+}</pre>
+<p>BeanSample.java：</p>
+<pre class="lang:java decode:true ">import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+ 
+public class BeanSample {
+ 
+    public static void main(String[] args) {
+        String fileName = "Sample.xml";
+ 
+        // オブジェクトを作成
+        InfoBean info = new InfoBean();
+        info.setCode("A0001");
+        info.setName("Taro Yamada");
+ 
+        // オブジェクトのデータを保存
+        try {
+            XMLEncoder encoder = new XMLEncoder(
+                new BufferedOutputStream(
+                    new FileOutputStream(fileName)
+                )
+            );
+            encoder.writeObject(info);
+            encoder.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+ 
+        // オブジェクトのデータを復元
+        InfoBean new_info = null;
+        try {
+            XMLDecoder decoder = new XMLDecoder(
+                new BufferedInputStream(
+                    new FileInputStream(fileName)
+                )
+            );
+            new_info = (InfoBean)decoder.readObject();
+            decoder.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+ 
+        System.out.println(new_info.getCode() + ", " + new_info.getName());
+    }
+ 
+}</pre>
+<p>実行結果：</p>
+<pre class="striped:false marking:false ranges:false nums:false nums-toggle:false lang:default decode:true ">A0001, Taro Yamada</pre>
+<p>Sample.xml：</p>
+<pre class="lang:java decode:true ">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;java version="10.0.1" class="java.beans.XMLDecoder"&gt;
+ &lt;object class="InfoBean"&gt;
+  &lt;void property="code"&gt;
+   &lt;string&gt;A0001&lt;/string&gt;
+  &lt;/void&gt;
+  &lt;void property="name"&gt;
+   &lt;string&gt;Taro Yamada&lt;/string&gt;
+  &lt;/void&gt;
+ &lt;/object&gt;
+&lt;/java&gt;</pre>
+<p>JavaBeansについては、こちらで詳しく解説していますので、ぜひ参考にしてください。</p>
+<p>        <a href="https://www.sejuku.net/blog/60374" class="blog-card-anchor" data-wpel-link="internal">
+            <div class="blog-card">
+            <div class="blog-card-content">
+                <div class="blog-card-thumbnail">
+                <img class="blog-card-thumbnail-img lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/uploads/2018/06/javabeans-150x85.jpeg" width="150" data-aspectratio="150/85"><noscript><img class="blog-card-thumbnail-img" src="https://www.sejuku.net/blog/wp-content/uploads/2018/06/javabeans-150x85.jpeg"></noscript>
+                </div>
+                <div class="blog-card-title-wrap">
+                <div class="blog-card-title">JavaBeansとは？仕様や使い方、永続化について解説</div>
+                <div class="blog-card-update-date">更新日：2023年3月21日</div>
+                </div>
+            </div>
+            </div>
+        </a>
+        </p>
+<h2>まとめ</h2>
+<p>ここではJavaでのXMLファイルの扱い方について説明しました。XMLファイルは項目と値がセットになったデータを人やソフトウェアが読み込めるように構成することができるので便利です。使いこなすことができるように、この記事を何度も参考にして下さいね！<!-- wp:group {"className":"has-border -border01","layout":{"type":"constrained"}} --></p>
+<div  id="bottom_cta_box" class="wp-block-group has-border -border01"><!-- wp:paragraph {"align":"center"} --></p>
+<p class="has-text-align-center"><strong><span class="swl-fz u-fz-l">プログラミング学習中、<br />誰かへ相談したいことはありませんか？</span></strong></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:image {"width":300,"height":300,"sizeSlug":"large","linkDestination":"custom"} --></p>
+<figure class="wp-block-image size-large is-resized"><a href="https://www.sejuku.net/terakoya/lp3/?cid=plus_tech_pr" data-wpel-link="internal"><img decoding="async" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/uploads/2023/04/1080x1080-1.png" alt="" width="300" height="300" data-aspectratio="300/300" class="lazyload" ><noscript><img decoding="async" src="https://www.sejuku.net/blog/wp-content/uploads/2023/04/1080x1080-1.png" alt="" width="300" height="300"></noscript></a></figure>
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p>プログラミングはエラーの連続。作業を進めるなかで誰かに教えてほしい場面は多いですよね。</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>そんな悩みを解決できるのが、侍テラコヤです。登録無料で始められて、40種類以上のWEBスキルが身につくオリジナル教材があり、回答率100%のQA掲示版で学習に関する悩みを解決します！</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>気になる方はぜひ詳細をご覧ください。</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:loos/button {"hrefUrl":"https://terakoya.sejuku.net/?cid=plus_tech_pr","className":"is-style-btn_normal"} --></p>
+<div class="swell-block-button is-style-btn_normal"><a href="https://www.sejuku.net/terakoya/lp3/?cid=plus_tech_pr" class="swell-block-button__link" data-wpel-link="internal"><span>侍テラコヤの詳細をみる</span></a></div>
+<p><!-- /wp:loos/button --></div>
+<p><!-- /wp:group --></p>
+		</div>
+		<div class="p-articleFoot">
+	<div class="p-articleMetas -bottom">
+			<div class="p-articleMetas__termList c-categoryList">
+					<a class="c-categoryList__link hov-flash-up" href="https://www.sejuku.net/blog/category/programming-language/java/java-study" data-cat-id="2344" data-wpel-link="internal">
+				Java学習			</a>
+			</div>
+	<div class="p-articleMetas__termList c-tagList">
+					<a class="c-tagList__link hov-flash-up" href="https://www.sejuku.net/blog/tag/java" data-tag-id="67" data-wpel-link="internal">
+				Java			</a>
+					<a class="c-tagList__link hov-flash-up" href="https://www.sejuku.net/blog/tag/xml" data-tag-id="1697" data-wpel-link="internal">
+				XML			</a>
+			</div>
+	</div>
+</div>
+		<div id="after_article" class="l-articleBottom">
+					</div>
+			</article>
+</main>
+<aside id="sidebar" class="l-sidebar">
+	<div id="swell_popular_posts-2" class="c-widget widget_swell_popular_posts"><div class="c-widget__title -side">人気記事</div><ul class="p-postList -type-card -w-ranking">	<li class="p-postList__item">
+		<a href="https://www.sejuku.net/blog/121050" class="p-postList__link" data-wpel-link="internal">
+			<div class="p-postList__thumb c-postThumb">
+				<figure class="c-postThumb__figure">
+					<img width="810" height="460"  src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" class="c-postThumb__img u-obf-cover lazyload" sizes="(min-width: 600px) 320px, 50vw" data-src="https://www.sejuku.net/blog/wp-content/uploads/2022/04/howto-05-35.jpg" data-srcset="https://www.sejuku.net/blog/wp-content/uploads/2022/04/howto-05-35.jpg 810w, https://www.sejuku.net/blog/wp-content/uploads/2022/04/howto-05-35-300x170.jpg 300w, https://www.sejuku.net/blog/wp-content/uploads/2022/04/howto-05-35-640x363.jpg 640w, https://www.sejuku.net/blog/wp-content/uploads/2022/04/howto-05-35-150x85.jpg 150w" data-aspectratio="810/460" ><noscript><img src="https://www.sejuku.net/blog/wp-content/uploads/2022/04/howto-05-35.jpg" class="c-postThumb__img u-obf-cover" alt=""></noscript>				</figure>
+			</div>
+			<div class="p-postList__body">
+				<div class="p-postList__title">プログラミング言語とは？種類別の特徴やできることをわかりやすく解説</div>
+				<div class="p-postList__meta">
+														</div>
+			</div>
+		</a>
+	</li>
+	<li class="p-postList__item">
+		<a href="https://www.sejuku.net/blog/6257" class="p-postList__link" data-wpel-link="internal">
+			<div class="p-postList__thumb c-postThumb">
+				<figure class="c-postThumb__figure">
+					<img width="1620" height="920"  src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" class="c-postThumb__img u-obf-cover lazyload" sizes="(min-width: 600px) 320px, 50vw" data-src="https://www.sejuku.net/blog/wp-content/uploads/2021/01/howto-01-2.png" data-srcset="https://www.sejuku.net/blog/wp-content/uploads/2021/01/howto-01-2.png 1620w, https://www.sejuku.net/blog/wp-content/uploads/2021/01/howto-01-2-300x170.png 300w, https://www.sejuku.net/blog/wp-content/uploads/2021/01/howto-01-2-640x363.png 640w, https://www.sejuku.net/blog/wp-content/uploads/2021/01/howto-01-2-150x85.png 150w, https://www.sejuku.net/blog/wp-content/uploads/2021/01/howto-01-2-1536x872.png 1536w, https://www.sejuku.net/blog/wp-content/uploads/2021/01/howto-01-2-810x460.png 810w, https://www.sejuku.net/blog/wp-content/uploads/2021/01/howto-01-2-1140x647.png 1140w" data-aspectratio="1620/920" ><noscript><img src="https://www.sejuku.net/blog/wp-content/uploads/2021/01/howto-01-2.png" class="c-postThumb__img u-obf-cover" alt=""></noscript>				</figure>
+			</div>
+			<div class="p-postList__body">
+				<div class="p-postList__title">VBAとは？マクロとは？初心者向けに基礎の基礎をわかりやすく解説</div>
+				<div class="p-postList__meta">
+														</div>
+			</div>
+		</a>
+	</li>
+	<li class="p-postList__item">
+		<a href="https://www.sejuku.net/blog/213689" class="p-postList__link" data-wpel-link="internal">
+			<div class="p-postList__thumb c-postThumb">
+				<figure class="c-postThumb__figure">
+					<img width="810" height="460"  src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" class="c-postThumb__img u-obf-cover lazyload" sizes="(min-width: 600px) 320px, 50vw" data-src="https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-05-84.jpg" data-srcset="https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-05-84.jpg 810w, https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-05-84-300x170.jpg 300w, https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-05-84-640x363.jpg 640w, https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-05-84-150x85.jpg 150w" data-aspectratio="810/460" ><noscript><img src="https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-05-84.jpg" class="c-postThumb__img u-obf-cover" alt=""></noscript>				</figure>
+			</div>
+			<div class="p-postList__body">
+				<div class="p-postList__title">ChatGPTとは何かをわかりやすく解説！仕組みやできることも簡単に紹介</div>
+				<div class="p-postList__meta">
+														</div>
+			</div>
+		</a>
+	</li>
+	<li class="p-postList__item">
+		<a href="https://www.sejuku.net/blog/124447" class="p-postList__link" data-wpel-link="internal">
+			<div class="p-postList__thumb c-postThumb">
+				<figure class="c-postThumb__figure">
+					<img width="1620" height="920"  src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" class="c-postThumb__img u-obf-cover lazyload" sizes="(min-width: 600px) 320px, 50vw" data-src="https://www.sejuku.net/blog/wp-content/uploads/2020/09/howto-05.png" data-srcset="https://www.sejuku.net/blog/wp-content/uploads/2020/09/howto-05.png 1620w, https://www.sejuku.net/blog/wp-content/uploads/2020/09/howto-05-300x170.png 300w, https://www.sejuku.net/blog/wp-content/uploads/2020/09/howto-05-640x363.png 640w, https://www.sejuku.net/blog/wp-content/uploads/2020/09/howto-05-150x85.png 150w, https://www.sejuku.net/blog/wp-content/uploads/2020/09/howto-05-1536x872.png 1536w, https://www.sejuku.net/blog/wp-content/uploads/2020/09/howto-05-810x460.png 810w, https://www.sejuku.net/blog/wp-content/uploads/2020/09/howto-05-1140x647.png 1140w" data-aspectratio="1620/920" ><noscript><img src="https://www.sejuku.net/blog/wp-content/uploads/2020/09/howto-05.png" class="c-postThumb__img u-obf-cover" alt=""></noscript>				</figure>
+			</div>
+			<div class="p-postList__body">
+				<div class="p-postList__title">Macのショートカットキー早見表92個｜効かないときの対処法も紹介します</div>
+				<div class="p-postList__meta">
+														</div>
+			</div>
+		</a>
+	</li>
+	<li class="p-postList__item">
+		<a href="https://www.sejuku.net/blog/212730" class="p-postList__link" data-wpel-link="internal">
+			<div class="p-postList__thumb c-postThumb">
+				<figure class="c-postThumb__figure">
+					<img width="810" height="460"  src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" class="c-postThumb__img u-obf-cover lazyload" sizes="(min-width: 600px) 320px, 50vw" data-src="https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-04-53.jpg" data-srcset="https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-04-53.jpg 810w, https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-04-53-300x170.jpg 300w, https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-04-53-640x363.jpg 640w, https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-04-53-150x85.jpg 150w" data-aspectratio="810/460" ><noscript><img src="https://www.sejuku.net/blog/wp-content/uploads/2023/07/howto-04-53.jpg" class="c-postThumb__img u-obf-cover" alt=""></noscript>				</figure>
+			</div>
+			<div class="p-postList__body">
+				<div class="p-postList__title">プログラマーに向いている人の特徴8つ！向かない性格も紹介</div>
+				<div class="p-postList__meta">
+														</div>
+			</div>
+		</a>
+	</li>
+</ul></div><div id="fix_sidebar" class="w-fixSide pc_"><div id="setting_banner_widget-17" class="c-widget widget_setting_banner_widget">                <a href="https://h.accesstrade.net/sp/cc?rk=01009hij00n3ir" onclick="gtag(&#039;event&#039;, &#039;banner_click&#039;, {&#039;banner_id&#039;: &#039;afi_sb_tech_0829&#039;});" data-wpel-link="external" target="_blank" rel="external noopener noreferrer">
+                    <img src="https://www.sejuku.net/blog/wp-content/uploads/2023/08/300x250.jpg" onload="gtag('event', 'banner_imp', {'banner_id': 'afi_sb_tech_0829'});" alt="">
+                </a>
+                        <a href="https://www.sejuku.net/terakoya/lp3/?cid=plus_sb_tech_0327" onclick="gtag(&#039;event&#039;, &#039;banner_click&#039;, {&#039;banner_id&#039;: &#039;plus_sb_tech_0327&#039;});" data-wpel-link="internal">
+                    <img src="https://www.sejuku.net/blog/wp-content/uploads/2023/03/336x280_terakoya-1.png" onload="gtag('event', 'banner_imp', {'banner_id': 'plus_sb_tech_0327'});" alt="">
+                </a>
+        </div></div></aside>
+</div>
+<div id="before_footer_widget" class="w-beforeFooter"><div class="l-container"><div id="block-4" class="c-widget widget_block"><section id="cta-service" class="service">
+  <div class="service__inner">
+    <h2 class="service__title"><span>あなたの目的</span>に合わせた<br>SAMURAI ENGINEERの運営サービス</h2>
+    <div class="service__list">
+      <div class="service__list-column">
+        <img decoding="async" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_pro_thumb.jpg" alt="" class="lazyload" ><noscript><img decoding="async" src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_pro_thumb.jpg" alt=""></noscript>
+        <h3><img decoding="async" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_pro_logo.png" alt="SAMURAI ENGINEER Pro" class="lazyload" ><noscript><img decoding="async" src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_pro_logo.png" alt="SAMURAI ENGINEER Pro"></noscript></h3>
+        <p>未経験でも挫折しない<br class="pc-only">プログラミングスクール</p>
+        <a href="https://www.sejuku.net/courses/?cid=cta_under_lp_sbid-blog" target="_blank" data-wpel-link="internal">詳細はこちら</a>
+      </div>
+      <div class="service__list-column">
+        <img decoding="async" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_plus_thumb.jpg" alt="" class="lazyload" ><noscript><img decoding="async" src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_plus_thumb.jpg" alt=""></noscript>
+        <h3><img decoding="async" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_terakoya_logo.png" alt="SAMURAI TERAKOYA" class="lazyload" ><noscript><img decoding="async" src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_terakoya_logo.png" alt="SAMURAI TERAKOYA"></noscript></h3>
+        <p>日本最大級の<br class="pc-only">サブスク型オンラインITスクール</p>
+        <a href="https://www.sejuku.net/plus/?cid=cta_under_plus_sbid-blog" target="_blank" data-wpel-link="internal">詳細はこちら</a>
+      </div>
+      <div class="service__list-column">
+        <img decoding="async" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_freelance_thumb.jpg" alt="" class="lazyload" ><noscript><img decoding="async" src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_freelance_thumb.jpg" alt=""></noscript>
+        <h3><img decoding="async" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_freelance_logo.png" alt="SAMURAI ENGINEER Freelance" class="lazyload" ><noscript><img decoding="async" src="https://www.sejuku.net/blog/wp-content/themes/voice_child/images/top/service_freelance_logo.png" alt="SAMURAI ENGINEER Freelance"></noscript></h3>
+        <p>「一人で稼げる」スキルを身につける</p>
+        <a href="https://www.sejuku.net/courses/freelance/?cid=cta_under_freelance_sbid-blog" target="_blank" data-wpel-link="internal">詳細はこちら</a>
+      </div>
+    </div>
+  </div>
+</section></div><div id="block-5" class="c-widget widget_block"><div class="swiper footer-banner-slider">
+    <div class="swiper-wrapper">
+        <a class="swiper-slide" href="https://lp.sejuku.net/seminar/?cid=blog_before_footer" data-wpel-link="internal">
+            <img decoding="async" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/uploads/2023/09/23a3f6230cea7afcab667628aa6da1e6.png" alt="" class="lazyload" ><noscript><img decoding="async" src="https://www.sejuku.net/blog/wp-content/uploads/2023/09/23a3f6230cea7afcab667628aa6da1e6.png" alt=""></noscript>
+        </a>
+        <a class="swiper-slide" href="https://www.sejuku.net/courses/sdgs/?cid=blog_before_footer" data-wpel-link="internal">
+            <img decoding="async" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="https://www.sejuku.net/blog/wp-content/uploads/2023/07/sdgs.png" alt="" class="lazyload" ><noscript><img decoding="async" src="https://www.sejuku.net/blog/wp-content/uploads/2023/07/sdgs.png" alt=""></noscript>
+        </a>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+</div></div></div></div><footer id="footer" class="l-footer">
+	<div class="l-footer__inner">
+			<div class="l-footer__foot">
+			<div class="l-container">
+			<ul class="c-iconList">
+						<li class="c-iconList__item -facebook">
+						<a href="https://www.facebook.com/sejuku2013/" target="_blank" rel="noopener external noreferrer" class="c-iconList__link u-fz-14 hov-flash" aria-label="facebook" data-wpel-link="external">
+							<i class="c-iconList__icon icon-facebook" role="presentation"></i>
+						</a>
+					</li>
+									<li class="c-iconList__item -twitter">
+						<a href="https://twitter.com/samuraijuku" target="_blank" rel="noopener external noreferrer" class="c-iconList__link u-fz-14 hov-flash" aria-label="twitter" data-wpel-link="external">
+							<i class="c-iconList__icon icon-twitter" role="presentation"></i>
+						</a>
+					</li>
+									<li class="c-iconList__item -instagram">
+						<a href="https://www.instagram.com/samuraiengineer_official/" target="_blank" rel="noopener external noreferrer" class="c-iconList__link u-fz-14 hov-flash" aria-label="instagram" data-wpel-link="external">
+							<i class="c-iconList__icon icon-instagram" role="presentation"></i>
+						</a>
+					</li>
+									<li class="c-iconList__item -youtube">
+						<a href="https://www.youtube.com/channel/UCCFOQO5aDK0xXam4cUQXT8g" target="_blank" rel="noopener external noreferrer" class="c-iconList__link u-fz-14 hov-flash" aria-label="youtube" data-wpel-link="external">
+							<i class="c-iconList__icon icon-youtube" role="presentation"></i>
+						</a>
+					</li>
+				</ul>
+<ul class="l-footer__nav"><li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213834"><a>BLOG</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-home menu-item-214011"><a href="https://www.sejuku.net/blog/" data-wpel-link="internal">ホーム</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214012"><a href="https://www.sejuku.net/blog/diagnose/?cid=blog_footer" data-wpel-link="internal">学習プラン診断</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214094"><a href="https://www.sejuku.net/blog/author" data-wpel-link="internal">ライター情報</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214104"><a href="https://www.sejuku.net/blog/media-policy" data-wpel-link="internal">当メディアについて</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213839"><a>SAMURAI ENGINEER</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214113"><a href="https://lp.sejuku.net/course/?cid=blog_ft" data-wpel-link="internal">サービス概要</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214114"><a href="https://lp.sejuku.net/career_ss/?cid=blog_ft" data-wpel-link="internal">転職保証コース</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214115"><a href="https://lp.sejuku.net/sidejob_ss?cid=blog_ft" data-wpel-link="internal">副業スタートコース</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214116"><a href="https://lp.sejuku.net/freelance_ss/?cid=blog_ft" data-wpel-link="internal">フリーランスコース</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214117"><a href="https://lp.sejuku.net/aidx_ss/?cid=blog_ft" data-wpel-link="internal">ChatGPT業務改善コース</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214093"><a>無料カウンセリング</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213847"><a>法人の方へ</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214105"><a href="https://www.sejuku.net/biz/?cid=blog_ft" data-wpel-link="internal">法人研修サービス</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214106"><a href="https://career.sejuku.net/?cid=blog_ft" data-wpel-link="internal">IT人材紹介サービス</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type- menu-item-object-custom menu-item-has-children menu-item-213850"><a>COMPANY</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214107"><a href="https://www.sejuku.net/corp/company?cid=blog_ft" data-wpel-link="internal">会社概要</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214108"><a href="https://www.sejuku.net/corp/recruit/?cid=blog_ft" data-wpel-link="internal">採用情報</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214109"><a href="https://www.sejuku.net/corp/privacy-policy/?cid=blog_ft" data-wpel-link="internal">プライバシーポリシー</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214110"><a href="https://www.sejuku.net/corp/information-security/?cid=blog_ft" data-wpel-link="internal">情報セキュリティ方針</a></li>
+	<li class="menu-item menu-item-type- menu-item-object-custom menu-item-214111"><a href="https://www.sejuku.net/corp/contact/?cid=blog_ft" data-wpel-link="internal">お問い合わせ</a></li>
+</ul>
+</li>
+</ul>			<p class="copyright">
+				<span lang="en">&copy;</span>
+				2023 SAMURAI, Inc. All Rights Reserved.			</p>
+					</div>
+	</div>
+</div>
+</footer>
+<div class="p-fixBtnWrap">
+			<button id="fix_tocbtn" class="c-fixBtn c-plainBtn hov-bg-main" data-onclick="toggleIndex" aria-label="目次ボタン" data-has-text="1">
+			<i class="icon-index c-fixBtn__icon" role="presentation"></i>
+							<span class="c-fixBtn__label">目次</span>
+					</button>
+	
+	</div>
+
+<div id="search_modal" class="c-modal p-searchModal">
+	<div class="c-overlay" data-onclick="toggleSearch"></div>
+	<div class="p-searchModal__inner">
+		<form role="search" method="get" class="c-searchForm" action="https://www.sejuku.net/blog/" role="search">
+	<input type="text" value="" name="s" class="c-searchForm__s s" placeholder="検索" aria-label="検索ワード">
+	<button type="submit" class="c-searchForm__submit icon-search hov-opacity u-bg-main" value="search" aria-label="検索を実行する"></button>
+</form>
+		<button class="c-modal__close c-plainBtn" data-onclick="toggleSearch">
+			<i class="icon-batsu"></i> 閉じる		</button>
+	</div>
+</div>
+<div id="index_modal" class="c-modal p-indexModal">
+	<div class="c-overlay" data-onclick="toggleIndex"></div>
+	<div class="p-indexModal__inner">
+		<div class="p-toc post_content -modal"><span class="p-toc__ttl">目次</span></div>
+		<button class="c-modal__close c-plainBtn" data-onclick="toggleIndex">
+			<i class="icon-batsu"></i> 閉じる		</button>
+	</div>
+</div>
+</div><!--/ #all_wrapp-->
+<div class="l-scrollObserver" aria-hidden="true"></div>    <div id=break_banner>
+        <div class=content>
+            <a href="https://www.sejuku.net/terakoya/lp3/?cid=plus_popup_tech_0427" target="_blank" onclick="gtag(&#039;event&#039;, &#039;banner_click&#039;, {&#039;banner_id&#039;: &#039;plus_popup_tech_0427&#039;});" data-wpel-link="internal">
+                <img src="https://www.sejuku.net/blog/wp-content/uploads/2023/04/1080x1080-1.png" alt="" onload="gtag('event', 'banner_imp', {'banner_id': 'plus_popup_tech_0427>'});">
+            </a>
+            <div class=close>
+                <svg role="img" xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24" aria-labelledby="addIconTitle" stroke="#ffffff" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" fill="none" color="#ffffff">
+                    <title id="addIconTitle">Close</title>
+                    <path d="M17 12L7 12M12 17L12 7" />
+                    <circle cx="12" cy="12" r="10" />
+                </svg>
+            </div>
+        </div>
+    </div>
+  <script>
+    if(smr.type !=='Tech'){
+      (function() {
+				document.querySelector(".side_terakoya_free").remove();
+      })();
+    }
+  </script>
+<link rel='stylesheet' id='sidebar_banner_style-css' href='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/css/sidebar-banner.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='break-banner-style-css' href='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner//css/break_banner.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='setting_footer-banner-display_css-css' href='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/css/footer-banner.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='setting_single_fv_display_css-css' href='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/css/single_fv.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='eyecatch_html_display_css-css' href='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/css/eyecatch_html.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='modal_table_of_contents_html_display_css-css' href='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/css/modal_table_of_contents_html.css?ver=2023091822' type='text/css' media='all' />
+<link rel='stylesheet' id='header_hide-css' href='https://www.sejuku.net/blog/wp-content/themes/swell_child/header_hide.css?ver=2023091822' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-includes/js/jquery/jquery.min.js?ver=2023091822' id='jquery-core-js'></script>
+<script type='text/javascript' id='headline-top-html-rendering-js-extra'>
+/* <![CDATA[ */
+var headlineTopHtmlScriptVars = {"headlineTopHtmlTemplate":"\n<script>\n\tconst insertDivBeforeH2 = () => {\n\t\tconst entryContent = document.querySelector('.post_content');\n\t\tconst h2Elements = entryContent.querySelectorAll('h2');\n\t\t\t\tif (h2Elements.length >= 2) {\n\t\t\tconst secondH2 = h2Elements[1];\n\t\t\tconst secondDiv = document.createElement('div');\n\t\t\tconst secondImp = ``;\n\t\t\tconst secondClick = ``;\n\t\t\tconst secondHTML = `<div class=\"p-blogParts post_content\" data-partsID=\"219093\">\n<hr class=\"wp-block-separator has-alpha-channel-opacity is-style-wide\"\/>\n\n\n\n<p class=\"has-text-align-center\"><strong><span class=\"swl-fz u-fz-l\">\u30d7\u30ed\u30b0\u30e9\u30df\u30f3\u30b0\u5b66\u7fd2\u4e2d\u3001<br>\u8ab0\u304b\u3078\u76f8\u8ac7\u3057\u305f\u3044\u3053\u3068\u306f\u3042\u308a\u307e\u305b\u3093\u304b\uff1f<\/span><\/strong><\/p>\n\n\n\n<p>\u30d7\u30ed\u30b0\u30e9\u30df\u30f3\u30b0\u306f\u30a8\u30e9\u30fc\u306e\u9023\u7d9a\u3002\u4f5c\u696d\u3092\u9032\u3081\u308b\u306a\u304b\u3067\u8ab0\u304b\u306b\u6559\u3048\u3066\u307b\u3057\u3044\u5834\u9762\u306f\u591a\u3044\u3067\u3059\u3088\u306d\u3002<\/p>\n\n\n\n<p>\u305d\u3093\u306a\u60a9\u307f\u3092\u89e3\u6c7a\u3067\u304d\u308b\u306e\u304c\u3001\u4f8d\u30c6\u30e9\u30b3\u30e4\u3067\u3059\u3002\u767b\u9332\u7121\u6599\u3067\u59cb\u3081\u3089\u308c\u3066\u300150\u7a2e\u985e\u4ee5\u4e0a\u306eWEB\u30b9\u30ad\u30eb\u304c\u8eab\u306b\u3064\u304f\u30aa\u30ea\u30b8\u30ca\u30eb\u6559\u6750\u304c\u3042\u308a\u3001\u56de\u7b54\u7387100%\u306eQA\u63b2\u793a\u7248\u3067\u5b66\u7fd2\u306b\u95a2\u3059\u308b\u60a9\u307f\u3092\u89e3\u6c7a\u3057\u307e\u3059\uff01<\/p>\n\n\n\n<p>\u6c17\u306b\u306a\u308b\u65b9\u306f\u305c\u3072\u8a73\u7d30\u3092\u3054\u89a7\u304f\u3060\u3055\u3044\u3002<\/p>\n\n\n\n<div class=\"swell-block-button is-style-btn_normal\"><a href=\"https:\/\/www.sejuku.net\/terakoya\/lp3\/?cid=plus_cta_article_tech_\" class=\"swell-block-button__link\"><span>\u4f8d\u30c6\u30e9\u30b3\u30e4\u306e\u8a73\u7d30\u3092\u307f\u308b<\/span><\/a><\/div>\n<\/div>`;\n\t\t\tconst secondLinkURL = ``;\n\t\t\tconst secondLinkText = ``;\n\t\t\tconst secondInnerHTML = '<div class=\"html-on-h2-heading-02\" onload=\"' + secondImp + '\"><div>' + secondHTML + '<\/div><a href=\"' + secondLinkURL + '\" onclick=\"' + secondClick + '\">' + secondLinkText + '<\/a><\/div>' ;\n\t\t\tsecondDiv.innerHTML = secondInnerHTML;\n\t\t\tentryContent.insertBefore(secondDiv, secondH2);\n\t\t}\n\t\t\t\t\t\tif (h2Elements.length >= 4) {\n\t\t\tconst fourthH2 = h2Elements[3];\n\t\t\tconst fourthDiv = document.createElement('div');\n\t\t\tconst fourthImp = ``;\n\t\t\tconst fourthClick = ``;\n\t\t\tconst fourthHTML = `<div class=\"p-blogParts post_content\" data-partsID=\"219093\">\n<hr class=\"wp-block-separator has-alpha-channel-opacity is-style-wide\"\/>\n\n\n\n<p class=\"has-text-align-center\"><strong><span class=\"swl-fz u-fz-l\">\u30d7\u30ed\u30b0\u30e9\u30df\u30f3\u30b0\u5b66\u7fd2\u4e2d\u3001<br>\u8ab0\u304b\u3078\u76f8\u8ac7\u3057\u305f\u3044\u3053\u3068\u306f\u3042\u308a\u307e\u305b\u3093\u304b\uff1f<\/span><\/strong><\/p>\n\n\n\n<p>\u30d7\u30ed\u30b0\u30e9\u30df\u30f3\u30b0\u306f\u30a8\u30e9\u30fc\u306e\u9023\u7d9a\u3002\u4f5c\u696d\u3092\u9032\u3081\u308b\u306a\u304b\u3067\u8ab0\u304b\u306b\u6559\u3048\u3066\u307b\u3057\u3044\u5834\u9762\u306f\u591a\u3044\u3067\u3059\u3088\u306d\u3002<\/p>\n\n\n\n<p>\u305d\u3093\u306a\u60a9\u307f\u3092\u89e3\u6c7a\u3067\u304d\u308b\u306e\u304c\u3001\u4f8d\u30c6\u30e9\u30b3\u30e4\u3067\u3059\u3002\u767b\u9332\u7121\u6599\u3067\u59cb\u3081\u3089\u308c\u3066\u300150\u7a2e\u985e\u4ee5\u4e0a\u306eWEB\u30b9\u30ad\u30eb\u304c\u8eab\u306b\u3064\u304f\u30aa\u30ea\u30b8\u30ca\u30eb\u6559\u6750\u304c\u3042\u308a\u3001\u56de\u7b54\u7387100%\u306eQA\u63b2\u793a\u7248\u3067\u5b66\u7fd2\u306b\u95a2\u3059\u308b\u60a9\u307f\u3092\u89e3\u6c7a\u3057\u307e\u3059\uff01<\/p>\n\n\n\n<p>\u6c17\u306b\u306a\u308b\u65b9\u306f\u305c\u3072\u8a73\u7d30\u3092\u3054\u89a7\u304f\u3060\u3055\u3044\u3002<\/p>\n\n\n\n<div class=\"swell-block-button is-style-btn_normal\"><a href=\"https:\/\/www.sejuku.net\/terakoya\/lp3\/?cid=plus_cta_article_tech_\" class=\"swell-block-button__link\"><span>\u4f8d\u30c6\u30e9\u30b3\u30e4\u306e\u8a73\u7d30\u3092\u307f\u308b<\/span><\/a><\/div>\n<\/div>`;\n\t\t\tconst fourthLinkURL = ``;\n\t\t\tconst fourthLinkText = ``;\n\t\t\tconst fourthInnerHTML = '<div class=\"html-on-h2-heading-04\" onload=\"' + fourthImp + '\"><div>' + fourthHTML + '<\/div><a href=\"' + fourthLinkURL + '\" onclick=\"' + fourthClick + '\">' + fourthLinkText + '<\/a><\/div>' ;\n\t\t\tfourthDiv.innerHTML = fourthInnerHTML;\n\t\t\tentryContent.insertBefore(fourthDiv, fourthH2);\n\t\t}\n\t\t\t}\n\n\t\n\tinsertDivBeforeH2();\n\n\t<\/script>"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/js/headline-top-html-rendering.js?ver=2023091822' id='headline-top-html-rendering-js'></script>
+<script type='text/javascript' id='swell_script-js-extra'>
+/* <![CDATA[ */
+var swellVars = {"siteUrl":"https:\/\/www.sejuku.net\/blog\/","restUrl":"https:\/\/www.sejuku.net\/blog\/wp-json\/wp\/v2\/","ajaxUrl":"https:\/\/www.sejuku.net\/blog\/wp-admin\/admin-ajax.php","ajaxNonce":"a5b4f2cc55","isLoggedIn":"","useAjaxAfterPost":"1","useAjaxFooter":"","usePvCount":"","isFixHeadSP":"1","tocListTag":"ol","tocTarget":"h3","tocPrevText":"\u524d\u306e\u30da\u30fc\u30b8\u3078","tocNextText":"\u6b21\u306e\u30da\u30fc\u30b8\u3078","tocCloseText":"\u6298\u308a\u305f\u305f\u3080","tocOpenText":"\u3082\u3063\u3068\u898b\u308b","tocOmitType":"ct","tocOmitNum":"10","tocMinnum":"2","tocAdPosition":"before","offSmoothScroll":"","mvSlideEffect":"slide","mvSlideSpeed":"1500","mvSlideDelay":"5000","mvSlideNum":"1","mvSlideNumSp":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/themes/swell/build/js/main.min.js?ver=2023091822' id='swell_script-js'></script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/themes/swell/assets/js/plugins/swiper.min.js?ver=2023091822' id='swell_swiper-js'></script>
+<script type='text/javascript' src='https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?ver=2023091822' id='prettify_script-cdn-js'></script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/themes/swell_child/script/single-prettyprint.js?ver=2023091822' id='prettify_script-js'></script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/themes/swell_child/script/footer.js?ver=2023091822' id='footer_script-js'></script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/js/break_banner.js?ver=2023091822' id='break-banner-script-js'></script>
+<script type='text/javascript' id='samurai-footer-banner-rendering-js-extra'>
+/* <![CDATA[ */
+var footerBannerScriptVars = {"footerBannerTemplate":"  <div id=\"footer-banner\" class=\"footer-banner creative-banner\">\n    <a class=\"left\" href=\"https:\/\/terakoya.sejuku.net\/adlp?cid=plus_overlay_tech_0717\" target=\"_blank\" onclick=\"gtag('event', 'banner_click', {'banner_id': 'plus_overlay_tech_0717'});\"\n>\n      <img src=\"https:\/\/www.sejuku.net\/blog\/wp-content\/uploads\/2023\/03\/plus_cta_pc-1.png\" onload=\"gtag('event', 'banner_imp', {'banner_id': 'plus_overlay_tech_0717'});\">\n    <\/a>\n    <div id=\"footer-banner_close\">\n      <svg aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"times\" class=\"svg-inline--fa fa-times fa-w-11\" role=\"img\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\" viewBox=\"0 0 352 512\">\n        <path fill=\"currentColor\" d=\"M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z\"><\/path>\n      <\/svg>\n    <\/div>\n  <\/div>\n\n"};
+var footerBannerScriptVars = {"footerBannerTemplate":"  <div id=\"footer-banner\" class=\"footer-banner creative-banner\">\n    <a class=\"left\" href=\"https:\/\/terakoya.sejuku.net\/adlp?cid=plus_overlay_tech_0717\" target=\"_blank\" onclick=\"gtag('event', 'banner_click', {'banner_id': 'plus_overlay_tech_0717'});\"\n>\n      <img src=\"https:\/\/www.sejuku.net\/blog\/wp-content\/uploads\/2023\/03\/plus_cta_pc-1.png\" onload=\"gtag('event', 'banner_imp', {'banner_id': 'plus_overlay_tech_0717'});\">\n    <\/a>\n    <div id=\"footer-banner_close\">\n      <svg aria-hidden=\"true\" focusable=\"false\" data-prefix=\"fas\" data-icon=\"times\" class=\"svg-inline--fa fa-times fa-w-11\" role=\"img\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\" viewBox=\"0 0 352 512\">\n        <path fill=\"currentColor\" d=\"M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z\"><\/path>\n      <\/svg>\n    <\/div>\n  <\/div>\n\n"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/js/footer-banner-rendering.js?ver=2023091822' id='samurai-footer-banner-rendering-js'></script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/js/footer-banner-active-close.js?ver=2023091822' id='samurai-footer-banner-active-close-js'></script>
+<script type='text/javascript' id='single-fv-rendering-js-extra'>
+/* <![CDATA[ */
+var singleFvScriptVars = {"singleFvTemplate":"\n<style>\n  #fv-banner_random img {\n    width: 100%;\n  }\n<\/style>\n\n<section id=fv-banner_random>\n      <a href=\"https:\/\/www.sejuku.net\/terakoya\/lp3\/?cid=plus_fv_tech_0327\" onclick=\"gtag('event', 'banner_click', {'banner_id': 'plus_fv_tech_0327''});\">\n      <img src=\"https:\/\/www.sejuku.net\/blog\/wp-content\/uploads\/2023\/03\/2880x630_terakoya-1.png\" alt=\"\" onload=\"gtag('event', 'banner_imp', {'banner_id': 'plus_fv_tech_0327'});\">\n    <\/a>\n  <\/section>"};
+var singleFvScriptVars = {"singleFvTemplate":"\n<style>\n  #fv-banner_random img {\n    width: 100%;\n  }\n<\/style>\n\n<section id=fv-banner_random>\n      <a href=\"https:\/\/www.sejuku.net\/terakoya\/lp3\/?cid=plus_fv_tech_0327\" onclick=\"gtag('event', 'banner_click', {'banner_id': 'plus_fv_tech_0327''});\">\n      <img src=\"https:\/\/www.sejuku.net\/blog\/wp-content\/uploads\/2023\/03\/2880x630_terakoya-1.png\" alt=\"\" onload=\"gtag('event', 'banner_imp', {'banner_id': 'plus_fv_tech_0327'});\">\n    <\/a>\n  <\/section>"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/js/single-fv-rendering.js?ver=2023091822' id='single-fv-rendering-js'></script>
+<script type='text/javascript' id='eyecatch-html-rendering-js-extra'>
+/* <![CDATA[ */
+var eyecatchHtmlScriptVars = {"eyecatchHtmlTemplate":"\n<div class=\"above-the-eye-catch_wrap\" onload=\"gtag('event', 'banner_imp', {'banner_id': 'plus_cta_header_tech'});\">\n    <div class=\"above-the-eye-catch_texts\">50\u7a2e\u985e\u4ee5\u4e0a\u306eIT\u6559\u6750\u3092\u7121\u6599\u3067\u4f7f\u3048\u308b\uff01<br>\r\n0\u5186\u304b\u3089\u5b66\u7fd2\u3067\u304d\u308b\u30aa\u30f3\u30e9\u30a4\u30f3IT\u30b9\u30af\u30fc\u30eb\u300c\u4f8d\u30c6\u30e9\u30b3\u30e4\u300d<\/div>\n    <a class=\"above-the-eye-catch_link\" href=\"https:\/\/terakoya.sejuku.net\/adlp?cid=plus_cta_header_tech\" target=\"_blank\" onclick=\"gtag('event', 'banner_click', {'banner_id': 'plus_cta_header_tech'});\">\n        \u2192\u3055\u3063\u305d\u304f\u767b\u9332\u3059\u308b    <\/a>\n<\/div>\n"};
+var eyecatchHtmlScriptVars = {"eyecatchHtmlTemplate":"\n<div class=\"above-the-eye-catch_wrap\" onload=\"gtag('event', 'banner_imp', {'banner_id': 'plus_cta_header_tech'});\">\n    <div class=\"above-the-eye-catch_texts\">50\u7a2e\u985e\u4ee5\u4e0a\u306eIT\u6559\u6750\u3092\u7121\u6599\u3067\u4f7f\u3048\u308b\uff01<br>\r\n0\u5186\u304b\u3089\u5b66\u7fd2\u3067\u304d\u308b\u30aa\u30f3\u30e9\u30a4\u30f3IT\u30b9\u30af\u30fc\u30eb\u300c\u4f8d\u30c6\u30e9\u30b3\u30e4\u300d<\/div>\n    <a class=\"above-the-eye-catch_link\" href=\"https:\/\/terakoya.sejuku.net\/adlp?cid=plus_cta_header_tech\" target=\"_blank\" onclick=\"gtag('event', 'banner_click', {'banner_id': 'plus_cta_header_tech'});\">\n        \u2192\u3055\u3063\u305d\u304f\u767b\u9332\u3059\u308b    <\/a>\n<\/div>\n"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/js/eyecatch-html-rendering.js?ver=2023091822' id='eyecatch-html-rendering-js'></script>
+<script type='text/javascript' id='content-top-html-rendering-js-extra'>
+/* <![CDATA[ */
+var contentTopHtmlScriptVars = {"contentTopHtmlTemplate":"\"<div class=\\\"p-blogParts post_content\\\" data-partsID=\\\"214119\\\">\\n<hr class=\\\"wp-block-separator has-alpha-channel-opacity is-style-wide\\\"\\\/>\\n\\n\\n\\n<p class=\\\"has-text-align-center u-mb-ctrl u-mb-10\\\"><strong><span class=\\\"swl-fz u-fz-l\\\">\\u3054\\u5b58\\u77e5\\u3067\\u3059\\u304b\\uff1f<\\\/span><br>\\u3044\\u307eIT\\u30a8\\u30f3\\u30b8\\u30cb\\u30a2\\u306e\\u9700\\u8981\\u306f\\u62e1\\u5927\\u3057\\u3066\\u3044\\u3066\\u3001\\u6c42\\u4eba\\u500d\\u7387\\u306f8\\u500d\\u3092\\u8d85\\u3048\\u307e\\u3059\\u3002<br>\\u30a8\\u30f3\\u30b8\\u30cb\\u30a2\\u3068\\u3057\\u3066\\u306e\\u7d4c\\u9a13\\u304c\\u3042\\u308c\\u3070\\u597d\\u6761\\u4ef6\\u3067\\u8ee2\\u8077\\u3059\\u308b\\u3053\\u3068\\u3082\\u96e3\\u3057\\u304f\\u3042\\u308a\\u307e\\u305b\\u3093\\u3002<\\\/strong><\\\/p>\\n\\n\\n\\n<p>\\u8ee2\\u8077\\u3092\\u691c\\u8a0e\\u3055\\u308c\\u3066\\u3044\\u306a\\u304f\\u3066\\u3082\\u3001\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8\\u306b\\u767b\\u9332\\u3057\\u3066\\u3044\\u308b\\u3060\\u3051\\u3067\\u3001\\u601d\\u308f\\u306c\\u4f01\\u696d\\u304b\\u3089\\u306e\\u7d39\\u4ecb\\u3092\\u53d7\\u3051\\u3089\\u308c\\u308b\\u53ef\\u80fd\\u6027\\u304c\\u3042\\u308a\\u307e\\u3059\\u3002\\u305d\\u3053\\u3067\\u30a8\\u30f3\\u30b8\\u30cb\\u30a2\\u306a\\u3089\\u767b\\u9332\\u3057\\u3066\\u304a\\u304f\\u3079\\u304d\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8\\u30923\\u3064\\u3054\\u7d39\\u4ecb\\u3057\\u307e\\u3059\\u3002<\\\/p>\\n\\n\\n<div class=\\\"c-scrollHint sp_\\\"><span>\\u30b9\\u30af\\u30ed\\u30fc\\u30eb\\u3067\\u304d\\u307e\\u3059 <i class=\\\"icon-more_arrow\\\"><\\\/i><\\\/span><\\\/div>\\n<figure data-table-scrollable=\\\"sp\\\" class=\\\"wp-block-table is-thead-centered is-all-centered--va min_width20_\\\"><table style=\\\"--table-width:1200px;\\\"><thead style=\\\"--thead-color--bg:#294774;--thead-color--txt:var(--swl-text_color--white)\\\"><tr><th class=\\\"has-text-align-center\\\" data-align=\\\"center\\\">\\u30b9\\u30af\\u30fc\\u30eb\\u540d<\\\/th><th>\\u7279\\u5fb4<\\\/th><th class=\\\"has-text-align-center\\\" data-align=\\\"center\\\">\\u8a55\\u4fa1<\\\/th><th class=\\\"has-text-align-center\\\" data-align=\\\"center\\\">\\u30ea\\u30f3\\u30af<\\\/th><\\\/tr><\\\/thead><tbody><tr><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><img class=\\\"wp-image-214123\\\" style=\\\"width: 150px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/image_2022_8_15.png.webp\\\" alt=\\\"\\\"><\\\/td><td><span class=\\\"swl-fz u-fz-s\\\"><strong>IT\\u7279\\u5316\\u578b\\u306e\\u5927\\u624b\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8<\\\/strong><br><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u696d\\u754c\\u5927\\u624b\\u306e\\u30de\\u30a4\\u30ca\\u30d3\\u30b0\\u30eb\\u30fc\\u30d7\\u304c\\u904b\\u55b6<\\\/span><br><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u5927\\u624b\\u306a\\u3089\\u3067\\u306f\\u306e\\u6c42\\u4eba\\u6570\\u30fb\\u975e\\u516c\\u958b\\u6c42\\u4eba\\u6570<\\\/span><br><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u6210\\u9577\\u4e2d\\u306e\\u30d9\\u30f3\\u30c1\\u30e3\\u30fc\\u4f01\\u696d\\u304b\\u3089\\u5927\\u624b\\u4f01\\u696d\\u307e\\u3067<\\\/span><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\" data-has-cell-bg=\\\"1\\\" data-has-cell-icon=\\\"m-obj\\\"><span data-icon=\\\"doubleCircle\\\" data-icon-size=\\\"m\\\" data-icon-type=\\\"obj\\\" aria-hidden=\\\"true\\\" class=\\\"swl-cell-bg\\\">\u00a0<\\\/span><br><span class=\\\"c-reviewStars\\\"><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><span class=\\\"swl-inline-btn is-style-btn_normal red_\\\"><a href=\\\"https:\\\/\\\/h.accesstrade.net\\\/sp\\\/cc?rk=01009hij00n3ir\\\">\\u8a73\\u7d30\\u306f\\u3053\\u3061\\u3089<\\\/a><\\\/span><\\\/td><\\\/tr><tr><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><img class=\\\"wp-image-213946\\\" style=\\\"width: 0px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/kikagaku-logo.svg\\\" alt=\\\"\\\"><img class=\\\"wp-image-213947\\\" style=\\\"width: 0px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/main-logo-c45c41f37b6a4f4caae7bc1c2c10fb95.svg\\\" alt=\\\"\\\"><img class=\\\"wp-image-214675\\\" style=\\\"width: 150px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/top_willof_logo.png\\\" alt=\\\"\\\"><\\\/td><td><strong><span class=\\\"swl-fz u-fz-s\\\">IT\\u7cfb\\u306e\\u30ad\\u30e3\\u30ea\\u30a2\\u30a2\\u30c3\\u30d7\\u306b\\u5f37\\u3044\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8<\\\/span><\\\/strong><br><span class=\\\"swl-fz u-fz-s\\\"><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">2\\u540d\\u4f53\\u5236\\u3067\\u306e\\u5fb9\\u5e95\\u30b5\\u30dd\\u30fc\\u30c8\\u3092\\u53d7\\u3051\\u3089\\u308c\\u308b<\\\/span><\\\/span><br><span class=\\\"swl-fz u-fz-s\\\"><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u30ad\\u30e3\\u30ea\\u30a2\\u30a2\\u30c3\\u30d7\\u306b\\u3064\\u306a\\u304c\\u308b\\u6c42\\u4eba\\u304c\\u8c4a\\u5bcc<\\\/span><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\" data-has-cell-bg=\\\"1\\\" data-has-cell-icon=\\\"m-obj\\\"><span data-icon=\\\"circle\\\" data-icon-size=\\\"m\\\" data-icon-type=\\\"obj\\\" aria-hidden=\\\"true\\\" class=\\\"swl-cell-bg\\\">\u00a0<\\\/span><br><span class=\\\"c-reviewStars\\\"><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-half\\\"><\\\/i><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><span class=\\\"swl-inline-btn is-style-btn_normal red_\\\"><a href=\\\"https:\\\/\\\/h.accesstrade.net\\\/sp\\\/cc?rk=0100ph5f00n3ir\\\">\\u8a73\\u7d30\\u306f\\u3053\\u3061\\u3089<\\\/a><\\\/span><\\\/td><\\\/tr><tr><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><img class=\\\"wp-image-213946\\\" style=\\\"width: 0px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/kikagaku-logo.svg\\\" alt=\\\"\\\"><img class=\\\"wp-image-213946\\\" style=\\\"width: 0px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/kikagaku-logo.svg\\\" alt=\\\"\\\"><img class=\\\"wp-image-214121\\\" style=\\\"width: 150px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/20220610-172927501.webp\\\" alt=\\\"\\\"><\\\/td><td><span class=\\\"swl-fz u-fz-s\\\"><strong>\\u30b7\\u30b9\\u30c6\\u30e0\\u53d7\\u6ce8\\u4f1a\\u793e\\u304c\\u904b\\u55b6\\u3059\\u308b\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8<\\\/strong><br><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u30a8\\u30f3\\u30b8\\u30cb\\u30a2\\u6c42\\u4eba\\u306e\\u307f\\u3092\\u5c02\\u9580\\u7684\\u306b\\u6271\\u304415\\u5e74\\u4ee5\\u4e0a<\\\/span><br><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u6280\\u8853\\u7684\\u306a\\u77e5\\u8b58\\u306e\\u3042\\u308b\\u30ad\\u30e3\\u30ea\\u30a2\\u30a2\\u30c9\\u30d0\\u30a4\\u30b6\\u30fc<\\\/span><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\" data-has-cell-bg=\\\"1\\\" data-has-cell-icon=\\\"m-obj\\\"><span data-icon=\\\"circle\\\" data-icon-size=\\\"m\\\" data-icon-type=\\\"obj\\\" aria-hidden=\\\"true\\\" class=\\\"swl-cell-bg\\\">\u00a0<\\\/span><br><span class=\\\"c-reviewStars\\\"><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-empty\\\"><\\\/i><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><span class=\\\"swl-inline-btn is-style-btn_normal red_\\\"><a href=\\\"https:\\\/\\\/h.accesstrade.net\\\/sp\\\/cc?rk=0100fdsn00n3ir\\\">\\u8a73\\u7d30\\u306f\\u3053\\u3061\\u3089<\\\/a><\\\/span><\\\/td><\\\/tr><\\\/tbody><\\\/table><figcaption class=\\\"wp-element-caption\\\">\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8\\u3078\\u306e\\u767b\\u9332\\u30fb\\u5229\\u7528\\u306f\\u57fa\\u672c\\u7121\\u6599\\u3067\\u3059\\u3002\\u8907\\u6570\\u767b\\u9332\\u3057\\u3066\\u304a\\u304f\\u3068\\u3001\\u826f\\u3044\\u6c42\\u4eba\\u3092\\u898b\\u9003\\u3055\\u306a\\u3044\\u306e\\u3067\\u30aa\\u30b9\\u30b9\\u30e1\\uff01<\\\/figcaption><\\\/figure>\\n<\\\/div>\""};
+var contentTopHtmlScriptVars = {"contentTopHtmlTemplate":"\"<div class=\\\"p-blogParts post_content\\\" data-partsID=\\\"214119\\\">\\n<hr class=\\\"wp-block-separator has-alpha-channel-opacity is-style-wide\\\"\\\/>\\n\\n\\n\\n<p class=\\\"has-text-align-center u-mb-ctrl u-mb-10\\\"><strong><span class=\\\"swl-fz u-fz-l\\\">\\u3054\\u5b58\\u77e5\\u3067\\u3059\\u304b\\uff1f<\\\/span><br>\\u3044\\u307eIT\\u30a8\\u30f3\\u30b8\\u30cb\\u30a2\\u306e\\u9700\\u8981\\u306f\\u62e1\\u5927\\u3057\\u3066\\u3044\\u3066\\u3001\\u6c42\\u4eba\\u500d\\u7387\\u306f8\\u500d\\u3092\\u8d85\\u3048\\u307e\\u3059\\u3002<br>\\u30a8\\u30f3\\u30b8\\u30cb\\u30a2\\u3068\\u3057\\u3066\\u306e\\u7d4c\\u9a13\\u304c\\u3042\\u308c\\u3070\\u597d\\u6761\\u4ef6\\u3067\\u8ee2\\u8077\\u3059\\u308b\\u3053\\u3068\\u3082\\u96e3\\u3057\\u304f\\u3042\\u308a\\u307e\\u305b\\u3093\\u3002<\\\/strong><\\\/p>\\n\\n\\n\\n<p>\\u8ee2\\u8077\\u3092\\u691c\\u8a0e\\u3055\\u308c\\u3066\\u3044\\u306a\\u304f\\u3066\\u3082\\u3001\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8\\u306b\\u767b\\u9332\\u3057\\u3066\\u3044\\u308b\\u3060\\u3051\\u3067\\u3001\\u601d\\u308f\\u306c\\u4f01\\u696d\\u304b\\u3089\\u306e\\u7d39\\u4ecb\\u3092\\u53d7\\u3051\\u3089\\u308c\\u308b\\u53ef\\u80fd\\u6027\\u304c\\u3042\\u308a\\u307e\\u3059\\u3002\\u305d\\u3053\\u3067\\u30a8\\u30f3\\u30b8\\u30cb\\u30a2\\u306a\\u3089\\u767b\\u9332\\u3057\\u3066\\u304a\\u304f\\u3079\\u304d\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8\\u30923\\u3064\\u3054\\u7d39\\u4ecb\\u3057\\u307e\\u3059\\u3002<\\\/p>\\n\\n\\n<div class=\\\"c-scrollHint sp_\\\"><span>\\u30b9\\u30af\\u30ed\\u30fc\\u30eb\\u3067\\u304d\\u307e\\u3059 <i class=\\\"icon-more_arrow\\\"><\\\/i><\\\/span><\\\/div>\\n<figure data-table-scrollable=\\\"sp\\\" class=\\\"wp-block-table is-thead-centered is-all-centered--va min_width20_\\\"><table style=\\\"--table-width:1200px;\\\"><thead style=\\\"--thead-color--bg:#294774;--thead-color--txt:var(--swl-text_color--white)\\\"><tr><th class=\\\"has-text-align-center\\\" data-align=\\\"center\\\">\\u30b9\\u30af\\u30fc\\u30eb\\u540d<\\\/th><th>\\u7279\\u5fb4<\\\/th><th class=\\\"has-text-align-center\\\" data-align=\\\"center\\\">\\u8a55\\u4fa1<\\\/th><th class=\\\"has-text-align-center\\\" data-align=\\\"center\\\">\\u30ea\\u30f3\\u30af<\\\/th><\\\/tr><\\\/thead><tbody><tr><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><img class=\\\"wp-image-214123\\\" style=\\\"width: 150px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/image_2022_8_15.png.webp\\\" alt=\\\"\\\"><\\\/td><td><span class=\\\"swl-fz u-fz-s\\\"><strong>IT\\u7279\\u5316\\u578b\\u306e\\u5927\\u624b\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8<\\\/strong><br><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u696d\\u754c\\u5927\\u624b\\u306e\\u30de\\u30a4\\u30ca\\u30d3\\u30b0\\u30eb\\u30fc\\u30d7\\u304c\\u904b\\u55b6<\\\/span><br><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u5927\\u624b\\u306a\\u3089\\u3067\\u306f\\u306e\\u6c42\\u4eba\\u6570\\u30fb\\u975e\\u516c\\u958b\\u6c42\\u4eba\\u6570<\\\/span><br><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u6210\\u9577\\u4e2d\\u306e\\u30d9\\u30f3\\u30c1\\u30e3\\u30fc\\u4f01\\u696d\\u304b\\u3089\\u5927\\u624b\\u4f01\\u696d\\u307e\\u3067<\\\/span><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\" data-has-cell-bg=\\\"1\\\" data-has-cell-icon=\\\"m-obj\\\"><span data-icon=\\\"doubleCircle\\\" data-icon-size=\\\"m\\\" data-icon-type=\\\"obj\\\" aria-hidden=\\\"true\\\" class=\\\"swl-cell-bg\\\">\u00a0<\\\/span><br><span class=\\\"c-reviewStars\\\"><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><span class=\\\"swl-inline-btn is-style-btn_normal red_\\\"><a href=\\\"https:\\\/\\\/h.accesstrade.net\\\/sp\\\/cc?rk=01009hij00n3ir\\\">\\u8a73\\u7d30\\u306f\\u3053\\u3061\\u3089<\\\/a><\\\/span><\\\/td><\\\/tr><tr><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><img class=\\\"wp-image-213946\\\" style=\\\"width: 0px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/kikagaku-logo.svg\\\" alt=\\\"\\\"><img class=\\\"wp-image-213947\\\" style=\\\"width: 0px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/main-logo-c45c41f37b6a4f4caae7bc1c2c10fb95.svg\\\" alt=\\\"\\\"><img class=\\\"wp-image-214675\\\" style=\\\"width: 150px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/top_willof_logo.png\\\" alt=\\\"\\\"><\\\/td><td><strong><span class=\\\"swl-fz u-fz-s\\\">IT\\u7cfb\\u306e\\u30ad\\u30e3\\u30ea\\u30a2\\u30a2\\u30c3\\u30d7\\u306b\\u5f37\\u3044\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8<\\\/span><\\\/strong><br><span class=\\\"swl-fz u-fz-s\\\"><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">2\\u540d\\u4f53\\u5236\\u3067\\u306e\\u5fb9\\u5e95\\u30b5\\u30dd\\u30fc\\u30c8\\u3092\\u53d7\\u3051\\u3089\\u308c\\u308b<\\\/span><\\\/span><br><span class=\\\"swl-fz u-fz-s\\\"><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u30ad\\u30e3\\u30ea\\u30a2\\u30a2\\u30c3\\u30d7\\u306b\\u3064\\u306a\\u304c\\u308b\\u6c42\\u4eba\\u304c\\u8c4a\\u5bcc<\\\/span><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\" data-has-cell-bg=\\\"1\\\" data-has-cell-icon=\\\"m-obj\\\"><span data-icon=\\\"circle\\\" data-icon-size=\\\"m\\\" data-icon-type=\\\"obj\\\" aria-hidden=\\\"true\\\" class=\\\"swl-cell-bg\\\">\u00a0<\\\/span><br><span class=\\\"c-reviewStars\\\"><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-half\\\"><\\\/i><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><span class=\\\"swl-inline-btn is-style-btn_normal red_\\\"><a href=\\\"https:\\\/\\\/h.accesstrade.net\\\/sp\\\/cc?rk=0100ph5f00n3ir\\\">\\u8a73\\u7d30\\u306f\\u3053\\u3061\\u3089<\\\/a><\\\/span><\\\/td><\\\/tr><tr><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><img class=\\\"wp-image-213946\\\" style=\\\"width: 0px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/kikagaku-logo.svg\\\" alt=\\\"\\\"><img class=\\\"wp-image-213946\\\" style=\\\"width: 0px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/kikagaku-logo.svg\\\" alt=\\\"\\\"><img class=\\\"wp-image-214121\\\" style=\\\"width: 150px;\\\" src=\\\"https:\\\/\\\/www.sejuku.net\\\/blog\\\/wp-content\\\/uploads\\\/2023\\\/07\\\/20220610-172927501.webp\\\" alt=\\\"\\\"><\\\/td><td><span class=\\\"swl-fz u-fz-s\\\"><strong>\\u30b7\\u30b9\\u30c6\\u30e0\\u53d7\\u6ce8\\u4f1a\\u793e\\u304c\\u904b\\u55b6\\u3059\\u308b\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8<\\\/strong><br><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u30a8\\u30f3\\u30b8\\u30cb\\u30a2\\u6c42\\u4eba\\u306e\\u307f\\u3092\\u5c02\\u9580\\u7684\\u306b\\u6271\\u304415\\u5e74\\u4ee5\\u4e0a<\\\/span><br><span data-icon=\\\"check\\\" class=\\\"swl-inline-list\\\">\\u6280\\u8853\\u7684\\u306a\\u77e5\\u8b58\\u306e\\u3042\\u308b\\u30ad\\u30e3\\u30ea\\u30a2\\u30a2\\u30c9\\u30d0\\u30a4\\u30b6\\u30fc<\\\/span><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\" data-has-cell-bg=\\\"1\\\" data-has-cell-icon=\\\"m-obj\\\"><span data-icon=\\\"circle\\\" data-icon-size=\\\"m\\\" data-icon-type=\\\"obj\\\" aria-hidden=\\\"true\\\" class=\\\"swl-cell-bg\\\">\u00a0<\\\/span><br><span class=\\\"c-reviewStars\\\"><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-full\\\"><\\\/i><i class=\\\"icon-star-empty\\\"><\\\/i><\\\/span><\\\/td><td class=\\\"has-text-align-center\\\" data-align=\\\"center\\\"><span class=\\\"swl-inline-btn is-style-btn_normal red_\\\"><a href=\\\"https:\\\/\\\/h.accesstrade.net\\\/sp\\\/cc?rk=0100fdsn00n3ir\\\">\\u8a73\\u7d30\\u306f\\u3053\\u3061\\u3089<\\\/a><\\\/span><\\\/td><\\\/tr><\\\/tbody><\\\/table><figcaption class=\\\"wp-element-caption\\\">\\u8ee2\\u8077\\u30a8\\u30fc\\u30b8\\u30a7\\u30f3\\u30c8\\u3078\\u306e\\u767b\\u9332\\u30fb\\u5229\\u7528\\u306f\\u57fa\\u672c\\u7121\\u6599\\u3067\\u3059\\u3002\\u8907\\u6570\\u767b\\u9332\\u3057\\u3066\\u304a\\u304f\\u3068\\u3001\\u826f\\u3044\\u6c42\\u4eba\\u3092\\u898b\\u9003\\u3055\\u306a\\u3044\\u306e\\u3067\\u30aa\\u30b9\\u30b9\\u30e1\\uff01<\\\/figcaption><\\\/figure>\\n<\\\/div>\""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/js/content-top-html-rendering.js?ver=2023091822' id='content-top-html-rendering-js'></script>
+<script type='text/javascript' id='modal-table-of-contents-html-rendering-js-extra'>
+/* <![CDATA[ */
+var modalTableOfContentshHtmlScriptVars = {"modalTableOfContentsHtmlTemplate":""};
+var modalTableOfContentshHtmlScriptVars = {"modalTableOfContentsHtmlTemplate":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/plugins/samurai-banner/js/modal-table-of-contents-html-rendering.js?ver=2023091822' id='modal-table-of-contents-html-rendering-js'></script>
+<script type='text/javascript' src='https://www.sejuku.net/blog/wp-content/themes/swell/assets/js/plugins/lazysizes.min.js?ver=2023091822' id='swell_lazysizes-js'></script>
+
+<!-- JSON-LD @SWELL -->
+<script type="application/ld+json">{"@context": "https://schema.org","@graph": [{"@type":"Organization","@id":"https:\/\/www.sejuku.net\/blog\/#organization","name":"株式会社SAMURAI","url":"https:\/\/www.sejuku.net\/corp\/","logo":{"@type":"ImageObject","url":"https:\/\/www.sejuku.net\/blog\/wp-content\/uploads\/2023\/07\/logo_header_icon.svg","width":300,"height":300},"founder":{"@type":"Person","name":"木内翔大","url":"https:\/\/twitter.com\/shota7180"}},{"@type":"WebSite","@id":"https:\/\/www.sejuku.net\/blog\/#website","url":"https:\/\/www.sejuku.net\/blog\/","name":"侍エンジニアブログ","description":"プログラミング学習のすべてがココに。"},{"@type":"WebPage","@id":"https:\/\/www.sejuku.net\/blog\/64635","url":"https:\/\/www.sejuku.net\/blog\/64635","name":"【Java入門】XMLの扱い方(DOM、SAX、プロパティファイルも解説)","description":"こんにちは！フリーランスの長野です。 JavaでXMLファイルって使っていますか？　XMLファイルは項目と値のセットを人やソフトウェアが読み込めるように構成することができるので、データの保存や設定値を保存する場合によく使われます。 この記事では、JavaでのXMLファイルの扱い方について XMLとは？ XMLファイルを読み込む方法 XMLファイルへ出力する方法 といった基本的な内容から、 プロパティファイルに読み書きする方法 オブジェクトのSerialization など応用的な内容についても解説していきます。今回はJavaでのXMLファイルの扱い方について、わかりやすく解説します。 なお、J","isPartOf":{"@id":"https:\/\/www.sejuku.net\/blog\/#website"}},{"@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/www.sejuku.net\/blog\/64635"},"headline":"【Java入門】XMLの扱い方(DOM、SAX、プロパティファイルも解説)","image":{"@type":"ImageObject","url":"https:\/\/www.sejuku.net\/blog\/wp-content\/uploads\/2018\/07\/xml.png"},"datePublished":"2018-07-20T13:58:54+0900","dateModified":"2023-03-21T16:57:44+0900","author":{"@type":"Person","@id":"https:\/\/www.sejuku.net\/blog\/64635\/#author","name":"長野 透","url":"https:\/\/www.sejuku.net\/blog\/"},"publisher":{"@id":"https:\/\/www.sejuku.net\/blog\/#organization"}},{"@type":"BreadcrumbList","@id":"https:\/\/www.sejuku.net\/blog\/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.sejuku.net\/blog\/category\/programming-language","name":"プログラミング言語"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/www.sejuku.net\/blog\/category\/programming-language\/java","name":"Java"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/www.sejuku.net\/blog\/category\/programming-language\/java\/java-study","name":"Java学習"}}]}]}</script>
+<!-- / JSON-LD @SWELL -->
+<script>
+	
+	
+//ランダムを生成
+const randomNum = Math.floor(Math.random() * 2) + 1;
+const sbid = randomNum === 1 ? "_sbid-" : "_sbid2-";
+
+
+if (randomNum === 2){
+  // スタイルを適用する要素を取得
+  const elements = document.querySelectorAll('.sc_button2, .entry-content a.sc_btn2');
+
+  // スタイルを設定
+  elements.forEach(element => {
+    element.style.background = 'rgb(27,156,101)';
+    element.style.border = '2px solid rgb(27,156,101)';
+    element.style.boxShadow = '0 4px 0 0 rgb(10 125 76)';
+  });
+}
+
+setTimeout(() => {
+addSbid(sbid);
+}, 2000);
+
+function addSbid(sbid) {
+	//記事id取得
+  const blogCid = sbid + location.pathname.replace(/\/+$/, "").split("/").pop();
+
+	//書き換えリンク先指定
+  const targetArray = document.querySelectorAll("a[href*='?cid");
+
+  targetArray.forEach(element => {
+		// URLを取得
+    const targetUrl = new URL(element.href);
+
+		// URLSearchParamsオブジェクトを取得
+    const targetParams = targetUrl.searchParams;
+
+		//既存のcidに、blogの記事id追加
+    const addCid = targetParams.get("cid") + blogCid;
+
+		//cidパラメを更新
+    targetParams.set("cid", addCid);
+
+    element.setAttribute("href", targetUrl);
+  });
+}
+</script>
+</body></html>
