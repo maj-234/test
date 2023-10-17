@@ -1,0 +1,5 @@
+find /location exec {} + 
+find /location exec {} \
+
+cat $(find ./location)
+find -size 1033c
