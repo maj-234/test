@@ -1,0 +1,9 @@
+
+bandit0@bandit.labs.overthewire.org -p 2220
+
+1 NH2SXQwcBdpmTEzi3bvBHMM9H66vVXjL
+2 rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi
+3 aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG
+4 2EW7BBsr6aMMoJ2HjW067dm8EgX26xNe
+5 lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
+6
