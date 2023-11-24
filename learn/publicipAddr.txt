@@ -1,0 +1,31 @@
+    curl ifconfig.me
+    curl -4/-6 icanhazip.com
+    curl ipinfo.io/ip
+    curl api.ipify.org
+    curl checkip.dyndns.org
+    dig +short myip.opendns.com @resolver1.opendns.com
+    host myip.opendns.com resolver1.opendns.com
+    curl ident.me
+    curl bot.whatismyipaddress.com
+    curl ipecho.net/plain
+
+
+ curl ifconfig.me
+ 
+ curl icanhazip.com
+ 
+ curl ipecho.net/plain
+ 
+ curl ident.me
+ 
+ curl bot.whatismyipaddress.com
+ 
+ curl https://diagnostic.opendns.com/myip
+ 
+ curl http://checkip.amazonaws.com
+ 
+ curl http://whatismyip.akamai.com
+ 
+dig +short ANY whoami.akamai.net @ns1-1.akamaitech.net
+
+dig +short ANY o-o.myaddr.l.google.com @ns1.google.com

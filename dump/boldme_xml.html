@@ -1,0 +1,617 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="profile" href="http://gmpg.org/xfn/11"><link rel="pingback" href="https://www.bold.ne.jp/engineer-club/xmlrpc.php"><link media="all" href="https://www.bold.ne.jp/engineer-club/wp-content/cache/autoptimize/css/autoptimize_5c6d60956986d30fd6e41a37102f4d75.css" rel="stylesheet"><title>Java標準APIでのXML読み込み方4つを大紹介 サンプルで比較しよう</title><meta name='robots' content='index, max-image-preview:large' />  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KD3X3G3');</script> <link rel='dns-prefetch' href='//www.bold.ne.jp' /><link rel='dns-prefetch' href='//yubinbango.github.io' /><link rel="alternate" type="application/rss+xml" title="ENGINEER.CLUB（エンジニアクラブ） &raquo; フィード" href="https://www.bold.ne.jp/engineer-club/feed" /><link rel="alternate" type="application/rss+xml" title="ENGINEER.CLUB（エンジニアクラブ） &raquo; コメントフィード" href="https://www.bold.ne.jp/engineer-club/comments/feed" /><link rel="alternate" type="application/rss+xml" title="ENGINEER.CLUB（エンジニアクラブ） &raquo; Java標準APIでのXML読み込み方4つを大紹介 サンプルで比較しよう のコメントのフィード" href="https://www.bold.ne.jp/engineer-club/java-xml-read/feed" /> <script type="text/javascript">window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.bold.ne.jp\/engineer-club\/wp-includes\/js\/wp-emoji-release.min.js"}};
+/*! This file is auto-generated */
+!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){p.clearRect(0,0,i.width,i.height),p.fillText(e,0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(t,0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(p&&p.fillText)switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s("\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!s("\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!s("\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!s("\ud83e\udef1\ud83c\udffb\u200d\ud83e\udef2\ud83c\udfff","\ud83e\udef1\ud83c\udffb\u200b\ud83e\udef2\ud83c\udfff")}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(e=t.source||{}).concatemoji?c(e.concatemoji):e.wpemoji&&e.twemoji&&(c(e.twemoji),c(e.wpemoji)))}(window,document,window._wpemojiSettings);</script> <link rel='stylesheet' id='xeory-base-style-css' href='https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/style.css?ver=1629035556'  media='all' /> <script  src='https://www.bold.ne.jp/engineer-club/wp-includes/js/jquery/jquery.min.js' id='jquery-core-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-includes/js/jquery/jquery-migrate.min.js' id='jquery-migrate-js'></script> <script type='text/javascript' id='wp-postviews-cache-js-extra'>var viewsCacheL10n = {"admin_ajax_url":"https:\/\/www.bold.ne.jp\/engineer-club\/wp-admin\/admin-ajax.php","post_id":"1632"};</script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/plugins/xeory-core/modules/xeory-postviews-related/js/postviews-cache.js' id='wp-postviews-cache-js'></script> <script type='application/json' id='wpp-json'>{"sampling_active":1,"sampling_rate":100,"ajax_url":"https:\/\/www.bold.ne.jp\/engineer-club\/wp-json\/wordpress-popular-posts\/v1\/popular-posts","api_url":"https:\/\/www.bold.ne.jp\/engineer-club\/wp-json\/wordpress-popular-posts","ID":1632,"token":"aeea980f7e","lang":0,"debug":0}</script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/plugins/wordpress-popular-posts/assets/js/wpp.min.js' id='wpp-js-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/js/pagetop.js?ver=1629035554' id='pagetop-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/js/recruit.js?ver=1642737800' id='recruit-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/slick/slick.min.js?ver=1629035557' id='slick.min-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/float-cta/float-cta.js?ver=1629035556' id='float-cta-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/plugins/xeory-fixed-banner-master/js/xeory-fixed-banner.js' id='xeory-fixed-banner-js-js'></script> <link rel="https://api.w.org/" href="https://www.bold.ne.jp/engineer-club/wp-json/" /><link rel="alternate" type="application/json" href="https://www.bold.ne.jp/engineer-club/wp-json/wp/v2/posts/1632" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.bold.ne.jp/engineer-club/xmlrpc.php?rsd" /><link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.bold.ne.jp/engineer-club/wp-includes/wlwmanifest.xml" /><link rel="canonical" href="https://www.bold.ne.jp/engineer-club/java-xml-read" /><link rel='shortlink' href='https://www.bold.ne.jp/engineer-club/?p=1632' /><link rel="alternate" type="application/json+oembed" href="https://www.bold.ne.jp/engineer-club/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Fjava-xml-read" /><link rel="alternate" type="text/xml+oembed" href="https://www.bold.ne.jp/engineer-club/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Fjava-xml-read&#038;format=xml" /> <script type='application/ld+json' id='xeorycore-structured-data'>[]</script> <meta name="keywords"    content="java xml 読み込み" /><meta name="description" content="XML(Extensive Markup Language)は、プログラムの設定を書いたり、プログラム間でのデータ送信に使うデータフォーマットです。最近はJSONやYAMLに押されてはいますが、それでも幅広く使われていますよね。この記事では、JavaでのXMLの読み込み方を初心者向けにざっとお伝えします。大きく分けて4つのやり方があるのですが、それぞれのサンプルプログラムを通じて、使い方や特徴をご理解いただければと思います。" /><meta property="og:title"       content="Java標準APIでのXML読み込み方4つを大紹介 サンプルで比較しよう" /><meta property="og:type"        content="article" /><meta property="og:description" content="XML(Extensive Markup Language)は、プログラムの設定を書いたり、プログラム間でのデータ送信に使うデータフォーマットです。最近はJSONやYAMLに押されてはいますが、それでも幅広く使われていますよね。この記事では、JavaでのXMLの読み込み方を初心者向けにざっとお伝えします。大きく分けて4つのやり方があるのですが、それぞれのサンプルプログラムを通じて、使い方や特徴をご理解いただければと思います。" /><meta property="og:url"         content="https://www.bold.ne.jp/engineer-club/java-xml-read" /><meta property="og:image"       content="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/10/shutterstock_568617811.jpg" /><meta property="og:locale"      content="ja_JP" /><meta property="og:site_name"   content="ENGINEER.CLUB（エンジニアクラブ）" /><meta property="fb:app_id" content="542779702757396" /><meta property="fb:admins" content="100011650418135" /><meta property="article:publisher" content="https://www.facebook.com/Enginnerclub-1787223914661396/" /><meta name="twitter:card" content="summary"  /><meta name="twitter:site" content="@pr_engineerclub"  /> <script type="application/ld+json">{
+	"@context": "http://schema.org",
+	"@type": "NewsArticle",
+	"mainEntityOfPage":{
+		"@type":"WebPage",
+		"@id":"https://www.bold.ne.jp/engineer-club/java-xml-read"
+	},
+	"headline": "Java標準APIでのXML読み込み方4つを大紹介 サンプルで比較しよう",
+	"image": {
+		"@type": "ImageObject",
+		"url": "https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/10/shutterstock_568617811.jpg",
+		"height": "3000",
+		"width": "4000"
+	},
+	"datePublished": "2019-05-09T12:00:05+09:00",
+	"dateModified": "2019-05-08T21:36:49+09:00",
+	"author": {
+		"@type": "Person",
+		"name": "大石 英人"	},
+	 "publisher": {
+		"@type": "Organization",
+		"name": "ENGINEER.CLUB（エンジニアクラブ）",
+				"url": "https://www.bold.ne.jp/engineer-club",
+						"sameAs": ["https://www.facebook.com/Enginnerclub-1787223914661396/","https://twitter.com/pr_engineerclub"],
+				"logo": {
+			"@type": "ImageObject",
+			"url": "https://www.bold.ne.jp/engineer-club/wp-content/uploads/2022/04/logo.png",
+			"width": "663",
+			"height": "93"
+		}
+	},
+	"description": "XML(Extensive Markup Language)は、プログラムの設定を書いたり、プログラム間でのデータ送信に使うデータフォーマットです。最近はJSONやYAMLに押されてはいますが、それで"
+}</script> <link rel="icon" href="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2022/03/cropped-favicon-32x32.png" sizes="32x32" /><link rel="icon" href="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2022/03/cropped-favicon-192x192.png" sizes="192x192" /><link rel="apple-touch-icon" href="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2022/03/cropped-favicon-180x180.png" /><meta name="msapplication-TileImage" content="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2022/03/cropped-favicon-270x270.png" /> <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=css&skin=desert"></script> </head><body class="post-template-default single single-post postid-1632 single-format-standard wp-custom-logo post-java-xml-read"> <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KD3X3G3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="fb-root"></div> <script>window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '542779702757396',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v6.0'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  function postfeed(url){
+    FB.ui(
+    {
+      method: 'share',
+      href: url
+    },
+    function(response) {
+      if (response && !response.error_message) {
+        alert('投稿しました');
+      } else {
+        alert('投稿に失敗しました');
+      }
+    });
+  }</script> <script async defer src="https://connect.facebook.net/ja_JP/sdk.js"></script> <div id="page" class="site"><header id="masthead" class="site-header" role="banner"><div class="site-branding"><p class="site-title" rel="home"><a href="https://www.bold.ne.jp/engineer-club/" class="custom-logo-link" rel="home"><img width="663" height="93" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2022/04/logo.png" class="custom-logo" alt="エンジニアクラブ" decoding="async" /></a></p><div class="container"><nav id="site-navigation" class="main-navigation" role="navigation"><div class="container"><div class="menu-header-nav-container"><ul id="primary-menu" class="primary-menu"><li id="menu-item-239" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-239"><a href="https://www.bold.ne.jp/engineer-club/category/career">キャリア</a></li><li id="menu-item-312" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-312"><a href="https://www.bold.ne.jp/engineer-club/category/occupation-position">職種・ポジション</a></li><li id="menu-item-602" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-has-children menu-item-602"><a href="https://www.bold.ne.jp/engineer-club/category/technical">技術</a><ul class="sub-menu"><li id="menu-item-695" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-695"><a href="https://www.bold.ne.jp/engineer-club/category/technical/java">Java</a></li><li id="menu-item-692" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-692"><a href="https://www.bold.ne.jp/engineer-club/category/technical/jquery">jQuery</a></li><li id="menu-item-766" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-766"><a href="https://www.bold.ne.jp/engineer-club/category/technical/cobol">COBOL</a></li><li id="menu-item-984" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-984"><a href="https://www.bold.ne.jp/engineer-club/category/technical/c-language">C言語</a></li><li id="menu-item-1147" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1147"><a href="https://www.bold.ne.jp/engineer-club/category/technical/sql">SQL</a></li><li id="menu-item-1173" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1173"><a href="https://www.bold.ne.jp/engineer-club/category/technical/perl">Perl</a></li><li id="menu-item-1174" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1174"><a href="https://www.bold.ne.jp/engineer-club/category/technical/kotlin">Kotlin</a></li><li id="menu-item-1148" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1148"><a href="https://www.bold.ne.jp/engineer-club/category/technical/vba">VBA</a></li><li id="menu-item-1554" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1554"><a href="https://www.bold.ne.jp/engineer-club/category/technical/html">HTML</a></li><li id="menu-item-1790" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1790"><a href="https://www.bold.ne.jp/engineer-club/category/technical/linux">Linux</a></li><li id="menu-item-1696" class="sp_nav_list menu-item menu-item-type-custom menu-item-object-custom menu-item-1696"><a href="https://www.bold.ne.jp/engineer-club/category/technical">技術一覧へ</a></li></ul></li><li id="menu-item-605" class="sp_nav_list menu-item menu-item-type-taxonomy menu-item-object-category menu-item-605"><a href="https://www.bold.ne.jp/engineer-club/category/certification">資格取得</a></li><li id="menu-item-240" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-240"><a href="https://www.bold.ne.jp/engineer-club/category/information-technology-industry">IT業界</a></li></ul></div><div class="menu-sub-menu-container"><ul id="header-sub-menu" class="header-sub-menu"><li id="menu-item-3667" class="menu-item menu-item-type-post_type_archive menu-item-object-study_report menu-item-3667"><a href="https://www.bold.ne.jp/engineer-club/study_report">勉強会レポート一覧</a></li><li id="menu-item-1511" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1511"><a href="https://www.bold.ne.jp/engineer-club/careers">採用情報</a></li><li id="menu-item-1512" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1512"><a target="_blank" rel="noopener" href="https://www.bold.ne.jp/">会社概要</a></li><li id="menu-item-1510" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1510"><a href="https://www.bold.ne.jp/engineer-club/inquiry">お問い合わせ</a></li></ul></div></div></nav> <span class="sp-nav-btn"></span><div id="header-sns" class="sp-hide"><ul><li class="feedly_icon"> <a target="_blank" href="https://feedly.com/i/subscription/feed/https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Ffeed"> <i class="fa fa-rss"></i> </a></li></ul></div></div></div></header><div id="content" class="site-content"><div class="breadcrumbshome"><nav class="xeory-breadcrumbs"><ol class="xeory-breadcrumbs-list" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"
+ class="xeory-breadcrumbs-item xeory-breadcrumbs-item-home"> <a itemprop="item" href="https://www.bold.ne.jp/engineer-club/"> <span itemprop="name">HOME</span> </a><meta itemprop="position" content="1"></li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"
+ class="xeory-breadcrumbs-item"> <a itemprop="item" href="https://www.bold.ne.jp/engineer-club/category/technical"> <span itemprop="name">技術</span> </a><meta itemprop="position" content="2"></li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"
+ class="xeory-breadcrumbs-item"> <a itemprop="item" href="https://www.bold.ne.jp/engineer-club/category/technical/java"> <span itemprop="name">Java</span> </a><meta itemprop="position" content="3"></li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"
+ class="xeory-breadcrumbs-item xeory-breadcrumbs-item-current"> <a itemprop="item" href="https://www.bold.ne.jp/engineer-club/java-xml-read"> <span itemprop="name">Java標準APIでのXML読み込み方4つを大紹介 サンプルで比較しよう</span> </a><meta itemprop="position" content="4"></li></ol></nav></div><div class="container"><div id="primary" class="content-area"><main id="main" class="site-main"><article id="post-1632" class="post-1632 post type-post status-publish format-standard has-post-thumbnail hentry category-java"><div class="entry-content"><div class="wrap-img"><figure class="entry-thumbnail"><img width="991" height="607" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/10/shutterstock_568617811-991x607.jpg" class="attachment-single_thumb size-single_thumb wp-post-image" alt="Javaについて徹底解説！" decoding="async" loading="lazy" /></figure><div class="entry-meta-cat">Java</div></div><h1 class="entry-title">Java標準APIでのXML読み込み方4つを大紹介 サンプルで比較しよう</h1><header class="entry-header"><div class="author_top"><div class="author_inner"><div class="author_img"><img src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/12/e53cb0c699b1f005a02b46e7e3c7d3c6-3.jpg" alt="大石 英人"></div><div class="author_mini"><p class="author_name">大石 英人</p><p class="disc">開発エンジニア/Java20年/Java GOLD/リーダー/ボールド歴2年</p></div></div></div><ul class="entry-meta"><li class="date">最終更新日:2019/5/9</li></ul></header><div class="sns_share"><ul><li class="facebook"> <a href="//www.facebook.com/sharer.php?u=https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Fjava-xml-read&t=Java%E6%A8%99%E6%BA%96API%E3%81%A7%E3%81%AEXML%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E6%96%B94%E3%81%A4%E3%82%92%E5%A4%A7%E7%B4%B9%E4%BB%8B+%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E6%AF%94%E8%BC%83%E3%81%97%E3%82%88%E3%81%86" aria-label="facebookシェア" target="_blank"> <i class="fa fa-facebook"></i><span> Facebook </span></a></li><li class="tweet"> <a href="//twitter.com/intent/tweet?text=Java%E6%A8%99%E6%BA%96API%E3%81%A7%E3%81%AEXML%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E6%96%B94%E3%81%A4%E3%82%92%E5%A4%A7%E7%B4%B9%E4%BB%8B+%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E6%AF%94%E8%BC%83%E3%81%97%E3%82%88%E3%81%86&https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Fjava-xml-read&url=https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Fjava-xml-read" aria-label="tweet" target="_blank"> <i class="fa fa-twitter"></i><span> Twitter </span></a></li><li class="hatena"><a href="//b.hatena.ne.jp/add?mode=confirm&url=https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Fjava-xml-read&title=Java%E6%A8%99%E6%BA%96API%E3%81%A7%E3%81%AEXML%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E6%96%B94%E3%81%A4%E3%82%92%E5%A4%A7%E7%B4%B9%E4%BB%8B+%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E6%AF%94%E8%BC%83%E3%81%97%E3%82%88%E3%81%86" aria-label="はてなブックマークシェア" target="_blank"><i class="fa fa-hatena"></i><span> はてブ </span></a></li></ul></div><p>XML(Extensive Markup Language)は、プログラムの設定を書いたり、プログラム間でのデータ送信に使うデータフォーマットです。最近は<span>JSON</span>や<span>YAML</span>に押されてはいますが、それでも幅広く使われていますよね。</p><p>プログラムを作る時は、<span>XML</span>を読む方法を知っていると便利です。多分、<span>XML</span>を作るよりも読む機会の方がずっと多いでしょうし、<span>XML</span>を読むのは簡単そうに見えて意外とてこずるものだったりするのです。</p><p>もちろん<span>Java</span>では<span>XML</span>の読み込みは標準機能としてあります。つまり、<span>Java</span>をインストールすれば<span>XML</span>を読み込むためのライブラリが一緒に付いてきますので、使い方さえ少し学べば、今すぐにでも使い始められます<span>!!</span></p><p>この記事では、<span>Java</span>での<span>XML</span>の読み込み方を初心者向けにざっとお伝えします。大きく分けて<span>4</span>つのやり方があるのですが、それぞれのサンプルプログラムを通じて、使い方や特徴をご理解いただければと思います。</p><p>※この記事のサンプルは、<span>Java 12</span>の環境で動作確認しています</p><section class="xeory_banner_manager-9 widget upper-h2-widget widget_xeory_banner_manager"><div class="upper-h2-widget-inner"><div class="h2_line_bn"> <a class="button-line-cta" href="https://s.lmes.jp/landing-qr/1657829855-GApo9ng5?uLand=KriORs"><img src="https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/images/line/line-bn-pc.png" class="pc" width="760" height="204"><img src="https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/images/line/line-bn-sp.png" class="sp" width="320" height="215"></a></div></div></section><br><div id="toc_container" class="no_bullets"><p class="toc_title">目次</p><ul class="toc_list"><li><a href="#Java_SEAPIXML4">１．Java SEの標準APIにはXMLを読み込む方法が4つある</a><ul><li><a href="#-XML">１-１．この記事で使うXMLの紹介</a></li><li><a href="#i">１-２．この記事で目的とする出力内容</a></li></ul></li><li><a href="#DOMDocument_Object_Model">２．DOM(Document Object Model)で読み込む</a><ul><li><a href="#-DOMXML">２-１．DOMでのXML読み込みプログラム</a></li><li><a href="#i-2">２-２．プログラムの簡単な解説</a></li><li><a href="#-DOM">２-３．【参考】DOMで要素を探す方法いろいろ</a></li></ul></li><li><a href="#SAXSimple_API_for_XML_Processing">３．SAX(Simple API for XML Processing)で読み込む</a><ul><li><a href="#-SAXXML">３-１．SAXでのXML読み込みプログラム</a></li><li><a href="#i-3">３-２．プログラムの簡単な解説</a></li><li><a href="#-SAX">３-３．【参考】SAXでのイベントの種類</a></li></ul></li><li><a href="#StAXStreaming_API_for_XML">４．StAX(Streaming API for XML)で読み込む</a><ul><li><a href="#-StAXXMLXMLStreamReader">４-１．StAXでのXML読み込みプログラム(XMLStreamReaderを使う方法)</a></li><li><a href="#-XMLStreamReader">４-２．プログラムの簡単な解説(XMLStreamReader)</a></li><li><a href="#-StAXXMLXMLEventReader">４-３．StAXでのXML読み込みプログラム(XMLEventReaderを使う方法)</a></li><li><a href="#-XMLEventReader">４-４．プログラムの簡単な解説(XMLEventReader)</a></li></ul></li><li><a href="#XPathXML_Path_Language">５．XPath(XML Path Language)で読み込む</a><ul><li><a href="#-XPathXML">５-１．XPathでのXML読み込みプログラム</a></li><li><a href="#i-4">５-２．プログラムの簡単な解説</a></li><li><a href="#-XPath">５-３．【参考】XPathでのいろいろな検索の仕方</a></li></ul></li><li><a href="#JAXBJava_Architecture_for_XML_Binding">６．【参考】JAXB(Java Architecture for XML Binding)で読み込む</a><ul><li><a href="#-JAXBXML">６-１．JAXBでのXML読み込みプログラム</a></li><li><a href="#i-5">６-２．プログラムの簡単な解説</a></li><li><a href="#-Java_SE_9JAXB">６-３．Java SE 9以降でJAXBを使う方法</a></li></ul></li><li><a href="#i-6">７．【参考】普通のファイル読み込み+文字列処理で読み込む</a><ul><li><a href="#-XML-2">７-１．普通のファイル読み込み+文字列処理でのXML読み込みプログラム</a></li><li><a href="#i-7">７-２．プログラムの簡単な解説</a></li></ul></li><li><a href="#i-8">８．まとめ</a></li></ul></div><h2><span id="Java_SEAPIXML4">１．Java SEの標準<span>API</span>には<span>XML</span>を読み込む方法が<span>4</span>つある</span></h2><p>Javaで<span>XML</span>を読み込む方法は、<span>Java SE 12</span>の時点では以下の<span>4</span>つが代表的です。この記事では、これらの方法で同じ<span>XML</span>を読み込んでみて、それぞれの方法でプログラミングの仕方がどう違うのかを学んでいきます。</p><ul><li>DOM(Document Object Model、ドム)</li><li>SAX(Simple API for XML Processing、サックス)</li><li>StAX(Streaming API for XML、スタックス)</li><li><span>XPath(XML Path Language</span>、エックスパス<span>)</span></li></ul><p>なぜ<span>XML</span>を読み込むのに<span>4</span>つも方法があるの<span>?</span>と思われたかもしれません。なぜなら、それぞれのプログラムの作り方には、得意・不得意があるからです。逆に言えば、プログラムの都合に合わせて使い分けができるのです。</p><p>この<span>4</span>つ方法には、以下のような特徴があります。この記事のサンプルプログラムを順番にご覧になっていただけると、それらが具体的に分かると思います。</p><table border="1" style="border-collapse: collapse; width: 100%;"><tbody><tr style="height: 24px;"><td style="width: 10.8808%; height: 24px; border-color: #000000;"></td><td style="width: 39.1192%; height: 24px; border-color: #000000;">プログラミングの仕方</td><td style="width: 25%; height: 24px; border-color: #000000;">得意</td><td style="width: 25%; height: 24px; border-color: #000000;">不得意</td></tr><tr style="height: 24px;"><td style="width: 10.8808%; height: 24px; border-color: #000000;">DOM</td><td style="width: 39.1192%; height: 24px; border-color: #000000;">XMLのツリー構造を前提に読み込んだり検索する</td><td style="width: 25%; height: 24px; border-color: #000000;">ツリー構造を使った要素の検索と操作</td><td style="width: 25%; height: 24px; border-color: #000000;">構造が入り組んだ<span>XML</span>の読み込み</td></tr><tr style="height: 24px;"><td style="width: 10.8808%; height: 24px; border-color: #000000;">SAX</td><td style="width: 39.1192%; height: 24px; border-color: #000000;">イベントベース</td><td style="width: 25%; height: 24px; border-color: #000000;">必要な要素の情報を簡単に得られる</td><td style="width: 25%; height: 24px; border-color: #000000;">XMLのツリー構造を意識したプログラミング</td></tr><tr style="height: 22px;"><td style="width: 10.8808%; height: 22px; border-color: #000000;">StAX</td><td style="width: 39.1192%; height: 22px; border-color: #000000;">イベントベース<span>(SAX</span>とは少し異なる方法<span>)</span></td><td style="width: 25%; height: 22px; border-color: #000000;">必要な要素の情報を簡単に得られる</td><td style="width: 25%; height: 22px; border-color: #000000;">XMLのツリー構造を意識したプログラミング</td></tr><tr style="height: 24px;"><td style="width: 10.8808%; height: 24px; border-color: #000000;">XPath</td><td style="width: 39.1192%; height: 24px; border-color: #000000;">専用の構文で必要な要素を指定する</td><td style="width: 25%; height: 24px; border-color: #000000;">読み取りたい要素や属性を一回のクエリで検索できる</td><td style="width: 25%; height: 24px; border-color: #000000;">XPathだけでは何もできない<span>(DOM</span>の関連クラスの知識が必要<span>)</span></td></tr></tbody></table><h3><span id="-XML">１-１．この記事で使う<span>XML</span>の紹介</span></h3><p>この記事では、以下の<span>XML</span>を共通して使います。内容は本<span>(Book)</span>の一覧<span>(BookList)</span>です。それぞれの本は、属性として<span>ISBN(isbn)</span>、著者名<span>(author)</span>、タイトル<span>(title)</span>があり、テキストとして本文の書き出しがあります。</p><pre class="prettyprint lang:default decode:true">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;BookList&gt;
+	&lt;Book isbn="ISBN978-4-1234-0001-5" author="夏目漱石" title="吾輩は猫である"&gt;吾輩は猫である。名前はまだない。どこで生れたかとんと見当がつかぬ。&lt;/Book&gt;
+	&lt;Book isbn="ISBN978-4-1234-0002-2" author="H. P. Lovecraft" title="The Cats of Ulthar"&gt;It is said that in Ulthar, which lies beyond the river Skai, no man may kill a cat;&lt;/Book&gt;
+	&lt;Book isbn="ISBN978-4-1234-0003-9" author="E. T. A. Hoffmann" title="Lebensansichten des Katers Murr"&gt;Es ist doch etwas Schönes, Herrliches, Erhabenes um das Leben!&lt;/Book&gt;
+&lt;/BookList&gt;</pre><h3><span id="i">１-２．この記事で目的とする出力内容</span></h3><p>この記事では先ほどの<span>XML</span>を読み込んで、本の情報を以下のように出力するプログラムを、それぞれの方法で作ります。同じ<span>XML</span>から同じことを出力するのですが、かなり違うやり方になりますよ。</p><pre class="prettyprint lang:default decode:true">isbn = ISBN978-4-1234-0001-5
+author = 夏目漱石
+title = 吾輩は猫である
+text = 吾輩は猫である。名前はまだない。どこで生れたかとんと見当がつかぬ。
+
+isbn = ISBN978-4-1234-0002-2
+author = H. P. Lovecraft
+title = The Cats of Ulthar
+text = It is said that in Ulthar, which lies beyond the river Skai, no man may kill a cat;
+
+isbn = ISBN978-4-1234-0003-9
+author = E. T. A. Hoffmann
+title = Lebensansichten des Katers Murr
+text = Es ist doch etwas Schönes, Herrliches, Erhabenes um das Leben!</pre><br><h2><span id="DOMDocument_Object_Model">２．DOM(Document Object Model)で読み込む</span></h2><p>DOM(Document Object Model)は、HTMLなどの規格を作っているW3Cが決めたXMLの操作方法です。Javaに限らず、いろいろなプログラミング言語で共通で使える、<span>XML</span>の読み込み方法です。</p><blockquote><p>Document Object Model</p><p><a href="https://ja.wikipedia.org/wiki/Document_Object_Model">https://ja.wikipedia.org/wiki/Document_Object_Model</a></p><p>&nbsp;</p><p>W3C Document Object Model</p><p><a href="https://www.w3.org/DOM/">https://www.w3.org/DOM/</a></p><p>&nbsp;</p><p>Document Object Model (DOM) Technical Reports</p><p><a href="https://www.w3.org/DOM/DOMTR">https://www.w3.org/DOM/DOMTR</a></p></blockquote><p>DOMの特徴は、<span>XML</span>の「木構造<span>(</span>ツリー構造<span>)</span>」をプログラム上でそのまま扱えることです。<span>XML</span>はルート要素に子要素がぶら下がるツリー構造を持ちますが、<span>DOM</span>ではその構造ありきでプログラムをしていくのです。</p><p><a href="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/451222cfdb1d8585a3fcd0b994caffbb.png"><img decoding="async" loading="lazy" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/451222cfdb1d8585a3fcd0b994caffbb.png" alt="サンプルXMLの構造" width="960" height="720" class="alignnone size-full wp-image-1636" srcset="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/451222cfdb1d8585a3fcd0b994caffbb.png 960w, https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/451222cfdb1d8585a3fcd0b994caffbb-768x576.png 768w" sizes="(max-width: 960px) 100vw, 960px" /></a></p><h3><span id="-DOMXML">２-１．DOMでの<span>XML</span>読み込みプログラム</span></h3><p>では、早速<span>DOM</span>を使った<span>Java</span>での<span>XML</span>の読み込みプログラムを見てみましょう。</p><pre class="prettyprint lang:default decode:true">import java.nio.file.Paths;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+public class DomSample {
+	public static void main(String[] args) throws Exception {
+		// 1. DocumentBuilderFactoryのインスタンスを取得する
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		// 2. DocumentBuilderのインスタンスを取得する
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		// 3. DocumentBuilderにXMLを読み込ませ、Documentを作る
+		Document document = builder.parse(Paths.get("/bookList.xml").toFile());
+		// 4. Documentから、ルート要素(BookList)を取得する
+		Element bookList = document.getDocumentElement();
+		// 5. BookList配下にある、Book要素を取得する
+		NodeList books = bookList.getElementsByTagName("Book");
+
+		// 6. 取得したBook要素でループする
+		for (int i = 0; i &lt; books.getLength(); i++) {
+			// 7. Book要素をElementにキャストする
+			Element book = (Element) books.item(i);
+
+			// 8. Book要素の属性値と、テキストノードの値を取得する
+			String isbn = book.getAttribute("isbn");
+			String title = book.getAttribute("title");
+			String author = book.getAttribute("author");
+			String content = book.getTextContent();
+
+			System.out.println("isbn = " + isbn);
+			System.out.println("author = " + author);
+			System.out.println("title = " + title);
+			System.out.println("text = " + content);
+			System.out.println();
+		}
+	}
+}</pre><h3><span id="i-2">２-２．プログラムの簡単な解説</span></h3><p>このプログラムは以下のようなことをしています。</p><ul><li><span>XML</span>から<span>BookList</span>要素を取得して<span>…(4.)</span></li><li><span>BookList</span>要素の下にある<span>Book</span>要素を全て取得して<span>…(5.)</span></li><li>それぞれの<span>Book</span>要素から属性とテキストを取得して<span>print!!(6. 7. 8.)</span></li></ul><p>このプログラムで、サンプル<span>XML</span>の何がどの変数に入っているのかを図にしました。上から順番に自分の子要素を得ているのがわかるでしょうか。これが、<span>DOM</span>が<span>XML</span>のツリー構造をベースにしているということです。</p><p><a href="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/a17743db831c78ddb9df4c4475ada7d4.png"><img decoding="async" loading="lazy" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/a17743db831c78ddb9df4c4475ada7d4.png" alt="要素とDOMのクラスの対応" width="960" height="720" class="alignnone size-full wp-image-1637" srcset="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/a17743db831c78ddb9df4c4475ada7d4.png 960w, https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/a17743db831c78ddb9df4c4475ada7d4-768x576.png 768w" sizes="(max-width: 960px) 100vw, 960px" /></a></p><p>このように、<span>DOM</span>では<span>XML</span>の一部分を<span>Document</span>からたどっていって必要な<span>Element</span>を探し出し、それらからテキストや属性値を取得したり、さらにその中の<span>Element</span>を検索して<span>…</span>を続けていくのです。</p><p><a href="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/7dbce3bea2507384a6d0af858bdb204e.png"><img decoding="async" loading="lazy" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/7dbce3bea2507384a6d0af858bdb204e.png" alt="DOMのインターフェイスの親子関係" width="960" height="720" class="alignnone size-full wp-image-1638" srcset="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/7dbce3bea2507384a6d0af858bdb204e.png 960w, https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/7dbce3bea2507384a6d0af858bdb204e-768x576.png 768w" sizes="(max-width: 960px) 100vw, 960px" /></a></p><h3><span id="-DOM">２-３．【参考】<span>DOM</span>で要素を探す方法いろいろ</span></h3><p>DOMで目的とする要素を探すには、いくつかのやり方があります。基本は以下のどれかになります。今回の例では<span>2.</span>を使いました。</p><ol><li>XMLのツリー構造を上から順にたどっていく<span>(getChildNodes</span>などでたどって、要素名を確認する<span>)</span></li><li>getElementsByTagNameで、タグ名を指定して探す</li><li>getElementByIdで、要素のIDを指定して探す</li><li>DOMのTraversalの機能を使ってたどっていく(TreeWalker、NodeIterator、NodeFilterなど) ※ここではDOMのTraversalの詳細は省きます。</li></ol><h4>２-３-１．【重要】getElementByIdはID属性を検索する</h4><p>XML文書へのgetElementByIdは少し注意が必要です。XMLの構造を決める<span>DTD</span>や<span>XML Schema</span>で、<span>ID</span>属性として指定されている属性だけに有効です。決して、<span>&#8220;id&#8221;</span>や<span>&#8220;ID&#8221;</span>という属性名を探しているわけではないのです。</p><p>例えば、以下の<span>DTD</span>で属性<span>isbn</span>の後ろに<span>&#8220;ID&#8221;</span>がありますよね。これが<span>ID</span>属性の指定で、これにより<span>isbn</span>属性が<span>Book</span>要素の<span>ID</span>属性として機能します。<span>XML</span>に<span>DTD</span>を紐付けていないと<span>getElementById</span>では検索できません。</p><pre class="prettyprint lang:default decode:true">&lt;!DOCTYPE BookList [
+	&lt;!ELEMENT BookList (Book+)&gt;
+	&lt;!ELEMENT Book (#PCDATA)&gt;
+	&lt;!ATTLIST Book
+		isbn ID #REQUIRED
+		author CDATA #REQUIRED
+		title CDATA #REQUIRED
+	&gt;
+]&gt;</pre><p>同じことを<span>XML Schema</span>で書けば以下のようになります。途中に<span>type=&#8221;xsd:ID&#8221;</span>というものがありますが、これで<span>isbn</span>属性が<span>ID</span>属性であることを指定しているのです。</p><pre class="prettyprint lang:default decode:true">&lt;?xml version="1.0"?&gt;
+&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+	&lt;xsd:element name="BookList" type="BookListType" /&gt;
+	&lt;xsd:complexType name="BookListType"&gt;
+		&lt;xsd:sequence&gt;
+			&lt;xsd:element type="BookType" name="Book" maxOccurs="unbounded" minOccurs="0" /&gt;
+		&lt;/xsd:sequence&gt;
+	&lt;/xsd:complexType&gt;
+	&lt;xsd:complexType name="BookType"&gt;
+		&lt;xsd:simpleContent&gt;
+			&lt;xsd:extension base="xsd:string"&gt;
+				&lt;xsd:attribute type="xsd:ID" name="isbn" use="required" /&gt;
+				&lt;xsd:attribute type="xsd:string" name="author" use="required" /&gt;
+				&lt;xsd:attribute type="xsd:string" name="title" use="required" /&gt;
+			&lt;/xsd:extension&gt;
+		&lt;/xsd:simpleContent&gt;
+	&lt;/xsd:complexType&gt;
+&lt;/xsd:schema&gt;</pre><br><h2><span id="SAXSimple_API_for_XML_Processing">３．SAX(Simple API for XML Processing)で読み込む</span></h2><p>SAX(Simple API for XML Processing)はXMLを読み込むためのAPIです。SAXの特徴は、イベント駆動と呼ばれるプログラムの仕方になることです。</p><blockquote><p>SAX</p><p><a href="http://www.saxproject.org/">http://www.saxproject.org/</a></p><p>&nbsp;</p><p>javax.xml.stream (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/package-summary.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/package-summary.html</a></p><p>&nbsp;</p><p>javax.xml.stream.events (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/events/package-summary.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/events/package-summary.html</a></p><p>&nbsp;</p><p>javax.xml.stream.util (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/util/package-summary.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/util/package-summary.html</a></p></blockquote><p>イベント駆動のイメージは、<span>XML</span>を先頭から順番に読んでいった時の出来事、つまり要素が出現した、要素が終わった、テキストが出現したなどの「イベント」ごとに、あらかじめ決めてある処理が呼ばれるものです。</p><h3><span id="-SAXXML">３-１．SAXでの<span>XML</span>読み込みプログラム</span></h3><p>これも百聞は一見に如かず<span>!! </span>まずは<span>SAX</span>で<span>XML</span>を読み込むプログラムをご覧ください。</p><pre class="prettyprint lang:default decode:true">import java.nio.file.Paths;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class SAXSample extends DefaultHandler {
+	String isbn;
+	String title;
+	String author;
+	String text;
+
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+		// 5. 何かの要素が始まった
+		if ("Book".equals(qName)) {
+			// 始まったのがBook要素なら、属性を読み取ってフィールドへ保存する
+			isbn = attributes.getValue("isbn");
+			author = attributes.getValue("author");
+			title = attributes.getValue("title");
+		}
+	}
+
+	public void characters(char[] ch, int start, int length) throws SAXException {
+		// 6. テキストが出現したなら、char配列をStringにしてフィールドへ保存する
+		text = new String(ch, start, length);
+	}
+
+	public void endElement(String uri, String localName, String qName) throws SAXException {
+		// 7. 何かの要素が終わった
+		if ("Book".equals(qName)) {
+			// 終わったのがBook要素なら、フィールドに保存したBook要素の情報を出力する
+			System.out.println("isbn = " + isbn);
+			System.out.println("author = " + author);
+			System.out.println("title = " + title);
+			System.out.println("text = " + text);
+			System.out.println();
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		// 1. SAXParserFactoryを取得
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		// 2. SAXParserを取得
+		SAXParser parser = factory.newSAXParser();
+		// 3. SAXのイベントハンドラを生成(このクラスのインスタンス)
+		SAXSample handler = new SAXSample();
+		// 4. SAXParserにXMLを読み込ませて、SAXのイベントハンドラに処理を行わせる
+		parser.parse(Paths.get("/bookList.xml").toFile(), handler);
+	}
+}</pre><h3><span id="i-3">３-２．プログラムの簡単な解説</span></h3><p>さて、<span>DOM</span>とはずいぶんプログラムが変わりました。<span>Book</span>要素を探していませんし、ループもありません。でも、これを実行すると<span>DOM</span>の場合と同じ出力になるのです<span>…</span>不思議ですね。</p><p>プログラムの考え方は、以下となります。先ほどお伝えしたとおり、<span>XML</span>を先頭から読み取っていって、要素やテキストが出現するごとに、<span>DefaultHandler</span>が持つメソッドのうち、決められたものが呼ばれるのです。</p><p><a href="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/e78115e026891cfa422fc1453dd2c575.png"><img decoding="async" loading="lazy" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/e78115e026891cfa422fc1453dd2c575.png" alt="XMLとSAXのイベント発生タイミング" width="960" height="720" class="alignnone size-full wp-image-1639" srcset="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/e78115e026891cfa422fc1453dd2c575.png 960w, https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/e78115e026891cfa422fc1453dd2c575-768x576.png 768w" sizes="(max-width: 960px) 100vw, 960px" /></a></p><p>ですから、<span>DOM</span>とは違い<span>XML</span>の構造を意識せずにすむので、プログラムは比較的簡単です。<span>SAX</span>の<span>&#8220;Simple&#8221;</span>はこれを意味しています。処理したい要素に到着するまで待って、到着したらやりたいことをするのです。</p><p>逆に、<span>XML</span>の構造を強く意識したプログラムは、<span>SAX</span>は苦手です。今処理している要素の親要素や子要素が何かが、<span>SAX</span>では直接わからないからです。ですので、ツリー構造を意識したプログラムは複雑になります。</p><h3><span id="-SAX">３-３．【参考】<span>SAX</span>でのイベントの種類</span></h3><p>SAXのイベントの発生タイミングをまとめました。詳しくは以下の<span>Javadoc</span>か、<span>SAX Project</span>のドキュメントを参照してください。<span>DefaultHandler</span>は～<span>Handler</span>を全て空で実装している、継承元として便利なクラスです。</p><p>&nbsp;</p><blockquote><p>ContentHandler (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/org/xml/sax/ContentHandler.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/org/xml/sax/ContentHandler.html</a></p><p>&nbsp;</p><p>DTDHandler (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/org/xml/sax/DTDHandler.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/org/xml/sax/DTDHandler.html</a></p><p>&nbsp;</p><p>EntityResolver (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/org/xml/sax/EntityResolver.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/org/xml/sax/EntityResolver.html</a></p><p>&nbsp;</p><p>ErrorHandler (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/org/xml/sax/ErrorHandler.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/org/xml/sax/ErrorHandler.html</a></p><p>&nbsp;</p><p>DefaultHandler (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/org/xml/sax/helpers/DefaultHandler.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/org/xml/sax/helpers/DefaultHandler.html</a></p></blockquote><div class="attention a-3"><p class="attention-title">ContentHandler</p><ul><li>startDocument：XML文書が始まった時</li><li>endDocument：XML文書が終わった時</li><li>startElement：要素が始まった時</li><li>endElement：要素が終わった時</li><li>startPrefixMapping：名前空間のマッピングが始まった時</li><li>endPrefixMapping​：名前空間のマッピングが終わった時</li><li>characters：文字が出現した時</li><li>ignorableWhitespace：無視できる空白文字が出現した時</li><li>processingInstruction：処理命令(&lt;? ～<span> ?&gt;)</span>が出現した時</li><li>skippedEntity：処理に失敗したエンティティがあった時</li><li>setDocumentLocator：読み取っている<span>XML</span>の桁数・行数が変わった時</li></ul></div><div class="attention a-3"><p class="attention-title">DTDHandler</p><ul><li>notationDecl：表記法宣言(&lt;!NOTATION ～&gt;)が出現した時</li><li>unparsedEntityDecl：解析対象外エンティティ宣言が出現した時</li></ul></div><div class="attention a-3"><p class="attention-title">EntityResolver</p><ul><li>resolveEntity：外部エンティティの解決が必要な時</li></ul></div><div class="attention a-3"><p class="attention-title">ErrorHandler</p><ul><li>warning：XMLの処理中に警告が発生した時</li><li>error​：<span>XML</span>の処理中にエラーが発生した時</li><li>fatalError：<span>XML</span>の処理中に復帰不可能なエラーが発生した時</li></ul></div> <br><h2><span id="StAXStreaming_API_for_XML">４．StAX(Streaming API for XML)で読み込む</span></h2><p>次はStAX(Streaming API for XML)です。これもDOMやSAXとは違うスタイルのプログラミングになります。StAXはイベント駆動なプログラミングスタイルの一種ですが、<span>SAX</span>とはイベントの取り扱い方が違います。</p><blockquote><p>Streaming API for XML &#8211; ウィキペディア</p><p><a href="https://ja.wikipedia.org/wiki/Streaming_API_for_XML">https://ja.wikipedia.org/wiki/Streaming_API_for_XML</a></p><p>&nbsp;</p><p>JSR 173 &#8211; JCP.org</p><p><a href="https://jcp.org/en/jsr/detail?id=173">https://jcp.org/en/jsr/detail?id=173</a></p></blockquote><p>StAXの特徴は以下のものです。</p><ul><li><span>Pull</span>型である。イベントの種類を<span>StAX</span>のクラスに聞いて、必要な処理を自分で呼び出す。</li><li><span>Iterator</span>パターンで実装する。<span>Iterate</span>する要素は、<span>XML</span>を読む上で起きたイベントである。</li><li><span>SAX</span>よりも制限が緩い。<span>SAX</span>のように決まったクラス<span>(DefaultHandler)</span>やインターフェイス<span>(ContentHandler</span>など<span>)</span>を継承・実装しなくてもいい。</li></ul><p>なお、<span>StAX</span>では<span>XML</span>の読み込みに<span>XMLStreamReader</span>と<span>XMLEventReader</span>のどちらかを使います。これらの間でも、少しプログラミングの仕方が違うので、ここでは両方紹介します。</p><h3><span id="-StAXXMLXMLStreamReader">４-１．StAXでの<span>XML</span>読み込みプログラム<span>(XMLStreamReader</span>を使う方法<span>)</span></span></h3><p>StAXの<span>XMLStreamReader</span>で<span>XML</span>を読み込むプログラムは、こんな感じになります。</p><pre class="prettyprint lang:default decode:true">import java.io.FileInputStream;
+import java.nio.file.Paths;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamReader;
+
+public class StAXSample {
+	public static void main(String[] args) throws Exception {
+		XMLStreamReader reader = null;
+
+		try {
+			// 1.XMLInputFactoryを取得する
+			XMLInputFactory factory = XMLInputFactory.newInstance();
+			// 2.XMLStreamReaderを生成し、XMLファイルを読み込ませる
+			reader = factory.createXMLStreamReader(new FileInputStream(Paths.get("/bookList.xml").toFile()));
+
+			String isbn = null;
+			String author = null;
+			String title = null;
+			StringBuilder text = new StringBuilder();
+
+			// 3.XMLStreamReaderにイベントがまだあるか聞いて、あるならループを継続
+			while (reader.hasNext()) {
+				// 4.次のイベントに突入!!
+				// nextの戻り値はイベント種類の数値で、XMLStreamConstantsで決められている
+				int eventType = reader.next();
+
+				switch (eventType) {
+				// 5.要素が始まったならSTART_ELEMENT
+				case XMLStreamConstants.START_ELEMENT:
+					// 今処理している要素がBookなら、属性を読み込む
+					if ("Book".equals(reader.getName().getLocalPart())) {
+						isbn = reader.getAttributeValue(null, "isbn");
+						author = reader.getAttributeValue(null, "author");
+						title = reader.getAttributeValue(null, "title");
+						text.setLength(0);
+					}
+					break;
+				// 6.テキストが出て来たならCHARACTERS
+				case XMLStreamConstants.CHARACTERS:
+					text.append(reader.getText());
+					break;
+				// 7.要素が終わったならEND_ELEMENT
+				case XMLStreamConstants.END_ELEMENT:
+					// 今処理している要素がBookなら、属性とテキストを出力する
+					if ("Book".equals(reader.getName().getLocalPart())) {
+						System.out.println("isbn = " + isbn);
+						System.out.println("title = " + title);
+						System.out.println("author = " + author);
+						System.out.println("text = " + text.toString());
+						System.out.println();
+					}
+					break;
+				}
+			}
+		} finally {
+			// 8.処理が終わったら、忘れずにXMLStreamReaderをcloseする
+			if (reader != null) {
+				reader.close();
+			}
+		}
+	}
+}</pre><h3><span id="-XMLStreamReader">４-２．プログラムの簡単な解説<span>(XMLStreamReader)</span></span></h3><p>全体の雰囲気は<span>SAX</span>に似ています。でも、<span>StAX</span>では起きたイベントが何かを自分で調べて、対応する処理を自分で書きます。一方、<span>SAX</span>では起きたイベントごとに、イベントハンドラのメソッドが自動で呼び出されます。</p><p><a href="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/3bbc3f06248de8b086c2b80ead6211a3.png"><img decoding="async" loading="lazy" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/3bbc3f06248de8b086c2b80ead6211a3.png" alt="XMLとStAXのイベント発生タイミング" width="960" height="720" class="alignnone size-full wp-image-1640" srcset="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/3bbc3f06248de8b086c2b80ead6211a3.png 960w, https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/05/3bbc3f06248de8b086c2b80ead6211a3-768x576.png 768w" sizes="(max-width: 960px) 100vw, 960px" /></a></p><p>今、<span>XML</span>のどこにいるかは<span>XMLStreamReader</span>自身が分かっています。まだ次のイベントがあるなら<span>hasNext</span>は<span>true</span>を戻し、<span>next</span>するとどのイベントかを<span>XMLStreamConstants</span>にある数字で戻してくれます。</p><blockquote><p> XMLStreamConstants (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/XMLStreamConstants.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/XMLStreamConstants.html</a></p></blockquote><p>そして、<span>XMLStreamReader</span>のメソッドを呼べば<span>XML</span>の情報を得られます。今いるのが要素ならタグ名が分かりますし、属性ならその値、テキストならその文字列などを<span>XMLStreamReader</span>が教えてくれます。</p><blockquote><p>XMLStreamReader (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/XMLStreamReader.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/XMLStreamReader.html</a></p></blockquote><h3><span id="-StAXXMLXMLEventReader">４-３．StAXでの<span>XML</span>読み込みプログラム<span>(XMLEventReader</span>を使う方法<span>)</span></span></h3><p>StAXのもう一つのクラス<span>XMLEventReader</span>で<span>XML</span>を読み込むプログラムは、こんな感じになります。</p><pre class="prettyprint lang:default decode:true">import java.io.FileInputStream;
+import java.nio.file.Paths;
+
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
+
+public class StAXSample2 {
+
+	public static void main(String[] args) throws Exception {
+		XMLEventReader reader = null;
+
+		try {
+			XMLInputFactory factory = XMLInputFactory.newInstance();
+			reader = factory.createXMLEventReader(new FileInputStream(Paths.get("/bookList.xml").toFile()));
+
+			String qName = null;
+			String isbn = null;
+			String author = null;
+			String title = null;
+			String text = null;
+			QName isbnQname = new QName("isbn");
+			QName authorQname = new QName("author");
+			QName titleQname = new QName("title");
+
+			while (reader.hasNext()) {
+				XMLEvent event = reader.nextEvent();
+
+				if (event.isStartElement()) {
+					StartElement element = event.asStartElement();
+					qName = element.getName().getLocalPart();
+
+					if ("Book".equals(qName)) {
+						Attribute isbnAttr = element.getAttributeByName(isbnQname);
+						Attribute titleAttr = element.getAttributeByName(titleQname);
+						Attribute authorAttr = element.getAttributeByName(authorQname);
+
+						isbn = isbnAttr.getValue();
+						title = titleAttr.getValue();
+						author = authorAttr.getValue();
+					}
+				} else if (event.isCharacters()) {
+					if ("Book".equals(qName)) {
+						text = event.asCharacters().getData();
+					}
+				} else if (event.isEndElement()) {
+					if ("Book".equals(qName)) {
+						System.out.println("isbn = " + isbn);
+						System.out.println("title = " + title);
+						System.out.println("author = " + author);
+						System.out.println("text = " + text.toString());
+						System.out.println();
+					}
+
+					qName = null;
+
+				}
+			}
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
+	}
+}</pre><h3><span id="-XMLEventReader">４-４．プログラムの簡単な解説<span>(XMLEventReader)</span></span></h3><p>プログラムの流れは<span>XMLEventReader</span>でも、<span>XMLStreamReader</span>と同じです<span>…</span>というか、わざと同じにしました。<span>XMLStreamReader</span>の例では<span>switch</span>文で、こちらは<span>if</span>文です。でも、それは本質的な違いではないのです。</p><p>XMLEventReaderでは、イベントが<span>XMLEvent</span>にカプセル化されます。これが<span>XMLStreamReader</span>との違いです。<span>XMLEvent</span>を使えば、イベントへの処理を別のメソッドやクラスに行わせるのが簡単・安全になるのです。</p><blockquote><p>XMLEventReader (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/XMLEventReader.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/XMLEventReader.html</a></p><p>&nbsp;</p><p>XMLEvent (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/events/XMLEvent.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/stream/events/XMLEvent.html</a></p></blockquote><p>なぜかというと、<span>XMLEvent</span>には次のイベントに進めるメソッドがないので、他のクラスやメソッドに<span>XMLEvent</span>を渡しても、<span>XML</span>の読み取りを安全に進められます。さらに、イベントハンドラを自分でも作れるのです。</p><p>XMLStreamReaderは<span>hasNext</span>や<span>next</span>ができるので、<span>XMLStreamReader</span>を別のクラスやメソッドに渡すと、こっそり次のイベントへ進められます。それが役に立つこともありますが、バグの原因にもなりかねません。</p><h4>４-４-１．【発展】<span>XMLEvent</span>を使ったイベントハンドラの例</h4><p>SAXでの<span>ContentHandler</span>のようなクラスを<span>XMLEvent</span>で簡単に作ってみると、以下となります。こういうものを自分の都合に合わせて自由に作れるのが、<span>XMLEventReader</span>や<span>XMLEvent</span>のいいところです。</p><pre class="prettyprint lang:default decode:true">import java.io.FileInputStream;
+import java.nio.file.Path;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.events.Characters;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
+
+abstract class MyContentHandler {
+	final void read(Path xml) throws Exception {
+		XMLEventReader reader = null;
+
+		try {
+			XMLInputFactory factory = XMLInputFactory.newInstance();
+			reader = factory.createXMLEventReader(new FileInputStream(xml.toFile()));
+
+			while (reader.hasNext()) {
+				XMLEvent event = reader.nextEvent();
+
+				if (event.isStartElement()) {
+					startElement(event.asStartElement());
+				} else if (event.isCharacters()) {
+					characters(event.asCharacters());
+				} else if (event.isEndElement()) {
+					endElement(event.asEndElement());
+				}
+			}
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
+	}
+
+	// 要素開始時に呼び出される抽象メソッド
+	abstract void startElement(StartElement element);
+
+	// テキスト出現時に呼び出される抽象メソッド
+	abstract void characters(Characters characters);
+
+	// 要素終了時に呼び出される抽象メソッド
+	abstract void endElement(EndElement element);
+}</pre><pre class="prettyprint lang:default decode:true">import java.nio.file.Paths;
+
+import javax.xml.stream.events.Characters;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+
+class MyContentHandlerImpl extends MyContentHandler {
+	// 要素開始時の抽象メソッドの実装
+	void startElement(StartElement element) {
+		System.out.println(element.getName().getLocalPart());
+	}
+
+	// テキスト出現時の抽象メソッドの実装
+	void characters(Characters characters) {
+		System.out.println(characters.getData());
+	}
+
+	// 要素終了時の抽象メソッドの実装
+	void endElement(EndElement element) {
+		System.out.println(element.getName().getLocalPart());
+	}
+
+	public static void main(String[] args) throws Exception {
+		new MyContentHandlerImpl().read(Paths.get("/bookList.xml"));
+	}
+}</pre><br><h2><span id="XPathXML_Path_Language">５．XPath(XML Path Language)で読み込む</span></h2><p>XPathは他のAPIとは大分違います。XPathは<span>XML</span>の検索方法の一つで、データベースへの<span>SQL</span>に似ています。検索条件を<span>XPath</span>の構文で書いて<span>XML</span>に問い合わせると、条件を満たす要素やテキストが簡単に得られます。</p><blockquote><p>XML Path Language</p><p><a href="https://ja.wikipedia.org/wiki/XML_Path_Language">https://ja.wikipedia.org/wiki/XML_Path_Language</a></p><p>&nbsp;</p><p>XML Path Language (XPath)</p><p><a href="https://www.w3.org/TR/1999/REC-xpath-19991116/">https://www.w3.org/TR/1999/REC-xpath-19991116/</a></p><p>&nbsp;</p><p>javax.xml.xpath (Java SE 11 &amp; JDK 11)</p><p><a href="https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/xpath/package-summary.html">https://docs.oracle.com/javase/jp/11/docs/api/java.xml/javax/xml/xpath/package-summary.html</a></p></blockquote><p>DOMでは要素を順番にたどったり、タグ名や<span>ID</span>属性での検索もできます。でも、プログラムの行数は増えてしまいがちです。<span>SAX</span>や<span>StAX</span>はイベント駆動なので、要素の親子関係を意識した処理はちょっと苦手です。</p><p>でも、<span>XPath</span>ではそれらをすべてクリアできます。欲しい情報をダイレクトに、かつ短いプログラム行数で得られます。要素の親子関係で検索できますし、属性値が何か、テキストに何かを含む、なども指定できるのです<span>!!</span></p><h3><span id="-XPathXML">５-１．XPathでの<span>XML</span>読み込みプログラム</span></h3><p>ではさっそく<span>XPath</span>で<span>XML</span>を読み込んでみましょう。</p><pre class="prettyprint lang:default decode:true">import java.io.FileInputStream;
+import java.nio.file.Paths;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+public class XPathSample {
+	public static void main(String[] args) throws Exception {
+		// 1.Documentを作るまでの流れはDOMと同じ
+		FileInputStream is = new FileInputStream(Paths.get("/bookList.xml").toFile());
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document document = builder.parse(is);
+
+		// 2.XPathの処理を実行するXPathのインスタンスを取得する
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		// 3.XPathでの検索条件を作る
+		XPathExpression expr = xpath.compile("/BookList/Book");
+		// 4.DocumentをXPathで検索して、結果をDOMのNodeListで受け取る
+		NodeList nodeList = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
+
+		// 5.XPathでの検索結果を持っているNodeListの内容でループ
+		for (int i = 0; i &lt; nodeList.getLength(); i++) {
+			// 6.要素を検索しているのでNodeの実体はElement。キャストして使う。
+			Element element = (Element) nodeList.item(i);
+
+			// 7.Elementから必要な情報を取得して出力する
+			System.out.println("isbn = " + element.getAttribute("isbn"));
+			System.out.println("title = " + element.getAttribute("title"));
+			System.out.println("author = " + element.getAttribute("author"));
+			System.out.println("text = " + element.getTextContent());
+			System.out.println();
+		}
+	}
+}</pre><h3><span id="i-4">５-２．プログラムの簡単な解説</span></h3><p>XPathは検索の仕組みなので、<span>XPath</span>では検索条件を指定するだけで、検索結果は<span>DOM</span>のクラスになります。ここでは検索結果は<span>NodeList</span>で戻すように、検索をする時の引数で指定しています。</p><p>キモは、<span>3.</span>での<span>XPath</span>での検索条件です。文字列で<span>&#8220;/BookList/Book&#8221;</span>とありますよね。これは「ルート要素の<span>BookList</span>要素の直下にある<span>Book</span>要素を全て取得する」を意味しているのです。</p><p>4.で<span>XML</span>から検索すると、<span>XPath</span>での検索条件にヒットしたモノが戻ります。ですから、<span>DOM</span>での検索や<span>SAX</span>・<span>StAX</span>のプログラムの作り方とはかなり違いますよね。これは<span>SQL</span>で検索して結果を得るのと似ています。</p><h3><span id="-XPath">５-３．【参考】<span>XPath</span>でのいろいろな検索の仕方</span></h3><p>先程の例では要素のタグ名で検索しました。もちろん<span>XPath</span>ではもっと別の検索条件も使えます。属性の値、テキストの部分一致などです。検索結果としても、要素だけではなく属性の値や、テキストを指定できます。</p><p>例えば、以下のようにもできるのです。欲しいものを<span>XPath</span>の検索条件として指定すれば、それが得られます。なんとなく雰囲気が分かるかと思います。多分、<span>[]</span>が抽出条件で、<span>@</span>が属性かなぁ<span>…</span>という感じがしますよね。</p><p><strong><span class="f-marker-p">例1: ISBNが&#8221;ISBN978-4-1234-0001-5&#8243;のBook要素を取得する</span></strong></p><pre class="prettyprint lang:default decode:true">XPathExpression expr2 = xpath.compile("//Book[@isbn = 'ISBN978-4-1234-0001-5']");
+Element element2 = (Element) expr2.evaluate(document, XPathConstants.NODE);
+System.out.println("title = " + element2.getAttribute("title"));</pre><p>&nbsp;</p><p><strong><span class="f-marker-y">例2: テキストに&#8221;cat&#8221;を含むBook要素を取得する</span></strong></p><pre class="prettyprint lang:default decode:true">XPathExpression expr3 = xpath.compile("//Book[contains(text(), 'cat')]");
+Element element3 = (Element) expr3.evaluate(document, XPathConstants.NODE);
+System.out.println("title = " + element3.getAttribute("title"));</pre><p>&nbsp;</p><p><strong><span class="f-marker-w">例3: title属性が&#8221;The Cats of Ulthar&#8221;であるBook要素のauthor属性の値を取得する</span></strong></p><pre class="prettyprint lang:default decode:true">XPathExpression expr4 = xpath.compile("//Book[@title = 'The Cats of Ulthar']/@author");
+String author = (String) expr4.evaluate(document, XPathConstants.STRING);
+System.out.println("author = " + author);</pre><p>&nbsp;</p><p><strong><span class="f-marker-g">例4: title属性が&#8221;The Cats of Ulthar&#8221;であるBook要素のテキストを取得する</span></strong></p><pre class="prettyprint lang:default decode:true">XPathExpression expr5 = xpath.compile("//Book[@title = 'The Cats of Ulthar']/text()");
+String text = (String) expr5.evaluate(document, XPathConstants.STRING);
+System.out.println("text = " + text);</pre><p>XPathで出来ることは、実はまだまだこんなものではありません。もし興味があれば、<span>XPath</span>をもっと深く学んでみるといいでしょう。そして、<span>XPath</span>が分かれば、その関連仕様である<span>XQuery</span>の理解も見えてきますよ。</p> <br><h2><span id="JAXBJava_Architecture_for_XML_Binding">６．【参考】JAXB(Java Architecture for XML Binding)で読み込む</span></h2><p>過去のJava SEでは、JAXB(Java API for XML Binding)というAPIも使えました。この<span>API</span>は今もありますが、<span>Java SE 11</span>からは削除され、エンタープライズ向けの<span>Java EE(</span>現<span>Jakarta EE)</span>の機能の位置付けになりました。</p><p>JAXBの特徴は、<span>XML</span>の構造と<span>Java</span>のクラスを直接紐付けることです。<span>XML</span>と紐付けたクラスを作っておけば、<span>JAXB</span>のクラスのメソッドを呼び出すだけで、<span>XML</span>の内容が反映されたクラスのインスタンスが得られます。</p><p>つまり、<span>DOM</span>や<span>SAX</span>や<span>StAX</span>のように、<span>XML</span>をプログラム上であれこれいじり回す必要はないのです。その代りに、アノテーションなどで<span>XML</span>の構造とクラスを紐付けておくという、事前作業が必要になります。</p><h3><span id="-JAXBXML">６-１．JAXBでの<span>XML</span>読み込みプログラム</span></h3><p>この例の<span>XML</span>では、<span>BookList</span>と<span>Book</span>という二つの要素があります。ですので、今回の<span>JAXB</span>の例では対応する二つのクラスを<span>XML</span>の構造に合わせて作ってみます。</p><pre class="prettyprint lang:default decode:true">import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "BookList")
+public class BookList {
+	@XmlElement(name = "Book")
+	List&lt;Book&gt; books;
+}</pre><pre class="prettyprint lang:default decode:true">import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
+
+@XmlRootElement(name = "Book")
+public class Book {
+	@XmlAttribute
+	String isbn;
+	@XmlAttribute
+	String author;
+	@XmlAttribute
+	String title;
+	@XmlValue
+	String text;
+
+	public String toString() {
+		return new StringBuilder()
+				.append("isbn = ").append(isbn).append('\n')
+				.append("author = ").append(author).append('\n')
+				.append("title = ").append(title).append('\n')
+				.append("text = ").append(text).append("\n")
+				.toString();
+	}
+}</pre><pre class="prettyprint lang:default decode:true">import java.nio.file.Paths;
+
+import javax.xml.bind.JAXB;
+
+public class JAXBSample {
+	public static void main(String[] args) {
+		BookList bookList = JAXB.unmarshal(Paths.get("/bookList.xml").toFile(), BookList.class);
+		bookList.books.forEach(System.out::println);
+	}
+}</pre><h3><span id="i-5">６-２．プログラムの簡単な解説</span></h3><p>BookListは、フィールドとして<span>Book</span>の<span>List</span>である<span>books</span>を持っているだけのクラスです。<span>books</span>へ、<span>XmlElement</span>でこの<span>List</span>の内容を<span>Book</span>という要素として出力するように指定しています。</p><p>Bookでは、各フィールドを要素の属性として出力するよう、<span>XmlAttribute</span>で指定しています。属性名はフィールドの変数名が使われます。さらに、<span>text</span>を要素のテキストとして出力するよう<span>XmlValue</span>で指定しています。</p><p>そして、<span>JAXB.unmarshal</span>の引数に<span>XML</span>とクラスを指定すれば、<span>Java</span>のクラスのインスタンスにできます。なお、この例では<span>XML</span>から読んでいますが、逆にインスタンスを<span>XML</span>にすることも、以下のようにできるのです。</p><pre class="prettyprint lang:default decode:true">import java.nio.file.Paths;
+import java.util.ArrayList;
+
+import javax.xml.bind.JAXB;
+
+public class JAXBSample2 {
+	public static void main(String[] args) throws Exception {
+		// 1.吾輩は猫である、をBookとして生成
+		Book wagahai = new Book();
+		wagahai.isbn = "ISBN978-4-1234-0001-5";
+		wagahai.author = "夏目漱石";
+		wagahai.title = "吾輩は猫である";
+		wagahai.text = "吾輩は猫である。名前はまだない。どこで生れたかとんと見当がつかぬ。";
+
+		// 2.The Cats of Ulthar、をBookとして生成
+		Book ulthal = new Book();
+		ulthal.isbn = "ISBN978-4-1234-0002-2";
+		ulthal.author = "H. P. Lovecraft";
+		ulthal.title = "The Cats of Ulthar";
+		ulthal.text = "It is said that in Ulthar, which lies beyond the river Skai, no man may kill a cat;";
+
+		// 3.Lebensansichten des Katers Murr、をBookとして生成
+		Book murr = new Book();
+		murr.isbn = "ISBN978-4-1234-0003-9";
+		murr.author = "E. T. A. Hoffmann";
+		murr.title = "Lebensansichten des Katers Murr";
+		murr.text = "Es ist doch etwas Schönes, Herrliches, Erhabenes um das Leben!";
+
+		// 4.BookListを生成して、それぞれのBookを格納する
+		BookList bookList = new BookList();
+		bookList.books = new ArrayList&lt;&gt;();
+		bookList.books.add(wagahai);
+		bookList.books.add(ulthal);
+		bookList.books.add(murr);
+
+		// 5.JAXBを使って、インスタンスの内容をXMLにする!!
+		JAXB.marshal(bookList, Paths.get("Z:/marshal.xml").toFile());
+	}
+}</pre><h3><span id="-Java_SE_9JAXB">６-３．Java SE 9以降で<span>JAXB</span>を使う方法</span></h3><p>Java SE 9/10では<span>JAXB</span>関連のクラスがあるモジュールはまだありますので、<span>JAXB</span>のモジュールを<span>add</span>すれば使えます。例えば、<span>java</span>コマンドへの引数に<span> &#8211;add-modules java.xml.bind </span>あるいは<span> &#8211;add-modules java.se.ee </span>を追加すれば一応は使えます。</p><p>ですが、<span>Java SE 11</span>からは<span>JAXB</span>関連のクラスがあるモジュール自体が含まれなくなってしまいましたので、この<span>add</span>する方法はもう使えません。どこかから、<span>JAXB</span>で使うクラスを持ってこなければならないのです。</p><p>JAXBを使うための<span>API</span>や実行クラスは、例えば<span>Maven</span>を使っている場合は、<span>pom.xml</span>へ以下の依存先ライブラリを追加することで使えるようになります<span>(</span>バージョンは<span>2019/4</span>時点での最新のものです<span>)</span>。</p><pre class="prettyprint lang:default decode:true">&lt;dependency&gt;
+    &lt;groupId&gt;javax.xml.bind&lt;/groupId&gt;
+    &lt;artifactId&gt;jaxb-api&lt;/artifactId&gt;
+    &lt;version&gt;2.4.0-b180830.0359&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;org.glassfish.jaxb&lt;/groupId&gt;
+    &lt;artifactId&gt;jaxb-runtime&lt;/artifactId&gt;
+    &lt;version&gt;2.4.0-b180830.0438&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;org.glassfish.jaxb&lt;/groupId&gt;
+    &lt;artifactId&gt;jaxb-core&lt;/artifactId&gt;
+    &lt;version&gt;2.3.0.1&lt;/version&gt;
+&lt;/dependency&gt;</pre><br><h2><span id="i-6">７．【参考】普通のファイル読み込み<span>+</span>文字列処理で読み込む</span></h2><p>今までご紹介してきた<span>XML</span>用の<span>API</span>を使わなくても、<span>XML</span>を読み込むことはできます。<span>XML</span>と言えども単なる文字列の集まりですから、できることを割り切ってしまえば、文字列処理の範囲で対応できなくもないからです。</p><p>XMLの構造が分かっていて、かつ書かれ方が統一されていれば、以下のようにも作れます。ある意味で、処理内容はとても分かりやすいですし、<span>XML</span>の解析は文字列処理の勉強をするのにちょうどいいテーマでもあります。</p><h3><span id="-XML-2">７-１．普通のファイル読み込み<span>+</span>文字列処理での<span>XML</span>読み込みプログラム</span></h3><p>ここでは、普通のファイル読み込みと正規表現を使ったプログラムの簡単な例をご紹介します。<span>XML</span>の仕様からしてみれば機能が足りないところだらけですが、実用上ではこんなものでも十分使えるものだったりします。</p><pre class="prettyprint lang:default decode:true">import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class StringSample {
+	public static void main(String[] args) throws IOException {
+		// 1. Book要素全体とマッチングさせるための正規表現を生成する
+		Pattern elemPattern = Pattern.compile("&lt;Book (?&lt;attrs&gt;.+)?&gt;(?&lt;text&gt;.+?)&lt;/Book&gt;");
+		// 2. Book要素内の属性一覧とマッチングさせるための正規表現を生成する
+		Pattern attrPattern = Pattern.compile("(?&lt;attrname&gt;isbn|author|title)=\"(?&lt;attrvalue&gt;.+?)\"");
+
+		// 3. Files.readAllLinesを使って、XMLを一気に読み込んで、ループをする
+		Files.readAllLines(Paths.get("/bookList.xml")).forEach(s -&gt; {
+			// 4. Book要素とマッチングをして、
+			Matcher elemMatcher = elemPattern.matcher(s);
+
+			// 5. Book要素の行であれば、
+			if (elemMatcher.find()) {
+				// 6. Book要素の属性部分を取り出して、さらにマッチング
+				String attrs = elemMatcher.group("attrs");
+				Matcher attrMatcher = attrPattern.matcher(attrs);
+
+				// 7. マッチした属性部分の情報をすべて出力する
+				while (attrMatcher.find()) {
+					System.out.println(attrMatcher.group("attrname") + " = " + attrMatcher.group("attrvalue"));
+				}
+
+				// 8. テキスト部分は最初のマッチングの結果から取ってくる
+				System.out.println("text = " + elemMatcher.group("text"));
+				System.out.println();
+			}
+		});
+	}
+}</pre><h3><span id="i-7">７-２．プログラムの簡単な解説</span></h3><p>このプログラムでは、<span>XML</span>ファイルの行をすべて読み込んで、行単位に処理をしています。行の文字列を<span>substring</span>しても別にいいのですが、正規表現を使う方がプログラミングが楽ですし、短くもなります。</p><p>まず、<span>Book</span>要素の行かどうかを、属性部分とテキスト部分を抜き出す正規表現で確認しています。マッチさせるのと同時に、マッチした部分を後から抜き出せるよう、マッチ部分に名前を付けています<span>(attr</span>と<span>text)</span>。</p><p>さらに、<span>Book</span>要素だと思われる行なら、出力したい属性を正規表現で抜き出します。こちらも属性名と属性値のマッチ部分に名前を付けて<span>(attrname</span>と<span>attrvalue)</span>、マッチした部分すべてをループして取り出しています。</p><p>正規表現でのポイントは、マッチ部分に名前を付けていること<span>(?&lt;</span>名前<span>&gt;)</span>と、マッチ方法を最短一致<span>(.+?)</span>としていることです。<span>Java</span>の正規表現は通常は最長一致なので、余計なものまでついてくるからですね。</p> <br><h2><span id="i-8">８．まとめ</span></h2><p>この記事では、<span>Java SE</span>で使える<span>XML</span>読み込みの<span>4</span>つの方法を、サンプルを交えてお伝えしました。その<span>4</span>つの方法とは、<span>DOM</span>、<span>SAX</span>、<span>StAX</span>、<span>XPath</span>です。その他にも、<span>JAXB</span>と<span>XML</span>を直接解釈する方法もご紹介しました。</p><p>同じ<span>XML</span>を読んで同じ出力をするだけでも、やり方が大きく違うとお分かりいただけたかと思います。ですので、プログラムでやりたいことにピッタリのやり方を選べるよう、それぞれ使い方を学んでおくといいでしょう。</p><p>また、<span>Java</span>の標準<span>API</span>の他にも、以下のような外部ライブラリが使えます。<span>DOM</span>、<span>SAX</span>、<span>StAX</span>、<span>XPath</span>などのいいとこ取りをしているようなものもありますので、興味があれば使ってみてもいいと思いますよ。</p><blockquote><ul><li><span>JDOM(<a href="http://www.jdom.org/">http://www.jdom.org/</a>)</span></li><li><span>DOM4J(<a href="https://dom4j.github.io/">https://dom4j.github.io/</a>)</span></li><li><span>XOM(<a href="http://www.xom.nu/">http://www.xom.nu/</a>)</span></li></ul></blockquote></div><div class="text-before-cta">私たちは、全ての<strong>エンジニアに市場価値を高め自身の望む理想のキャリア</strong>を歩んでいただきたいと考えています。もし、今あなたが転職を検討しているのであれば<a href="https://www.bold.ne.jp/engineer-club/engineer-change-jobs" id="link-before-cta">こちら</a>の記事をご一読ください。理想のキャリアを実現するためのヒントが見つかるはずです。</div><section class="post-cta post-cta-1295"><header class="post-cta-header"><h4 class="post-cta-title">『技術力』と『人間力』を高め定年まで働けるエンジニアを目指しませんか？</h4></header><div class="post-cta-body clearfix"><div class="post-cta-body-inner"><div class="post-cta-content"><p><img decoding="async" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/01/img.png"></p><p>私たちは<span style="color: #993366;"><strong>「技術力」</strong></span>だけでなく<span style="color: #993366;"><strong>「人間力」</strong></span>の向上をもって、エンジニアとしてだけでなくビジネスパーソンとして高い水準を目指し、社会や顧客に必要とされることで、関わる人々に感動を与える集団であろうと思っています。</p><ul><li><strong>定年までIT業界で働くためのスキルが身につく「感動大学」と「技術勉強会」！</strong></li><li><strong>「給与が上がらない」を解消する６ヶ月に１度の明確な「人事評価制度」！</strong></li><li><strong>理想のエンジニア像に近づくためのよきアドバイザー「専任コーチ制度」！</strong></li><li><strong>稼動確認の徹底により実現できる平均残業時間17時間の働きやすい環境！</strong></li></ul><p>現在、株式会社ボールドでは「キャリア採用」のエントリーを受付中です。</p><p><span style="color: #800000;">まずは以下のボタンより弊社の紹介をご覧いただき、あなたの望むキャリアビジョンをエントリーフォームより詳しくお聞かせください。</span></p></div></div></div><footer class="post-cta-footer"><p class="post-cta-btn"> <a class="button" href="https://www.bold.ne.jp/recruit/" target="_blank"						> 株式会社ボールドの採用情報を詳しく見る </a></p></footer></section></article><aside class="post-author" itemscope="itemscope" itemtype="http://schema.org/Person"><div class="clearfix"><div class="post-author-img"><div class="inner"> <img src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/12/e53cb0c699b1f005a02b46e7e3c7d3c6-3.jpg" alt="アバター"></div></div><div class="post-author-meta"><h4 class="author vcard" itemprop="name">大石 英人</h4><p>この道一筋20年。情報システムについてなら、構築・運用・保守、なんでもござれなエンジニア。システムやデータベースの設計、ソースコードの品質には一家言あり。気持ちはまだまだ若いので、若い世代のエンジニアと一緒に成長していきたい。</p></div></div></aside><footer class="entry-footer"><div class="sns_share"><ul><li class="facebook"> <a href="//www.facebook.com/sharer.php?u=https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Fjava-xml-read&t=Java%E6%A8%99%E6%BA%96API%E3%81%A7%E3%81%AEXML%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E6%96%B94%E3%81%A4%E3%82%92%E5%A4%A7%E7%B4%B9%E4%BB%8B+%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E6%AF%94%E8%BC%83%E3%81%97%E3%82%88%E3%81%86" aria-label="facebookシェア" target="_blank"> <i class="fa fa-facebook"></i><span> Facebook </span></a></li><li class="tweet"> <a href="//twitter.com/intent/tweet?text=Java%E6%A8%99%E6%BA%96API%E3%81%A7%E3%81%AEXML%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E6%96%B94%E3%81%A4%E3%82%92%E5%A4%A7%E7%B4%B9%E4%BB%8B+%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E6%AF%94%E8%BC%83%E3%81%97%E3%82%88%E3%81%86&https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Fjava-xml-read&url=https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Fjava-xml-read" aria-label="tweet" target="_blank"> <i class="fa fa-twitter"></i><span> Twitter </span></a></li><li class="hatena"><a href="//b.hatena.ne.jp/add?mode=confirm&url=https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Fjava-xml-read&title=Java%E6%A8%99%E6%BA%96API%E3%81%A7%E3%81%AEXML%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E6%96%B94%E3%81%A4%E3%82%92%E5%A4%A7%E7%B4%B9%E4%BB%8B+%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB%E3%81%A7%E6%AF%94%E8%BC%83%E3%81%97%E3%82%88%E3%81%86" aria-label="はてなブックマークシェア" target="_blank"><i class="fa fa-hatena"></i><span> はてブ </span></a></li></ul></div><ul class="post-footer-list"><li class="cat"><a href="https://www.bold.ne.jp/engineer-club/category/technical/java" rel="category tag">Java</a></li></ul></footer><aside id="underpost-widget" class="widget-area-underpost"><section id="xeory_related_posts-2" class="widget underpost-widget widget_xeory_related_posts"><div class="underpost-widget-inner"><h3 class="widget-title underpost-widget-title">関連記事</h3><div class="widget-content"><ul class="xeory-subloop xeory-subloop-horizon"><li class="xeory-subloop-item"><figure class="xeory-subloop-image"> <a href="https://www.bold.ne.jp/engineer-club/java-tostring" rel="nofollw"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2022/01/shutterstock_568617811-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="【Java】文字列に変換したい！toStringの使い方とvalueOfとの違いは？" decoding="async" loading="lazy" /></a></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title"><a href="https://www.bold.ne.jp/engineer-club/java-tostring">【Java】文字列に変換したい！toStringの使い方とvalueOfとの違いは？</a></h4><ul class="xeory-subloop-meta"><li class="date">2022.02.08</li><li class="cat">Java</li><li class="tag"></li></ul></div></li><li class="xeory-subloop-item"><figure class="xeory-subloop-image"> <a href="https://www.bold.ne.jp/engineer-club/java-length" rel="nofollw"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2022/02/shutterstock_568617811-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="Javaで文字列や配列の「長さ」を取得するには2つのlengthを使い分けよう" decoding="async" loading="lazy" /></a></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title"><a href="https://www.bold.ne.jp/engineer-club/java-length">Javaで文字列や配列の「長さ」を取得するには2つのlengthを使い分けよう</a></h4><ul class="xeory-subloop-meta"><li class="date">2022.02.04</li><li class="cat">Java</li><li class="tag"></li></ul></div></li><li class="xeory-subloop-item"><figure class="xeory-subloop-image"> <a href="https://www.bold.ne.jp/engineer-club/java-thread" rel="nofollw"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/10/shutterstock_568617811-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="Javaについて徹底解説！" decoding="async" loading="lazy" /></a></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title"><a href="https://www.bold.ne.jp/engineer-club/java-thread">Javaのスレッド(Thread)を使いこなすコツを、基礎からしっかり伝授</a></h4><ul class="xeory-subloop-meta"><li class="date">2020.01.24</li><li class="cat">Java</li><li class="tag"></li></ul></div></li><li class="xeory-subloop-item"><figure class="xeory-subloop-image"> <a href="https://www.bold.ne.jp/engineer-club/java-lambda-expression" rel="nofollw"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/10/shutterstock_568617811-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="Javaについて徹底解説！" decoding="async" loading="lazy" /></a></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title"><a href="https://www.bold.ne.jp/engineer-club/java-lambda-expression">徹底解説! Javaのラムダ式はどういうもので、どう使えばいいのか!</a></h4><ul class="xeory-subloop-meta"><li class="date">2019.12.25</li><li class="cat">Java</li><li class="tag"></li></ul></div></li></ul></div></div></section><section id="social_widget-2" class="widget underpost-widget widget_social_widget"><div class="underpost-widget-inner"><h3 class="side-widget-title">SNSで最新情報をチェック</h3><div class="widget-content"><div class="xeory-social-btns"><ul><li class="item-facebook"><a href="https://www.facebook.com/Enginnerclub-1787223914661396/" target="_blank"><span class="xeory-social-name">Facebook</span></a></li><li class="item-twitter"><a href="https://twitter.com/pr_engineerclub" target="_blank"><span class="xeory-social-name">Twitter</span></a></li><li class="item-feedly"><a href="https://feedly.com/i/subscription/feed/https%3A%2F%2Fwww.bold.ne.jp%2Fengineer-club%2Ffeed" target="_blank"><span class="xeory-social-name">Feedly</span></a></li></ul></div></div></div></section></aside><div id="comments" class="comments-area"><header class="comments-header"><h3 class="comments-title"> <span>コメント</span></h3></header><div id="respond" class="comment-respond"><h3 id="reply-title" class="comment-reply-title"> <small><a rel="nofollow" id="cancel-comment-reply-link" href="/engineer-club/java-xml-read#respond" style="display:none;">コメントをキャンセル</a></small></h3><form action="https://www.bold.ne.jp/engineer-club/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate><p class="comment-form-author comment-form-item"><input id="author" name="author" type="text" value="" placeholder="お名前*" size="30" /></p><p class="comment-form-email comment-form-item"><input id="email" name="email" type="text" value="" placeholder="EMAILアドレス*" size="30" /></p><p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes" /> <label for="wp-comment-cookies-consent">次回のコメントで使用するためブラウザーに自分の名前、メールアドレス、サイトを保存する。</label></p><p class="comment-form-comment comment-form-item"><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" placeholder="コメント"></textarea></p><p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="この内容でコメントを送る" /> <input type='hidden' name='comment_post_ID' value='1632' id='comment_post_ID' /> <input type='hidden' name='comment_parent' id='comment_parent' value='0' /></p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="5214369db3" /></p><p style="display: none !important;"><label>&#916;<textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_1" name="ak_js" value="113"/><script>document.getElementById( "ak_js_1" ).setAttribute( "value", ( new Date() ).getTime() );</script></p></form></div></div></main></div><aside id="secondary" class="widget-area"><section id="xeory_banner_manager-6" class="widget side-widget widget_xeory_banner_manager"><div class="side-widget-inner"><a id="side_recruit_bn" href="https://www.bold.ne.jp/engineer-club/recruit"><img src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2022/01/side_recruit_bn.png" alt="就活生向け特設ページ"></a></div></section><section id="text-2" class="widget side-widget widget_text"><div class="side-widget-inner"><div class="textwidget"><p><img decoding="async" loading="lazy" class="alignnone size-full wp-image-6569" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/12/side-1.png" alt="" width="320" height="481" /><br /> <a href="https://www.bold.ne.jp/engineer-club/engineer-club-message"><img decoding="async" class="alignnone size-full wp-image-6570" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/12/side_botton.jpg" alt="編集者メッセージはこちら" style="position:absolute;bottom: 20px;left: 0;right: 0;margin: auto;"/></a></p></div></div></section><section id="search-4" class="widget side-widget widget_search"><div class="side-widget-inner"><form role="search" method="get" class="search-form" action="https://www.bold.ne.jp/engineer-club"> <label> <span class="screen-reader-text">検索:</span> <input type="search" class="search-field" placeholder="フリーワード検索" value="" name="s" /> </label> <input type="submit" class="search-submit" value="&#xf002;" /></form></div></section><section id="custom_html-3" class="widget_text widget side-widget widget_custom_html"><div class="widget_text side-widget-inner"><div class="textwidget custom-html-widget"><div class="side_line_bn"> <a class="button-line-cta" href="https://s.lmes.jp/landing-qr/1657829855-GApo9ng5?uLand=KriORs" target="_blank" rel="noopener"><img src="https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/images/line/line-bn-sp.png" alt="公式LINEアカウント" width="320" height="215"></a></div></div></div></section><section id="custom_html-2" class="widget_text widget side-widget widget_custom_html"><div class="widget_text side-widget-inner"><div class="textwidget custom-html-widget"></div></div></section><section id="xeory_recommend_posts-3" class="widget side-widget widget_xeory_recommend_posts"><div class="side-widget-inner"><h3 class="widget-title underpost-widget-title">おすすめ記事シリーズ</h3><div class="widget-content"><ul class="recommend-list xeory-subloop xeory-subloop-horizon"><li class="xeory-subloop-item post-item-1" itemscope="itemscope" itemtype="http://schema.org/BlogPosting"><article> <a href="https://www.bold.ne.jp/engineer-club/engineer-change-jobs" data-title="エンジニアが転職で優良企業を見極めるために知っておきたい５条件"><figure class="xeory-subloop-image"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/07/shutterstock_1101539339-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" /></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title" itemprop="headline">エンジニアが転職で優良企業を見極めるために知っておきたい５条件</h4></div> </a></article></li><li class="xeory-subloop-item post-item-2" itemscope="itemscope" itemtype="http://schema.org/BlogPosting"><article> <a href="https://www.bold.ne.jp/engineer-club/ses" data-title="SESとは？グレーと言われるSESが業界からなくならない2つの理由"><figure class="xeory-subloop-image"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/10/shutterstock_763046476-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" /></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title" itemprop="headline">SESとは？グレーと言われるSESが業界からなくならない2つの理由</h4></div> </a></article></li><li class="xeory-subloop-item post-item-3" itemscope="itemscope" itemtype="http://schema.org/BlogPosting"><article> <a href="https://www.bold.ne.jp/engineer-club/how-to-be-system-engineer" data-title="システムエンジニアになるには？未経験者が取るべき資格と転職先の３つの条件"><figure class="xeory-subloop-image"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/03/92f0ac64be973c45c562ebc1a367b181-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="システムエンジニアを目指そう！" decoding="async" loading="lazy" /></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title" itemprop="headline">システムエンジニアになるには？未経験者が取るべき資格と転職先の３つの条件</h4></div> </a></article></li><li class="xeory-subloop-item post-item-4" itemscope="itemscope" itemtype="http://schema.org/BlogPosting"><article> <a href="https://www.bold.ne.jp/engineer-club/resident-customer" data-title="客先常駐とは顧客の現場に常駐してシステム開発等を行う働き方のこと"><figure class="xeory-subloop-image"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2019/01/shutterstock_633468920-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="客先常駐を徹底解説！" decoding="async" loading="lazy" /></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title" itemprop="headline">客先常駐とは顧客の現場に常駐してシステム開発等を行う働き方のこと</h4></div> </a></article></li><li class="xeory-subloop-item post-item-5" itemscope="itemscope" itemtype="http://schema.org/BlogPosting"><article> <a href="https://www.bold.ne.jp/engineer-club/reason-for-quitting-sier" data-title="私が18年間勤めたSIerを辞め、SES業界に転職した本当の理由とは"><figure class="xeory-subloop-image"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2018/08/shutterstock_761745232-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="大手SIerを辞めた理由をすべて教えます！" decoding="async" loading="lazy" /></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title" itemprop="headline">私が18年間勤めたSIerを辞め、SES業界に転職した本当の理由とは</h4></div> </a></article></li></ul></div></div></section><section id="xeory_recentviews-2" class="widget side-widget widget_xeory_recentviews"><div class="side-widget-inner"><h3 class="widget-title side-widget-title"><span class="side-widget-title-inner">新着記事シリーズ</span></h3><div class="widget-content"><ul class="xeory-subloop "><li class="xeory-subloop-item"><figure class="xeory-subloop-image"> <a href="https://www.bold.ne.jp/engineer-club/vba-dictionary" rel="nofollw"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2023/08/shutterstock_389780071-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="VBA Dictionaryオブジェクト　～オブジェクトの解説と使用例～" decoding="async" loading="lazy" /></a></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title"><a href="https://www.bold.ne.jp/engineer-club/vba-dictionary">VBA Dictionaryオブジェクト　～オブジェクトの解説と使用例～</a></h4><ul class="xeory-subloop-meta"><li class="date">2023.08.26</li><li class="cat">VBA</li><li class="tag"></li></ul></div></li><li class="xeory-subloop-item"><figure class="xeory-subloop-image"> <a href="https://www.bold.ne.jp/engineer-club/web-engineer-stop" rel="nofollw"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2023/08/shutterstock_281832419-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="Webエンジニアがやめとけと言われる理由について徹底解説！" decoding="async" loading="lazy" /></a></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title"><a href="https://www.bold.ne.jp/engineer-club/web-engineer-stop">Webエンジニアがやめとけと言われる理由について徹底解説！</a></h4><ul class="xeory-subloop-meta"><li class="date">2023.08.25</li><li class="cat">キャリア</li><li class="tag"></li></ul></div></li><li class="xeory-subloop-item"><figure class="xeory-subloop-image"> <a href="https://www.bold.ne.jp/engineer-club/lpic-level-1" rel="nofollw"><img width="500" height="219" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2023/07/d34743-4-388605-0.png" class="attachment-thumbnail size-thumbnail wp-post-image" alt="インフラエンジニア必須資格!? LPICレベル1取得に向けた学習方法" decoding="async" loading="lazy" /></a></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title"><a href="https://www.bold.ne.jp/engineer-club/lpic-level-1">インフラエンジニア必須資格!? LPICレベル1取得に向けた学習方法</a></h4><ul class="xeory-subloop-meta"><li class="date">2023.07.31</li><li class="cat">資格取得</li><li class="tag"></li></ul></div></li><li class="xeory-subloop-item"><figure class="xeory-subloop-image"> <a href="https://www.bold.ne.jp/engineer-club/user-system-sier" rel="nofollw"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2023/07/shutterstock_653200072-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="ユーザー系SIerという働き方 ～特定業種のエキスパートになろう～" decoding="async" loading="lazy" /></a></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title"><a href="https://www.bold.ne.jp/engineer-club/user-system-sier">ユーザー系SIerという働き方 ～特定業種のエキスパートになろう～</a></h4><ul class="xeory-subloop-meta"><li class="date">2023.07.03</li><li class="cat">IT業界</li><li class="tag"></li></ul></div></li><li class="xeory-subloop-item"><figure class="xeory-subloop-image"> <a href="https://www.bold.ne.jp/engineer-club/new-graduate-programmer" rel="nofollw"><img width="600" height="366" src="https://www.bold.ne.jp/engineer-club/wp-content/uploads/2023/06/shutterstock_645324130-600x366.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="やりたいことが見つからない方へ、新卒プログラマーのすすめ" decoding="async" loading="lazy" /></a></figure><div class="xeory-subloop-content"><h4 class="xeory-subloop-title"><a href="https://www.bold.ne.jp/engineer-club/new-graduate-programmer">やりたいことが見つからない方へ、新卒プログラマーのすすめ</a></h4><ul class="xeory-subloop-meta"><li class="date">2023.07.02</li><li class="cat">未分類</li><li class="tag"></li></ul></div></li></ul></div></div></section></aside></div></div><footer id="colophon" class="site-footer" role="contentinfo"><aside id="footer-widget" class="footer-widget-area" role="complementary"><section id="nav_menu-2" class="widget footer-widget widget_nav_menu"><div class="container"><h3 class="widget-title footer-widget-title">カテゴリー</h3><div class="menu-header-nav-container"><ul id="menu-header-nav" class="menu"><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-239"><a href="https://www.bold.ne.jp/engineer-club/category/career">キャリア</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-312"><a href="https://www.bold.ne.jp/engineer-club/category/occupation-position">職種・ポジション</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-has-children menu-item-602"><a href="https://www.bold.ne.jp/engineer-club/category/technical">技術</a><ul class="sub-menu"><li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-695"><a href="https://www.bold.ne.jp/engineer-club/category/technical/java">Java</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-692"><a href="https://www.bold.ne.jp/engineer-club/category/technical/jquery">jQuery</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-766"><a href="https://www.bold.ne.jp/engineer-club/category/technical/cobol">COBOL</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-984"><a href="https://www.bold.ne.jp/engineer-club/category/technical/c-language">C言語</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1147"><a href="https://www.bold.ne.jp/engineer-club/category/technical/sql">SQL</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1173"><a href="https://www.bold.ne.jp/engineer-club/category/technical/perl">Perl</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1174"><a href="https://www.bold.ne.jp/engineer-club/category/technical/kotlin">Kotlin</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1148"><a href="https://www.bold.ne.jp/engineer-club/category/technical/vba">VBA</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1554"><a href="https://www.bold.ne.jp/engineer-club/category/technical/html">HTML</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1790"><a href="https://www.bold.ne.jp/engineer-club/category/technical/linux">Linux</a></li><li class="sp_nav_list menu-item menu-item-type-custom menu-item-object-custom menu-item-1696"><a href="https://www.bold.ne.jp/engineer-club/category/technical">技術一覧へ</a></li></ul></li><li class="sp_nav_list menu-item menu-item-type-taxonomy menu-item-object-category menu-item-605"><a href="https://www.bold.ne.jp/engineer-club/category/certification">資格取得</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-240"><a href="https://www.bold.ne.jp/engineer-club/category/information-technology-industry">IT業界</a></li></ul></div></div></section><section id="nav_menu-8" class="widget footer-widget widget_nav_menu"><div class="container"><div class="menu-footer-nav-container"><ul id="menu-footer-nav" class="menu"><li id="menu-item-44" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-44"><a href="https://www.bold.ne.jp/engineer-club/company">運営会社情報</a></li><li id="menu-item-42" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-42"><a href="https://www.bold.ne.jp/engineer-club/inquiry">お問い合わせ</a></li><li id="menu-item-43" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-43"><a href="https://www.bold.ne.jp/engineer-club/privacy">個人情報保護方針</a></li></ul></div></div></section></aside><div class="site-info"><div class="container"><p>© Copyright 2018<span>ENGINEER.CLUB（エンジニアクラブ）</span>All rights reserved.</p></div></div></footer><div class="bfb-common-cta"><div class="bfb-cta-wrap"><div class="bfb-contact clearfix"><div class="bfb-cta-left"><div class="bfb-cta-text"> <span class="yellow">公式アカウントLINE限定！</span>ボールドの内定確率が分かる<span class="yellow">無料診断実施中</span></div></div><div class="bfb-cta-right" class="clearfix"><div class="bfb-cta-button"> <a class="button-line-cta" href="https://s.lmes.jp/landing-qr/1657829855-GApo9ng5?uLand=KriORs" target="_blank">【完全無料】ボールドの公式LINEに登録する</a></div></div><div class="bfb-close-cta"><i class="fa fa-times"></i></div></div></div></div><div class="bfb-common-cta-sp"><div class="bfb-cta-wrap"><div class="bfb-contact clearfix"><div class="bfb-cta-left"><div class="bfb-cta-text"> <span class="yellow">公式アカウントLINE限定！</span><br>ボールドの内定確率が分かる<span class="yellow">無料診断実施中</span></div></div><div class="bfb-cta-right" class="clearfix"><div class="bfb-cta-button"> <a class="button-line-cta" href="https://s.lmes.jp/landing-qr/1657829855-GApo9ng5?uLand=KriORs" target="_blank">【完全無料】ボールドの公式LINEに登録する</a></div></div></div></div><div class="bfb-close-cta"><i class="fa fa-times"></i></div></div></div> <script type="text/javascript">document.addEventListener( 'wpcf7mailsent', function( event ) {
+				window.location.href = 'https://www.bold.ne.jp/engineer-club/thanks?from=java-xml-read';
+			}, false );</script> <aside class="xeory-spnav-wrap"><div class="sp-nav-inner"> <span class="xeory-spnav-btn-close"></span><section id="nav_menu-9" class="widget spnav-widget widget_nav_menu"><h3 class="widget-title spnav-widget-title">MENU</h3><div class="menu-sub-menu-container"><ul id="menu-sub-menu" class="menu"><li class="menu-item menu-item-type-post_type_archive menu-item-object-study_report menu-item-3667"><a href="https://www.bold.ne.jp/engineer-club/study_report">勉強会レポート一覧</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1511"><a href="https://www.bold.ne.jp/engineer-club/careers">採用情報</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1512"><a target="_blank" rel="noopener" href="https://www.bold.ne.jp/">会社概要</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1510"><a href="https://www.bold.ne.jp/engineer-club/inquiry">お問い合わせ</a></li></ul></div></section><section id="nav_menu-5" class="widget spnav-widget widget_nav_menu"><div class="menu-header-nav-container"><ul id="menu-header-nav-1" class="menu"><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-239"><a href="https://www.bold.ne.jp/engineer-club/category/career">キャリア</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-312"><a href="https://www.bold.ne.jp/engineer-club/category/occupation-position">職種・ポジション</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-has-children menu-item-602"><a href="https://www.bold.ne.jp/engineer-club/category/technical">技術</a><ul class="sub-menu"><li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-695"><a href="https://www.bold.ne.jp/engineer-club/category/technical/java">Java</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-692"><a href="https://www.bold.ne.jp/engineer-club/category/technical/jquery">jQuery</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-766"><a href="https://www.bold.ne.jp/engineer-club/category/technical/cobol">COBOL</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-984"><a href="https://www.bold.ne.jp/engineer-club/category/technical/c-language">C言語</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1147"><a href="https://www.bold.ne.jp/engineer-club/category/technical/sql">SQL</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1173"><a href="https://www.bold.ne.jp/engineer-club/category/technical/perl">Perl</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1174"><a href="https://www.bold.ne.jp/engineer-club/category/technical/kotlin">Kotlin</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1148"><a href="https://www.bold.ne.jp/engineer-club/category/technical/vba">VBA</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1554"><a href="https://www.bold.ne.jp/engineer-club/category/technical/html">HTML</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1790"><a href="https://www.bold.ne.jp/engineer-club/category/technical/linux">Linux</a></li><li class="sp_nav_list menu-item menu-item-type-custom menu-item-object-custom menu-item-1696"><a href="https://www.bold.ne.jp/engineer-club/category/technical">技術一覧へ</a></li></ul></li><li class="sp_nav_list menu-item menu-item-type-taxonomy menu-item-object-category menu-item-605"><a href="https://www.bold.ne.jp/engineer-club/category/certification">資格取得</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-240"><a href="https://www.bold.ne.jp/engineer-club/category/information-technology-industry">IT業界</a></li></ul></div></section><section id="search-3" class="widget spnav-widget widget_search"><form role="search" method="get" class="search-form" action="https://www.bold.ne.jp/engineer-club"> <label> <span class="screen-reader-text">検索:</span> <input type="search" class="search-field" placeholder="フリーワード検索" value="" name="s" /> </label> <input type="submit" class="search-submit" value="&#xf002;" /></form></section><div class="search-wrap"><form role="search" method="get" class="search-form" action="https://www.bold.ne.jp/engineer-club"> <label> <span class="screen-reader-text">検索:</span> <input type="search" class="search-field" placeholder="フリーワード検索" value="" name="s" /> </label> <input type="submit" class="search-submit" value="&#xf002;" /></form></div></div></aside><div id="pagetop" class="pagetop"><a href="#abc" class="pagetop-inner"></a></div> <script src="https://apis.google.com/js/platform.js" async defer>{lang: 'ja'}</script> <script>(function($){
+  $(function(){
+
+    $(window).scroll( function(){
+      if( $(this).scrollTop() > 12 ){
+        $('.site-header').addClass('small');
+      } else {
+        $('.site-header').removeClass('small');
+      }
+    });
+  });
+})(jQuery);</script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/plugins/contact-form-7/includes/swv/js/index.js' id='swv-js'></script> <script type='text/javascript' id='contact-form-7-js-extra'>var wpcf7 = {"api":{"root":"https:\/\/www.bold.ne.jp\/engineer-club\/wp-json\/","namespace":"contact-form-7\/v1"},"cached":"1"};</script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/plugins/contact-form-7/includes/js/index.js' id='contact-form-7-js'></script> <script type='text/javascript' id='toc-front-js-extra'>var tocplus = {"smooth_scroll":"1","visibility_show":"\u8868\u793a","visibility_hide":"\u975e\u8868\u793a","width":"Auto","smooth_scroll_offset":"40"};</script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/plugins/table-of-contents-plus/front.min.js' id='toc-front-js'></script> <script  src='https://yubinbango.github.io/yubinbango/yubinbango.js' id='yubinbango-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/js/scroll.js?ver=1640664214' id='scroll-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/themes/xeory-base/js/navigation.js?ver=1644458035' id='xeory-base-navigation-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/themes/xeory-base/js/app.js?ver=1644458035' id='xeory-base-app-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-includes/js/comment-reply.min.js' id='comment-reply-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-includes/js/jquery/ui/core.min.js' id='jquery-ui-core-js'></script> <script  src='https://www.google.com/recaptcha/api.js?render=6Lf3_AYcAAAAAMT9cM_YfWe_PmYwgsgCem8gxRZT' id='google-recaptcha-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-includes/js/dist/vendor/wp-polyfill-inert.min.js' id='wp-polyfill-inert-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-includes/js/dist/vendor/regenerator-runtime.min.js' id='regenerator-runtime-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-includes/js/dist/vendor/wp-polyfill.min.js' id='wp-polyfill-js'></script> <script type='text/javascript' id='wpcf7-recaptcha-js-extra'>var wpcf7_recaptcha = {"sitekey":"6Lf3_AYcAAAAAMT9cM_YfWe_PmYwgsgCem8gxRZT","actions":{"homepage":"homepage","contactform":"contactform"}};</script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/plugins/contact-form-7/modules/recaptcha/index.js' id='wpcf7-recaptcha-js'></script> <script  src='https://www.bold.ne.jp/engineer-club/wp-content/plugins/xeory-contents-decorator/js/xeory_contents_decorator.js' id='contents_decorator-js'></script> <script defer  src='https://www.bold.ne.jp/engineer-club/wp-content/plugins/akismet/_inc/akismet-frontend.js' id='akismet-frontend-js'></script> <script type="text/javascript">( function( $ ) {
+
+    var pid = 1632
+    $(function(){
+        $('.post-cta-8 .button, .menu-item-1511 a').each(function() {
+          $(this).attr('href', $(this).attr('href') + '?pid=' + pid );
+        });
+    });
+
+} )( jQuery );</script> <script>(function($) {
+
+    $('a').each(function () {
+        var link = $(this).attr('href').replace('https://www.bold.ne.jp/engineer-club/recruit', 'https://www.bold.ne.jp/engineer-club/recruit?pid=1632');
+        $(this).attr('href', link);
+    });
+
+})(jQuery);</script> <script type="text/javascript" src="https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/js/sp-nav.js"></script> <script type="text/javascript" src="https://www.bold.ne.jp/engineer-club/wp-content/themes/engineerclub/js/from-contact.js"></script> </body></html>
+<!-- Dynamic page generated in 0.533 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2023-09-18 22:37:36 -->
+
+<!-- Compression = gzip -->
+<!-- super cache -->
